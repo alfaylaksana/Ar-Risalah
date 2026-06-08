@@ -1,4 +1,4 @@
-const CACHE_NAME = 'makna-gandul-v1';
+const CACHE_NAME = 'makna-gandul-v2';
 const FILES_TO_CACHE = [
   './index.html',
   './libs/html2canvas.min.js',
