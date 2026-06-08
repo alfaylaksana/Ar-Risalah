@@ -1,6 +1,8 @@
 const CACHE_NAME = 'makna-gandul-v1';
 const FILES_TO_CACHE = [
-  './index.html'
+  './index.html',
+  './libs/html2canvas.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
 
 self.addEventListener('install', event => {
