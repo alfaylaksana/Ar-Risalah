@@ -1301,6 +1301,11 @@ th.col-jawa {
     .rujukan-kosong {
       min-height: 16px;
     }
+    
+    .rujukan-row.kr-kanan {
+  justify-content: flex-end !important;
+  padding-left: 25%;
+}
 
     .pegon {
       font-size: 13px;
@@ -2729,7 +2734,7 @@ function isiTerjemahanFields(halamanId, terjemahan) {
   <button class="btn-tambah-kata" onclick="tambahKata(${id})">+ Tambah Kata</button>
 `;
       container.appendChild(div);
-      if (kataList && kataList.length) kataList.forEach(d => tambahKata(id, d.arab, d.maknaIndo || d.makna || '', d.maknaJawa || '', d.kode || '', d.nomor || ''));
+      if (kataList && kataList.length) kataList.forEach(d => tambahKata(id, d.arab, d.maknaIndo || d.makna || '', d.maknaJawa || '', d.kode || '', d.nomor || '', d.krKanan || false));
       else tambahKata(id);
     }
 
@@ -2738,14 +2743,14 @@ function isiTerjemahanFields(halamanId, terjemahan) {
         document.getElementById(id)?.remove();
     }
 
-    function tambahKata(babId, arab = '', maknaIndo = '', maknaJawa = '', kode = '', nomor = '') {
+    function tambahKata(babId, arab = '', maknaIndo = '', maknaJawa = '', kode = '', nomor = '', krKanan = false) {
       const tbody = document.getElementById('tbody-' + babId);
       if (!tbody) return;
       const id = kataCounter++;
       const tr = document.createElement('tr');
       tr.id = 'kata-' + id;
       tr.innerHTML = `
-      <td class="col-kode"><input class="kode-input" type="text" placeholder="م · ١ · [١]" value="${kode}" /></td>
+      <td class="col-kode"><input class="kode-input" type="text" placeholder="م · ١ · [١]" value="${kode}" /><label style="font-size:9px;color:#a07840;display:block;margin-top:2px;white-space:nowrap;"><input type="checkbox" class="kr-kanan-cb" ${krKanan?'checked':''} style="width:12px;height:12px;"> KR→kanan</label></td>
       <td><input class="arab-input" type="text" placeholder="كَلِمَة" value="${arab}" /></td>
       <td class="col-indo td-indo-${babId}"><input class="makna-indo" type="text" placeholder="artinya..." value="${maknaIndo}" /></td>
 <td class="col-jawa td-jawa-${babId}" style="display:none;"><input class="makna-jawa" type="text" placeholder="tegese..." value="${maknaJawa}" /></td>
@@ -2925,8 +2930,8 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const maknaIndo=tr.querySelector('.makna-indo').value.trim();
             const maknaJawa=tr.querySelector('.makna-jawa').value.trim();
             const nomor=tr.querySelector('.nom-input').value.trim();
-            if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nomor});
-            
+            const krKanan=tr.querySelector('.kr-kanan-cb')?.checked||false;
+if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nomor,krKanan});        
          });
           html += `<div class="hasil-bab-section">`;
           const judulIndo = bab.querySelector('.bab-judul-indo')?.value.trim() || '';
@@ -2960,7 +2965,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
               }).join('')}</div>`;
             let rujukanRowHtml = '';
             if (targetRujukan !== null || dhomirRujukan !== null) {
-              rujukanRowHtml = `<div class="rujukan-row">`;
+              rujukanRowHtml = `<div class="rujukan-row${item.krKanan ? ' kr-kanan' : ''}">`;
               if (targetRujukan !== null) rujukanRowHtml += `<div class="rujukan-target">${targetRujukan}</div>`;
               if (dhomirRujukan !== null) rujukanRowHtml += `<div class="rujukan-dhamir">&#8594;${dhomirRujukan}</div>`;
               rujukanRowHtml += `</div>`;
@@ -3069,6 +3074,7 @@ html += `</div>`;
               maknaIndo: tr.querySelector('.makna-indo').value,
               maknaJawa: tr.querySelector('.makna-jawa').value,
               nomor: tr.querySelector('.nom-input').value,
+              krKanan: tr.querySelector('.kr-kanan-cb').checked,
             });
           });
           babList.push({
