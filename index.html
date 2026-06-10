@@ -811,7 +811,7 @@ th.col-jawa {
       border-radius: 4px;
       text-align: center;
       padding: 60px 20px 40px;
-      border-bottom: 4px solid #e8dcc8;
+      border-bottom: 4px solid center #e8dcc8;
     }
 
     .cover-kitab .judul-arab {
@@ -852,7 +852,7 @@ th.col-jawa {
       width: 165mm;
       border-radius: 4px;
       padding: 20mm 15mm;
-      border-bottom: 4px solid #e8dcc8;
+      border-bottom: 4px solid center #e8dcc8;
       margin: 0;
     }
 
@@ -912,7 +912,7 @@ th.col-jawa {
   overflow: visible;
   box-sizing: border-box;
   background: #ffffff;
-      border-bottom: 4px solid #e8dcc8;
+      border-bottom: 4px solid center #e8dcc8;
 }
 
   .hasil-halaman + .hasil-halaman {
@@ -1862,6 +1862,15 @@ th.col-jawa {
 }
     .terj-en {
   font-style: italic;
+}
+
+  @media (max-width: 600px) {
+  .hasil-halaman {
+    width: 100%;
+  }
+  .pengantar-hasil {
+    width: 100%;
+  }
 }
   </style>
 <script src="libs/html2canvas.min.js"></script>
