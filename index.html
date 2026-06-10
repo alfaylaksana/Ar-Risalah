@@ -1870,18 +1870,11 @@ th.col-jawa {
     margin-left: 0;
     margin-right: 0;
   }
-  .hasil-halaman {
-    width: 100vw;
-    margin: 0;
-  }
-  .pengantar-hasil {
-    width: 100vw;
-    margin: 0;
-  }
   .hasil-wrapper {
     width: 100vw;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
   .hasil-kotak {
     width: 100vw;
@@ -1889,20 +1882,19 @@ th.col-jawa {
     padding: 0;
     align-items: flex-start;
   }
-    .cover-kitab .judul-arab {
-    font-size: 10vw !important;
+  .hasil-halaman, .pengantar-hasil, .cover-kitab {
+    width: 100vw !important;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  .cover-kitab .judul-arab {
+    font-size: 8vw !important;
   }
   .cover-kitab .judul-indo {
-    font-size: 5vw !important;
+    font-size: 4.5vw !important;
   }
   .cover-kitab .penyusun {
     font-size: 4vw !important;
-  }
-  .halaman-judul .judul-arab {
-    font-size: 10vw;
-  }
-  .halaman-judul .judul-indo {
-    font-size: 5vw;
   }
 }
   </style>
