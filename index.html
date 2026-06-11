@@ -915,6 +915,18 @@ th.col-jawa {
       border-bottom: 4px solid center #e8dcc8;
 }
 
+    /* ===== Mode HTML (preview portrait, fleksibel) ===== */
+.hasil-kotak.mode-html {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.hasil-kotak.mode-html .hasil-halaman {
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  border-bottom: 1px solid #e8dcc8;
+}
   .hasil-halaman + .hasil-halaman {
   margin-top: 10px !important;
   
@@ -1949,7 +1961,8 @@ th.col-jawa {
   <button class="btn-tambah-halaman" onclick="tambahHalaman()">+ Tambah Halaman Baru</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanJudul()" style="background:#a07840;">+ Tambah Halaman Judul</button>
   <div class="tombol-utama">
-    <button class="btn-tampil" onclick="tampilkan()">Tampilkan ▶</button>
+    <button class="btn-tampil" onclick="tampilkan('pdf')">Tampilkan PDF</button>
+<button class="btn-tampil" onclick="tampilkan('html')">Tampilkan HTML</button>
     <button class="btn-reset-tampil" onclick="resetTampilan()">Bersihkan Hasil</button>
   </div>
 
@@ -2903,9 +2916,13 @@ function terapkanLebarKolom(halEl) {
         document.getElementById(id)?.remove();
     }
 
-    function tampilkan() {
+    let modeTampilTerakhir = 'pdf';
+    function tampilkan(mode) {
+      if (!mode) mode = modeTampilTerakhir;
+      modeTampilTerakhir = mode;
       try {
       const hasilEl = document.getElementById('hasil');
+      hasilEl.classList.toggle('mode-html', mode === 'html');
       const judulKitab = document.getElementById('judulKitab').value.trim();
       const judulArab = document.getElementById('judulArab').value.trim();
       const namaUstaz = document.getElementById('namaUstaz').value.trim();
