@@ -945,9 +945,20 @@ th.col-jawa {
 .hasil-kotak.mode-html .cover-kitab .penyusun {
   font-size: clamp(14px, 4.5vw, 23px);
 }
+.hasil-kotak.mode-html .hasil-bab-judul {
+  flex-wrap: wrap;
+}
+.hasil-kotak.mode-html .hasil-bab-judul-teks {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.hasil-kotak.mode-html .hasil-bab-judul-arab {
+  font-size: clamp(20px, 7vw, 35px);
+}
   .hasil-halaman + .hasil-halaman {
   margin-top: 10px !important;
-  
 }
     .catatan-nahwu {
   position: relative;
