@@ -2971,6 +2971,7 @@ function terapkanLebarKolom(halEl) {
       try {
       const hasilEl = document.getElementById('hasil');
       hasilEl.classList.toggle('mode-html', mode === 'html');
+        document.body.classList.toggle('mode-html-aktif', mode === 'html');
       const judulKitab = document.getElementById('judulKitab').value.trim();
       const judulArab = document.getElementById('judulArab').value.trim();
       const namaUstaz = document.getElementById('namaUstaz').value.trim();
