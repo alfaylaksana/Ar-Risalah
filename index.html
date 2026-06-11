@@ -2218,9 +2218,9 @@ function togglePopupTerjemahan(el, nomorAyat) {
       document.getElementById('pdfOverlay').style.display = 'none';
       document.getElementById('pdfHint').style.display = 'none';
     }
-    
     async function lanjutPrint() {
   tutupPdfHint();
+  document.getElementById('hasil').classList.remove('mode-html');
   const notif = document.getElementById('notif');
   notif.textContent = '⏳ Membuat PDF...';
   notif.classList.add('tampil');
