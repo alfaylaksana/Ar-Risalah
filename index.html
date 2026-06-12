@@ -2038,6 +2038,7 @@ body.mode-html-aktif .hasil-kotak {
   <div id="containerHalaman"></div>
   <button class="btn-tambah-halaman" onclick="tambahHalaman()">+ Tambah Halaman Baru</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanJudul()" style="background:#a07840;">+ Tambah Halaman Judul</button>
+  <button class="btn-tambah-halaman" onclick="tambahHalamanGambar()" style="background:#7a8a5a;">+ Tambah Halaman Gambar</button>
   <div class="tombol-utama">
     <button class="btn-tampil" onclick="tampilkan('pdf')">Tampilkan PDF</button>
 <button class="btn-tampil" onclick="tampilkan('html')">Tampilkan HTML</button>
@@ -2772,6 +2773,41 @@ function isiTerjemahanFields(halamanId, terjemahan) {
       bukaModalPindahHalaman();
       tampilkanFloat();
     };
+    function tambahHalamanGambar(data = {}) {
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-gambar';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">🖼️ Halaman ${id+1} (Gambar)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <input type="file" accept="image/*" class="input-gambar-halaman" onchange="bacaGambarHalaman(this, 'halaman-${id}')" style="width:100%;" />
+      <input type="hidden" class="data-gambar-halaman" value="${data.base64||''}" />
+      <div class="preview-gambar-halaman" style="margin-top:8px;text-align:center;">
+        ${data.base64?`<img src="${data.base64}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`:''}
+      </div>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+}
+
+function bacaGambarHalaman(input, halId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const hal = document.getElementById(halId);
+    hal.querySelector('.data-gambar-halaman').value = e.target.result;
+    hal.querySelector('.preview-gambar-halaman').innerHTML =
+      `<img src="${e.target.result}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`;
+  };
+  reader.readAsDataURL(file);
+}
 
     function bukaModalPindahHalaman() {
       const semua = [...document.querySelectorAll('.halaman-input')];
