@@ -1003,7 +1003,6 @@ body.mode-html-aktif .hasil-kotak {
   background: #ffffff !important;
   border: 1px solid #000000 !important;
 }
- 
  .body.mode-pdf.catatan-nahwu::before {
   content: '';
   display: none !important;
@@ -1017,13 +1016,11 @@ body.mode-html-aktif .hasil-kotak {
   background-repeat: repeat-x;
   background-size: 20px 12px;
 }
-
 .catatan-nahwu-label,
 .catatan-nahwu-isi {
   position: relative;
   z-index: 1;
 }
-
 .catatan-nahwu-label {
   font-size: 13px;
   letter-spacing: 2px;
@@ -1033,15 +1030,13 @@ body.mode-html-aktif .hasil-kotak {
   font-weight: bold;
   text-align: center;
 }
-
 .catatan-nahwu-isi {
   font-size: 13px;
   color: #2a1a08;
   line-height: 1.4;
   white-space: pre-wrap;
-} 
-
-    .nomor-halaman-hasil {
+}
+  .nomor-halaman-hasil {
   align-items: center bottom;
   justify-content: center;
   font-size: 24px;
@@ -1079,6 +1074,32 @@ body.mode-html-aktif .hasil-kotak {
       outline: none;
     }
 
+    .hasil-halaman-gambar {
+  width: 100%;
+  height: 100%;
+  padding: 10mm;
+  box-sizing: border-box;
+}
+.hasil-halaman-gambar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+.hasil-halaman-gambar .placeholder-gambar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 2px dashed #c9a84c;
+  color: #a08050;
+  font-size: 14px;
+  text-align: center;
+}
+.hasil-kotak.mode-html .hasil-halaman-gambar {
+  padding: 12px;
+}
     .hasil-halaman-judul {
       height: 210mm;
       weight: 165mm;
