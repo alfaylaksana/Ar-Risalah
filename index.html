@@ -3061,6 +3061,20 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
   const halId = hal.id.replace('halaman-', '');
   const nomorHal = hIdx + 1;
         const anchor = `hasil-halaman-${halId}`;
+
+  if (hal.classList.contains('halaman-gambar')) {
+          const gambar = hal.querySelector('.data-gambar-halaman')?.value || '';
+          navList.push({
+            id: anchor,
+            nama: `Gambar: Halaman ${nomorHal}`
+          });
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-gambar">
+        ${gambar?`<img src="${gambar}" alt="Gambar halaman">`:`<div class="placeholder-gambar">(Belum ada gambar)</div>`}
+      </div>
+    </div>`;
+          return;
+        }
         if (hal.classList.contains('halaman-judul')) {
           const arab = hal.querySelector('.judul-besar-arab')?.value.trim() || '';
           const indo = hal.querySelector('.judul-besar-indo')?.value.trim() || '';
@@ -3214,6 +3228,13 @@ html += `</div>`;
     function ambilSemuaData() {
       const halamanList = [];
       document.querySelectorAll('.halaman-input').forEach(hal => {
+        if (hal.classList.contains('halaman-gambar')) {
+          halamanList.push({
+            tipe: 'gambar',
+            base64: hal.querySelector('.data-gambar-halaman')?.value || ''
+          });
+          return;
+        }
         if (hal.classList.contains('halaman-judul')) {
           halamanList.push({
             tipe: 'judul',
@@ -3343,6 +3364,7 @@ html += `</div>`;
         document.getElementById('pengantarKitab').value = data.pengantarKitab || '';
         if (data.halamanList && data.halamanList.length) data.halamanList.forEach(h => {
   if (h.tipe === 'judul') tambahHalamanJudul(h);
+  else if (h.tipe === 'gambar') tambahHalamanGambar(h);
   else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {});
 });
 else tambahHalaman();
