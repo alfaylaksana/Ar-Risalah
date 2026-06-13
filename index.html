@@ -1100,15 +1100,24 @@ body.mode-html-aktif .hasil-kotak {
 .hasil-halaman-gambar.ada-teks {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 .hasil-halaman-gambar.ada-teks img {
-  flex: 1;
-  min-height: 0;
+  width: 88%;
   height: auto;
-  object-fit: contain;
+  flex: 0 0 auto;
 }
-.teks-gambar-atas,
+.teks-gambar-atas {
+  direction: rtl;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.8;
+  color: #1a1208;
+  white-space: pre-line;
+}
 .teks-gambar-bawah {
   direction: rtl;
   text-align: center;
@@ -1117,7 +1126,6 @@ body.mode-html-aktif .hasil-kotak {
   line-height: 1.8;
   color: #1a1208;
   white-space: pre-line;
-  flex: 0 0 auto;
 }
 .hasil-kotak.mode-html .hasil-halaman-gambar {
   padding: 12px;
