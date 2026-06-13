@@ -2789,6 +2789,10 @@ function isiTerjemahanFields(halamanId, terjemahan) {
       <div class="preview-gambar-halaman" style="margin-top:8px;text-align:center;">
         ${data.base64?`<img src="${data.base64}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`:''}
       </div>
+      <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Atas Gambar (opsional)</label>
+      <textarea class="teks-atas-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksAtas||''}</textarea>
+      <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Bawah Gambar (opsional)</label>
+      <textarea class="teks-bawah-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksBawah||''}</textarea>
     </div>
   `;
   document.getElementById('containerHalaman').appendChild(div);
@@ -3075,13 +3079,18 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
 
   if (hal.classList.contains('halaman-gambar')) {
           const gambar = hal.querySelector('.data-gambar-halaman')?.value || '';
+          const teksAtas = hal.querySelector('.teks-atas-gambar')?.value.trim() || '';
+          const teksBawah = hal.querySelector('.teks-bawah-gambar')?.value.trim() || '';
+          const adaTeks = teksAtas || teksBawah;
           navList.push({
             id: anchor,
             nama: `Gambar: Halaman ${nomorHal}`
           });
           html += `<div class="hasil-halaman" id="${anchor}">
-      <div class="hasil-halaman-gambar">
+      <div class="hasil-halaman-gambar${adaTeks?' ada-teks':''}">
+        ${teksAtas?`<div class="teks-gambar-atas">${teksAtas}</div>`:''}
         ${gambar?`<img src="${gambar}" alt="Gambar halaman">`:`<div class="placeholder-gambar">(Belum ada gambar)</div>`}
+        ${teksBawah?`<div class="teks-gambar-bawah">${teksBawah}</div>`:''}
       </div>
     </div>`;
           return;
@@ -3246,7 +3255,9 @@ html += `</div>`;
         if (hal.classList.contains('halaman-gambar')) {
           halamanList.push({
             tipe: 'gambar',
-            base64: hal.querySelector('.data-gambar-halaman')?.value || ''
+            base64: hal.querySelector('.data-gambar-halaman')?.value || '',
+            teksAtas: hal.querySelector('.teks-atas-gambar')?.value || '',
+            teksBawah: hal.querySelector('.teks-bawah-gambar')?.value || ''
           });
           return;
         }
