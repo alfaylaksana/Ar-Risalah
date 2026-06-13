@@ -3055,13 +3055,20 @@ function terapkanLebarKolom(halEl) {
         ${tahun||edisi?`<div class="sub-info">${[edisi,tahun].filter(Boolean).join(' · ')}</div>`:''}
       </div>`;
       }
-      if (pengantar) {
+      let pengantarHtml = '';
+let pengantarNav = null;
+if (pengantar) {
   nomorHalIsi++;
-  navList.push({id: 'hasil-pengantar', nama: 'Pengantar'});
-  html += `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
+  pengantarNav = {id: 'hasil-pengantar', nama: 'Pengantar'};
+  pengantarHtml = `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
 }
       
 document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
+  if (hIdx === 1 && pengantarHtml) {
+    html += pengantarHtml;
+    navList.push(pengantarNav);
+    pengantarHtml = '';
+  }
   const halId = hal.id.replace('halaman-', '');
   const nomorHal = hIdx + 1;
         const anchor = `hasil-halaman-${halId}`;
@@ -3184,6 +3191,10 @@ html+=`<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, 
 html += `</div>`;
         }
       });
+      if (pengantarHtml) {
+        html += pengantarHtml;
+        navList.push(pengantarNav);
+      }
       hasilEl.innerHTML = html;
       if (kodeTersembunyi) {
         hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
