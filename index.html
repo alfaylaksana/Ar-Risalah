@@ -1097,6 +1097,28 @@ body.mode-html-aktif .hasil-kotak {
   font-size: 14px;
   text-align: center;
 }
+.hasil-halaman-gambar.ada-teks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hasil-halaman-gambar.ada-teks img {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  object-fit: contain;
+}
+.teks-gambar-atas,
+.teks-gambar-bawah {
+  direction: rtl;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1a1208;
+  white-space: pre-line;
+  flex: 0 0 auto;
+}
 .hasil-kotak.mode-html .hasil-halaman-gambar {
   padding: 12px;
 }
