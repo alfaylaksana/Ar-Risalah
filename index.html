@@ -3055,7 +3055,11 @@ function terapkanLebarKolom(halEl) {
         ${tahun||edisi?`<div class="sub-info">${[edisi,tahun].filter(Boolean).join(' · ')}</div>`:''}
       </div>`;
       }
-      if (pengantar) html += `<div class="pengantar-hasil"><h2>Pengantar</h2><p>${pengantar}</p></div>`;
+      if (pengantar) {
+  nomorHalIsi++;
+  navList.push({id: 'hasil-pengantar', nama: 'Pengantar'});
+  html += `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
+}
       
 document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
   const halId = hal.id.replace('halaman-', '');
