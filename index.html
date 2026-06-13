@@ -3116,12 +3116,18 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             id: anchor,
             nama: `Gambar: Halaman ${nomorHal}`
           });
+          let nomorDivGambar = '';
+          if (hIdx !== 0) {
+            nomorHalIsi++;
+            nomorDivGambar = `<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+          }
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-gambar${adaTeks?' ada-teks':''}">
         ${teksAtas?`<div class="teks-gambar-atas">${teksAtas}</div>`:''}
         ${gambar?`<img src="${gambar}" alt="Gambar halaman">`:`<div class="placeholder-gambar">(Belum ada gambar)</div>`}
         ${teksBawah?`<div class="teks-gambar-bawah">${teksBawah}</div>`:''}
       </div>
+      ${nomorDivGambar}
     </div>`;
           return;
         }
