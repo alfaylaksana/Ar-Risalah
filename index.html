@@ -1746,6 +1746,158 @@ body.mode-html-aktif .hasil-kotak {
     
 
 
+    /* === BAB SYI'IR INPUT === */
+    .syiir-input {
+      border: 2px solid #b8860b;
+      border-radius: 8px;
+      background: #fffdf5;
+      margin-bottom: 12px;
+      padding: 8px;
+    }
+    .syiir-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .syiir-label { font-weight: bold; color: #8b6914; font-size: 13px; }
+    .syiir-model-select {
+      font-size: 12px;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      padding: 2px 6px;
+      background: #fff8e8;
+      color: #5a3e00;
+    }
+    .btn-hapus-syiir {
+      margin-left: auto;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .syiir-bait-list { display: flex; flex-direction: column; gap: 6px; }
+    .syiir-bait {
+      border: 1px solid #e0c870;
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px;
+    }
+    .syiir-bait-header {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+      font-size: 11px;
+      color: #8b6914;
+      flex-wrap: wrap;
+    }
+    .btn-hapus-bait {
+      margin-left: auto;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .syiir-shatr { margin-bottom: 4px; }
+    .syiir-shatr-label { font-size: 10px; color: #a07840; margin-bottom: 2px; }
+    .syiir-kata-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      direction: rtl;
+    }
+    .syiir-kata-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #d4b87a;
+      border-radius: 4px;
+      padding: 2px 4px;
+      background: #fffdf5;
+      min-width: 40px;
+    }
+    .syiir-kata-item input {
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 13px;
+      width: 60px;
+    }
+    .syiir-kata-item input.s-arab { font-size: 15px; font-family: 'Scheherazade New', serif; direction: rtl; }
+    .syiir-kata-item input.s-indo { font-size: 10px; color: #8b4513; direction: ltr; }
+    .syiir-kata-item input.s-jawa { font-size: 10px; color: #4b6b1a; direction: ltr; }
+    .btn-tambah-kata-syiir, .btn-tambah-shatr, .btn-tambah-bait-syiir {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #c9a84c;
+      background: #fff8e8;
+      color: #5a3e00;
+      cursor: pointer;
+      margin-top: 3px;
+    }
+    /* === HASIL SYI'IR === */
+    .hasil-syiir-blok {
+      border: 1.5px solid #b8860b;
+      border-radius: 6px;
+      background: linear-gradient(to bottom, #fffdf5, #fff8e8);
+      margin: 6px 0;
+      padding: 8px 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .hasil-syiir-bait {
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed #d4b87a;
+    }
+    .hasil-syiir-bait:last-child { border-bottom: none; margin-bottom: 0; }
+    .hasil-syiir-bait.model-a {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+    }
+    .hasil-syiir-bait.model-b { display: flex; flex-direction: column; }
+    .hasil-syiir-shatr {
+      display: flex;
+      flex-wrap: wrap;
+      direction: rtl;
+      gap: 2px 6px;
+      padding: 2px 4px;
+    }
+    .hasil-syiir-bait.model-a .hasil-syiir-shatr {
+      flex: 1;
+      border-left: 1px solid #d4b87a;
+    }
+    .hasil-syiir-bait.model-a .hasil-syiir-shatr:last-child { border-left: none; }
+    .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani { padding-right: 28px; }
+    .syiir-kata-blok {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 28px;
+    }
+    .syiir-kata-blok .arab {
+      font-family: 'Scheherazade New', serif;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .syiir-kata-blok .pegon {
+      font-size: 10px;
+      color: #5a3e00;
+      text-align: center;
+      line-height: 1.3;
+      direction: ltr;
+    }
+
     @media print {
       .garis-cetak {
         width: 14cm;
@@ -2731,6 +2883,7 @@ function gotoHalamanHasil() {
     <div class="halaman-body">
       <div id="containerBab-${id}"></div>
       <button class="btn-tambah-bab" onclick="tambahBab(${id})">+ Tambah Bab</button>
+      <button class="btn-tambah-bab" style="background:#8b6914;" onclick="tambahBabSyiir(${id})">🎵 Bab Syi'ir</button>
       <div class="nahwu-input-wrap">
         <label>Catatan Nahwu — Halaman ${id+1}</label>
         <textarea class="nahwu-input" placeholder="Catatan nahwu untuk halaman ini...">${nahwu}</textarea>
@@ -2768,7 +2921,10 @@ function gotoHalamanHasil() {
     </div>
   `;
   document.getElementById('containerHalaman').appendChild(div);
-  if (babList.length) babList.forEach(b => tambahBab(id, b.namaBab, b.kataList, b.babJudulIndo || '', b.babJudulJawa || '', b.babNomor || ''));
+  if (babList.length) babList.forEach(b => {
+    if (b.tipe === 'syiir') tambahBabSyiir(id, b);
+    else tambahBab(id, b.namaBab, b.kataList, b.babJudulIndo || '', b.babJudulJawa || '', b.babNomor || '');
+  });
   else tambahBab(id);
   // Isi terjemahan jika ada (dari import JSON)
   if (Object.keys(terjemahan).length) {
@@ -3123,6 +3279,92 @@ function terapkanLebarKolom(halEl) {
   alert('Lebar kolom semua halaman sudah disamakan.');
 }
     
+    /* ===== BAB SYI'IR ===== */
+    function tambahBabSyiir(halamanId, data = {}) {
+      const id = babCounter++;
+      const container = document.getElementById('containerBab-' + halamanId);
+      if (!container) return;
+      const model = data.model || 'A';
+      const div = document.createElement('div');
+      div.className = 'syiir-input';
+      div.id = 'syiir-' + id;
+      div.dataset.tipe = 'syiir';
+      div.innerHTML = `
+        <div class="syiir-header">
+          <span class="syiir-label">🎵 Syi'ir</span>
+          <select class="syiir-model-select" onchange="simpan()">
+            <option value="A"${model==='A'?' selected':''}>Model A – dua shatr berdampingan</option>
+            <option value="B"${model==='B'?' selected':''}>Model B – shatr tsani menjorok</option>
+          </select>
+          <button class="btn-hapus-syiir" onclick="hapusBabSyiir('syiir-${id}')">Hapus Syi'ir</button>
+        </div>
+        <div class="syiir-bait-list" id="baitList-${id}"></div>
+        <button class="btn-tambah-bait-syiir" onclick="tambahBaitSyiir(${id})">+ Tambah Bait</button>
+      `;
+      container.appendChild(div);
+      const baitList = data.baitList || [];
+      if (baitList.length) {
+        baitList.forEach(b => tambahBaitSyiir(id, b));
+      } else {
+        tambahBaitSyiir(id);
+      }
+    }
+
+    function tambahBaitSyiir(syiirId, data = {}) {
+      const container = document.getElementById('baitList-' + syiirId);
+      if (!container) return;
+      const id = babCounter++;
+      const div = document.createElement('div');
+      div.className = 'syiir-bait';
+      div.id = 'bait-' + id;
+      div.innerHTML = `
+        <div class="syiir-bait-header">
+          <span>Bait</span>
+          <button class="btn-hapus-bait" onclick="hapusBaitSyiir('bait-${id}')">✕</button>
+        </div>
+        <div class="syiir-shatr" id="shatrAwwal-${id}">
+          <div class="syiir-shatr-label">Shatr Awwal</div>
+          <div class="syiir-kata-list" id="kataAwwal-${id}"></div>
+          <button class="btn-tambah-kata-syiir" onclick="tambahKataSyiir(${id},'awwal')">+ Kata</button>
+        </div>
+        <div class="syiir-shatr" id="shatrTsani-${id}">
+          <div class="syiir-shatr-label">Shatr Tsani</div>
+          <div class="syiir-kata-list" id="kataTsani-${id}"></div>
+          <button class="btn-tambah-kata-syiir" onclick="tambahKataSyiir(${id},'tsani')">+ Kata</button>
+        </div>
+      `;
+      container.appendChild(div);
+      const awwalList = data.awwal || [];
+      const tsaniList = data.tsani || [];
+      if (awwalList.length) awwalList.forEach(k => tambahKataSyiir(id, 'awwal', k));
+      else tambahKataSyiir(id, 'awwal');
+      if (tsaniList.length) tsaniList.forEach(k => tambahKataSyiir(id, 'tsani', k));
+      else tambahKataSyiir(id, 'tsani');
+    }
+
+    function tambahKataSyiir(baitId, shatr, data = {}) {
+      const container = document.getElementById('kata' + (shatr === 'awwal' ? 'Awwal' : 'Tsani') + '-' + baitId);
+      if (!container) return;
+      const id = kataCounter++;
+      const item = document.createElement('div');
+      item.className = 'syiir-kata-item';
+      item.id = 'skata-' + id;
+      item.innerHTML = `
+        <input class="s-arab" type="text" placeholder="كَلِمَةٌ" value="${data.arab||''}" oninput="simpan()" />
+        <input class="s-indo" type="text" placeholder="makna indo" value="${data.maknaIndo||''}" oninput="simpan()" />
+        <input class="s-jawa" type="text" placeholder="makna jawa" value="${data.maknaJawa||''}" oninput="simpan()" />
+        <button style="font-size:9px;border:none;background:transparent;color:#c0392b;cursor:pointer;" onclick="document.getElementById('skata-${id}').remove();simpan()">✕</button>
+      `;
+      container.appendChild(item);
+    }
+
+    function hapusBabSyiir(id) {
+      if (confirm('Hapus syi\'ir ini?')) document.getElementById(id)?.remove();
+    }
+    function hapusBaitSyiir(id) {
+      if (confirm('Hapus bait ini?')) document.getElementById(id)?.remove();
+    }
+
     function hapusKata(id) {
       if (confirm('Yakin ingin menghapus kata ini?'))
         document.getElementById(id)?.remove();
@@ -3216,7 +3458,44 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         navList.push({id:anchor,nama:`Halaman ${nomorHal}`});
         html+=`<div class="hasil-halaman" id="${anchor}">`;
 
-        hal.querySelectorAll('.bab-input').forEach(bab=>{
+        hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab=>{
+          // ===== RENDER SYI'IR =====
+          if (bab.classList.contains('syiir-input')) {
+            const model = bab.querySelector('.syiir-model-select')?.value || 'A';
+            html += `<div class="hasil-syiir-blok">`;
+            bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
+              const baitCls = `hasil-syiir-bait model-${model.toLowerCase()}`;
+              html += `<div class="${baitCls}">`;
+              ['Awwal','Tsani'].forEach((shatrNama, si) => {
+                const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitEl.id.replace('bait-','')}`);
+                if (!kataContainer) return;
+                const kataItems = kataContainer.querySelectorAll('.syiir-kata-item');
+                if (!kataItems.length) return;
+                const shatrCls = 'hasil-syiir-shatr' + (shatrNama==='Tsani'?' tsani':'');
+                html += `<div class="${shatrCls}">`;
+                kataItems.forEach(item => {
+                  const arab = item.querySelector('.s-arab')?.value || '';
+                  const maknaIndo = item.querySelector('.s-indo')?.value || '';
+                  const maknaJawa = item.querySelector('.s-jawa')?.value || '';
+                  if (!arab) return;
+                  const arabTampil = prosesHarakat(arab);
+                  const showIndo = modeBahasa === 'indo';
+                  const pegonTeks = showIndo ? (maknaIndo||maknaJawa) : (maknaJawa||maknaIndo);
+                  const hiddenCls = pegonTersembunyi ? ' tersembunyi' : '';
+                  html += `<div class="syiir-kata-blok">
+                    <span class="arab" data-asli="${arab}">${arabTampil}</span>
+                    <span class="pegon indo${hiddenCls}${showIndo?'':' tersembunyi'}" data-indo="${maknaIndo}" data-jawa="${maknaJawa}">${maknaIndo||maknaJawa}</span>
+                    <span class="pegon jawa${hiddenCls}${showIndo?' tersembunyi':''}" data-indo="${maknaIndo}" data-jawa="${maknaJawa}">${maknaJawa||maknaIndo}</span>
+                  </div>`;
+                });
+                html += `</div>`;
+              });
+              html += `</div>`;
+            });
+            html += `</div>`;
+            return;
+          }
+          // ===== RENDER BAB BIASA =====
           const babId=bab.id.replace('bab-','');
           const namaBab=bab.querySelector('.bab-nama-input').value.trim();
           const tbody=document.getElementById('tbody-'+babId);
@@ -3374,7 +3653,26 @@ html += `</div>`;
         }
         const nahwu = hal.querySelector('.nahwu-input').value;
         const babList = [];
-        hal.querySelectorAll('.bab-input').forEach(bab => {
+        hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab => {
+          if (bab.classList.contains('syiir-input')) {
+            const model = bab.querySelector('.syiir-model-select')?.value || 'A';
+            const baitList = [];
+            bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
+              const baitId = baitEl.id.replace('bait-','');
+              const ambilKata = (shatr) => {
+                const container = baitEl.querySelector(`#kata${shatr}-${baitId}`);
+                if (!container) return [];
+                return [...container.querySelectorAll('.syiir-kata-item')].map(item => ({
+                  arab: item.querySelector('.s-arab')?.value || '',
+                  maknaIndo: item.querySelector('.s-indo')?.value || '',
+                  maknaJawa: item.querySelector('.s-jawa')?.value || '',
+                }));
+              };
+              baitList.push({ awwal: ambilKata('Awwal'), tsani: ambilKata('Tsani') });
+            });
+            babList.push({ tipe: 'syiir', model, baitList });
+            return;
+          }
           const babId = bab.id.replace('bab-', '');
           const namaBab = bab.querySelector('.bab-nama-input').value;
           const tbody = document.getElementById('tbody-' + babId);
