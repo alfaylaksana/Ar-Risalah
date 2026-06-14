@@ -1849,14 +1849,15 @@ body.mode-html-aktif .hasil-kotak {
       border: 1.5px solid #b8860b;
       border-radius: 6px;
       background: linear-gradient(to bottom, #fffdf5, #fff8e8);
-      margin: 6px 0;
+      margin: 10mm 0 0 0;
       padding: 8px 6px;
       width: 100%;
       box-sizing: border-box;
+      direction: rtl;
     }
     .hasil-syiir-bait {
-      margin-bottom: 6px;
-      padding-bottom: 4px;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
       border-bottom: 1px dashed #d4b87a;
     }
     .hasil-syiir-bait:last-child { border-bottom: none; margin-bottom: 0; }
@@ -1870,12 +1871,13 @@ body.mode-html-aktif .hasil-kotak {
       display: flex;
       flex-wrap: wrap;
       direction: rtl;
-      gap: 2px 6px;
-      padding: 2px 4px;
+      gap: 4px 8px;
+      padding: 4px 6px;
     }
     .hasil-syiir-bait.model-a .hasil-syiir-shatr {
       flex: 1;
-      border-left: 1px solid #d4b87a;
+      border-left: 2px solid #b8860b;
+      padding: 4px 8px;
     }
     .hasil-syiir-bait.model-a .hasil-syiir-shatr:last-child { border-left: none; }
     .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani { padding-right: 28px; }
@@ -1884,18 +1886,30 @@ body.mode-html-aktif .hasil-kotak {
       flex-direction: column;
       align-items: center;
       min-width: 28px;
+      gap: 3px;
+    }
+    .syiir-kata-blok .kode-wrapper,
+    .syiir-kata-blok .kode-kosong {
+      margin-bottom: 2px;
     }
     .syiir-kata-blok .arab {
       font-family: 'Scheherazade New', serif;
       font-size: 18px;
       line-height: 1.6;
+      margin-bottom: 2px;
+    }
+    .syiir-kata-blok .bawah-kata {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .syiir-kata-blok .pegon {
       font-size: 10px;
       color: #5a3e00;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.4;
       direction: ltr;
+      margin-top: 2px;
     }
 
     @media print {
@@ -3466,10 +3480,13 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const model = bab.querySelector('.syiir-model-select')?.value || 'A';
             html += `<div class="hasil-syiir-blok">`;
             bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
+              const baitId = baitEl.id.replace('bait-','');
               const baitCls = `hasil-syiir-bait model-${model.toLowerCase()}`;
               html += `<div class="${baitCls}">`;
-              ['Awwal','Tsani'].forEach((shatrNama, si) => {
-                const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitEl.id.replace('bait-','')}`);
+              // RTL: Tsani di kiri, Awwal di kanan — render Tsani dulu agar Awwal tampil kanan
+              const urutan = model === 'A' ? ['Tsani','Awwal'] : ['Awwal','Tsani'];
+              urutan.forEach((shatrNama) => {
+                const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitId}`);
                 if (!kataContainer) return;
                 const kataItems = kataContainer.querySelectorAll('.syiir-kata-item');
                 if (!kataItems.length) return;
