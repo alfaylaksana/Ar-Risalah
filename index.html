@@ -2187,6 +2187,7 @@ body.mode-html-aktif .hasil-kotak {
       halamanAktifId = null;;
     let terjemahanData = {};
     let lebarKolomDefault = {};
+    let modeTampilTerakhir = 'pdf';
    
 function togglePopupTerjemahan(el, nomorAyat) {
   document.querySelectorAll('.popup-terjemahan').forEach(p => p.remove());
@@ -2519,12 +2520,7 @@ notif.textContent = '✓ PDF tersimpan!';
       turunHalaman(halamanAktifId);
       tampilkanFloat();
     };
-    document.getElementById('btnHapusHalamanFloat').onclick = () => {
-      if (!halamanAktifId) return;
-      hapusHalaman(halamanAktifId);
-      halamanAktifId = null;
-      tampilkanFloat();
-    };
+
     window.addEventListener('scroll', tampilkanFloat);
     document.addEventListener('touchstart', tampilkanFloat);
     document.addEventListener('mousemove', tampilkanFloat);
@@ -3091,7 +3087,6 @@ function terapkanLebarKolom(halEl) {
         document.getElementById(id)?.remove();
     }
 
-    let modeTampilTerakhir = 'pdf';
     function tampilkan(mode) {
       if (!mode) mode = modeTampilTerakhir;
       modeTampilTerakhir = mode;
