@@ -2299,7 +2299,7 @@ function togglePopupTerjemahan(el, nomorAyat) {
     halEl.querySelectorAll('.kata-blok').forEach(blok => {
       const arab = blok.querySelector('.arab');
       if (!arab) return;
-      const lebarArab = arab.getBoundingClientRect().width;
+      const lebarArab = arab.getBoundingClientRect().width || arab.offsetWidth || 60;
       const teksArab = arab.textContent.trim().replace(/[\u064B-\u065F]/g, '');
 
       const pegonIndo = blok.querySelector('.pegon.indo');
@@ -3313,7 +3313,7 @@ html += `</div>`;
       updateNavHasil(navList);
         } catch(e) { alert('ERROR: ' + e.message); }
       setTimeout(() => sembunyikanBorderUjung(), 100);
-      setTimeout(() => sesuaikanLebarPegon(), 50);
+      setTimeout(() => sesuaikanLebarPegon(), 400);
       setTimeout(() => terapkanOverrideBaris(), 80);
     }
 
