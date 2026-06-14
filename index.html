@@ -1864,13 +1864,15 @@ body.mode-html-aktif .hasil-kotak {
     .hasil-syiir-bait.model-a {
       display: flex;
       flex-direction: row;
+      direction: rtl;
       gap: 0;
     }
-    .hasil-syiir-bait.model-b { display: flex; flex-direction: column; }
+    .hasil-syiir-bait.model-b { display: flex; flex-direction: column; gap: 6px; }
     .hasil-syiir-shatr {
       display: flex;
       flex-wrap: wrap;
       direction: rtl;
+      align-items: flex-start;
       gap: 4px 8px;
       padding: 4px 6px;
     }
@@ -1880,28 +1882,47 @@ body.mode-html-aktif .hasil-kotak {
       padding: 4px 8px;
     }
     .hasil-syiir-bait.model-a .hasil-syiir-shatr:last-child { border-left: none; }
-    .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani { padding-right: 28px; }
+    /* Model B: shatr tsani menjorok ke tengah (50%) */
+    .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani {
+      padding-right: 50%;
+    }
     .syiir-kata-blok {
       display: flex;
       flex-direction: column;
       align-items: center;
       min-width: 28px;
-      gap: 3px;
     }
-    .syiir-kata-blok .kode-wrapper,
+    /* Fix kesejarajan: semua blok punya kode-kosong dengan tinggi tetap */
+    .syiir-kata-blok .kode-wrapper {
+      margin-bottom: 4px;
+      min-height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .syiir-kata-blok .kode-kosong {
-      margin-bottom: 2px;
+      display: block;
+      visibility: hidden;
+      height: 22px;
+      margin-bottom: 4px;
     }
     .syiir-kata-blok .arab {
       font-family: 'Scheherazade New', serif;
       font-size: 18px;
       line-height: 1.6;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+      /* Hilangkan garis vertikal antar kata */
+      border-left: none !important;
+      padding-left: 0 !important;
     }
     .syiir-kata-blok .bawah-kata {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+    .syiir-kata-blok .rujukan-kosong,
+    .syiir-kata-blok .rujukan-row {
+      min-height: 18px;
     }
     .syiir-kata-blok .pegon {
       font-size: 10px;
@@ -3483,14 +3504,14 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
               const baitId = baitEl.id.replace('bait-','');
               const baitCls = `hasil-syiir-bait model-${model.toLowerCase()}`;
               html += `<div class="${baitCls}">`;
-              // RTL: Tsani di kiri, Awwal di kanan — render Tsani dulu agar Awwal tampil kanan
-              const urutan = model === 'A' ? ['Tsani','Awwal'] : ['Awwal','Tsani'];
+              // direction:rtl pada container — render Awwal dulu (tampil kanan), Tsani kemudian (tampil kiri)
+              const urutan = ['Awwal','Tsani'];
               urutan.forEach((shatrNama) => {
                 const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitId}`);
                 if (!kataContainer) return;
                 const kataItems = kataContainer.querySelectorAll('.syiir-kata-item');
                 if (!kataItems.length) return;
-                const shatrCls = 'hasil-syiir-shatr' + (shatrNama==='Tsani'?' tsani':'');
+                const shatrCls = 'hasil-syiir-shatr' + (shatrNama==='Tsani' && model==='B' ? ' tsani':'');
                 html += `<div class="${shatrCls}">`;
                 kataItems.forEach(item => {
                   const arab = item.querySelector('.s-arab')?.value || '';
