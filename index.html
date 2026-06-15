@@ -2509,6 +2509,16 @@ function togglePopupTerjemahan(el, nomorAyat) {
     const overrideIndo = buatMap(inputIndo);
     const overrideJawa = buatMap(inputJawa);
 
+    // DEBUG SEMENTARA
+    if (Object.keys(overrideIndo).length > 0 || Object.keys(overrideJawa).length > 0) {
+      let dbg = 'MAP INDO: ' + JSON.stringify(overrideIndo) + '\nMAP JAWA: ' + JSON.stringify(overrideJawa) + '\n\nKATA ARAB di halaman:\n';
+      halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
+        const a = blok.querySelector('.arab');
+        if (a) dbg += '[' + a.textContent.trim().replace(/[\u064B-\u065F]/g, '') + ']\n';
+      });
+      alert(dbg);
+    }
+
     halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
       const arab = blok.querySelector('.arab');
       if (!arab) return;
