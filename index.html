@@ -3617,7 +3617,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
               html += `</div>`;
             });
             html += `</div>`;
-            alert('SYIIR HTML snippet: ' + html.slice(-200));
+            return;
           }
           // ===== RENDER BAB BIASA =====
           const babId=bab.id.replace('bab-','');
@@ -3710,6 +3710,11 @@ html += `</div>`;
         navList.push(pengantarNav);
       }
       hasilEl.innerHTML = html;
+      // DEBUG: cek hasil-halaman-32 setelah innerHTML diset
+      const h32 = document.getElementById('hasil-halaman-32');
+      if (h32) {
+        alert('hasil-halaman-32 syiir count: ' + h32.querySelectorAll('.hasil-syiir-blok').length + '\ninnerHTML 300 char terakhir: ' + h32.innerHTML.slice(-300));
+      }
       if (kodeTersembunyi) {
         hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
           .forEach(el => el.style.visibility = 'hidden');
