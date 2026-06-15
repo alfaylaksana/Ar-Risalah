@@ -2490,23 +2490,12 @@ function togglePopupTerjemahan(el, nomorAyat) {
 }
     
     function sesuaikanLebarPegon() {
-  // DEBUG: tampilkan ID semua hasil-halaman yang mengandung syiir
-  let syiirInfo = 'Halaman yang mengandung hasil-syiir-blok:\n';
+  // DEBUG FINAL
+  let info = '';
   document.querySelectorAll('.hasil-halaman').forEach(h => {
-    if (h.querySelectorAll('.hasil-syiir-blok').length > 0) {
-      syiirInfo += 'ID: ' + h.id + '\n';
-    }
+    info += h.id + ': syiir=' + h.querySelectorAll('.hasil-syiir-blok').length + ', bab=' + h.querySelectorAll('.hasil-bab-section').length + '\n';
   });
-  let inputInfo = 'Halaman input yang mengandung syiir-input:\n';
-  document.querySelectorAll('.halaman-input').forEach(h => {
-    if (h.querySelectorAll('.syiir-input').length > 0) {
-      inputInfo += 'ID: ' + h.id + '\n';
-    }
-  });
-  // Tambah isi innerHTML hasil-halaman-32
-  const h32 = document.getElementById('hasil-halaman-32');
-  syiirInfo += h32 ? '\nhasil-halaman-32 innerHTML (100 char): ' + h32.innerHTML.substring(0,100) : '\nhasil-halaman-32: TIDAK ADA';
-  alert(syiirInfo + '\n' + inputInfo);
+  alert('Semua hasil-halaman:\n' + info);
 
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
     const halId = halEl.id.replace('hasil-halaman-', '');
@@ -2526,16 +2515,6 @@ function togglePopupTerjemahan(el, nomorAyat) {
 
     const overrideIndo = buatMap(inputIndo);
     const overrideJawa = buatMap(inputJawa);
-
-    // DEBUG SEMENTARA
-    if (Object.keys(overrideIndo).length > 0 || Object.keys(overrideJawa).length > 0) {
-      let dbg = 'halId: ' + halId + '\n' + 'halEl.id: ' + halEl.id + '\n' + 'Child classes: ' + Array.from(halEl.children).map(c=>c.className).join(' | ') + '\n' + 'syiir-kata-blok count: ' + halEl.querySelectorAll('.syiir-kata-blok').length + '\n' + 'hasil-syiir-blok count: ' + halEl.querySelectorAll('.hasil-syiir-blok').length + '\n\n' + 'MAP INDO: ' + JSON.stringify(overrideIndo) + '\nMAP JAWA: ' + JSON.stringify(overrideJawa) + '\n\nKATA ARAB di halaman:\n';
-      halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
-        const a = blok.querySelector('.arab');
-        if (a) dbg += '[' + a.textContent.trim().replace(/[\u064B-\u065F]/g, '') + ']\n';
-      });
-      alert(dbg);
-    }
 
     halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
       const arab = blok.querySelector('.arab');
@@ -3553,7 +3532,6 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           // ===== RENDER SYI'IR =====
           if (bab.classList.contains('syiir-input')) {
             const model = bab.querySelector('.syiir-model-select')?.value || 'A';
-            alert('MASUK RENDER SYIIR! anchor=' + anchor + ' model=' + model);
             html += `<div class="hasil-syiir-blok">`;
             bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
               const baitId = baitEl.id.replace('bait-','');
@@ -3709,19 +3687,7 @@ html += `</div>`;
         html += pengantarHtml;
         navList.push(pengantarNav);
       }
-      // DEBUG: tampilkan semua anchor yang dihasilkan
-      const anchorList = [];
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      tempDiv.querySelectorAll('.hasil-halaman').forEach(h => anchorList.push(h.id));
-      alert('Semua hasil-halaman: ' + anchorList.join(', '));
-
       hasilEl.innerHTML = html;
-      // DEBUG: cek hasil-halaman-32 setelah innerHTML diset
-      const h32 = document.getElementById('hasil-halaman-32');
-      if (h32) {
-        alert('hasil-halaman-32 syiir count: ' + h32.querySelectorAll('.hasil-syiir-blok').length + '\ninnerHTML 300 char terakhir: ' + h32.innerHTML.slice(-300));
-      }
       if (kodeTersembunyi) {
         hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
           .forEach(el => el.style.visibility = 'hidden');
