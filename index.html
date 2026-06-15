@@ -2503,6 +2503,9 @@ function togglePopupTerjemahan(el, nomorAyat) {
       inputInfo += 'ID: ' + h.id + '\n';
     }
   });
+  // Tambah isi innerHTML hasil-halaman-32
+  const h32 = document.getElementById('hasil-halaman-32');
+  syiirInfo += h32 ? '\nhasil-halaman-32 innerHTML (100 char): ' + h32.innerHTML.substring(0,100) : '\nhasil-halaman-32: TIDAK ADA';
   alert(syiirInfo + '\n' + inputInfo);
 
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
