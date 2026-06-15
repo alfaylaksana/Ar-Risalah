@@ -1866,6 +1866,7 @@ body.mode-html-aktif .hasil-kotak {
       flex-direction: row;
       direction: rtl;
       gap: 0;
+      align-items: center;
     }
     .hasil-syiir-bait.model-b { display: flex; flex-direction: column; gap: 6px; }
     .hasil-syiir-shatr {
@@ -1873,15 +1874,29 @@ body.mode-html-aktif .hasil-kotak {
       flex-wrap: wrap;
       direction: rtl;
       align-items: flex-start;
-      gap: 4px 8px;
-      padding: 4px 6px;
+      gap: 4px 6px;
+      padding: 4px 4px;
     }
     .hasil-syiir-bait.model-a .hasil-syiir-shatr {
       flex: 1;
-      border-left: 2px solid #b8860b;
-      padding: 4px 8px;
+      padding: 4px 6px;
     }
-    .hasil-syiir-bait.model-a .hasil-syiir-shatr:last-child { border-left: none; }
+    .syiir-separator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 0 4px;
+      align-self: center;
+    }
+    .syiir-separator span {
+      display: block;
+      width: 1.5px;
+      height: 12px;
+      background: #b8860b;
+      border-radius: 1px;
+    }
     /* Model B: shatr tsani menjorok ke tengah (50%) */
     .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani {
       padding-right: 50%;
@@ -3506,7 +3521,11 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
               html += `<div class="${baitCls}">`;
               // direction:rtl pada container — render Awwal dulu (tampil kanan), Tsani kemudian (tampil kiri)
               const urutan = ['Awwal','Tsani'];
-              urutan.forEach((shatrNama) => {
+              urutan.forEach((shatrNama, idx) => {
+                // Tambah separator dua garis di antara shatr (model A saja)
+                if (model === 'A' && idx === 1) {
+                  html += `<div class="syiir-separator"><span></span><span></span></div>`;
+                }
                 const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitId}`);
                 if (!kataContainer) return;
                 const kataItems = kataContainer.querySelectorAll('.syiir-kata-item');
