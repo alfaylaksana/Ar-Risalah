@@ -2511,7 +2511,7 @@ function togglePopupTerjemahan(el, nomorAyat) {
 
     // DEBUG SEMENTARA
     if (Object.keys(overrideIndo).length > 0 || Object.keys(overrideJawa).length > 0) {
-      let dbg = 'MAP INDO: ' + JSON.stringify(overrideIndo) + '\nMAP JAWA: ' + JSON.stringify(overrideJawa) + '\n\nKATA ARAB di halaman:\n';
+      let dbg = 'halId: ' + halId + '\n' + 'halEl.id: ' + halEl.id + '\n' + 'Child classes: ' + Array.from(halEl.children).map(c=>c.className).join(' | ') + '\n' + 'syiir-kata-blok count: ' + halEl.querySelectorAll('.syiir-kata-blok').length + '\n' + 'hasil-syiir-blok count: ' + halEl.querySelectorAll('.hasil-syiir-blok').length + '\n\n' + 'MAP INDO: ' + JSON.stringify(overrideIndo) + '\nMAP JAWA: ' + JSON.stringify(overrideJawa) + '\n\nKATA ARAB di halaman:\n';
       halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
         const a = blok.querySelector('.arab');
         if (a) dbg += '[' + a.textContent.trim().replace(/[\u064B-\u065F]/g, '') + ']\n';
