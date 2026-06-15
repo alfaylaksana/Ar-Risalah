@@ -2490,6 +2490,21 @@ function togglePopupTerjemahan(el, nomorAyat) {
 }
     
     function sesuaikanLebarPegon() {
+  // DEBUG: tampilkan ID semua hasil-halaman yang mengandung syiir
+  let syiirInfo = 'Halaman yang mengandung hasil-syiir-blok:\n';
+  document.querySelectorAll('.hasil-halaman').forEach(h => {
+    if (h.querySelectorAll('.hasil-syiir-blok').length > 0) {
+      syiirInfo += 'ID: ' + h.id + '\n';
+    }
+  });
+  let inputInfo = 'Halaman input yang mengandung syiir-input:\n';
+  document.querySelectorAll('.halaman-input').forEach(h => {
+    if (h.querySelectorAll('.syiir-input').length > 0) {
+      inputInfo += 'ID: ' + h.id + '\n';
+    }
+  });
+  alert(syiirInfo + '\n' + inputInfo);
+
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
     const halId = halEl.id.replace('hasil-halaman-', '');
     const inputIndo = document.querySelector(`#halaman-${halId} .input-override-pegon-indo`);
