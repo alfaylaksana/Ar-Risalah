@@ -3553,6 +3553,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           // ===== RENDER SYI'IR =====
           if (bab.classList.contains('syiir-input')) {
             const model = bab.querySelector('.syiir-model-select')?.value || 'A';
+            alert('MASUK RENDER SYIIR! anchor=' + anchor + ' model=' + model);
             html += `<div class="hasil-syiir-blok">`;
             bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
               const baitId = baitEl.id.replace('bait-','');
