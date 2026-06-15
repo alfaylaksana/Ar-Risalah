@@ -2493,9 +2493,11 @@ function togglePopupTerjemahan(el, nomorAyat) {
   // DEBUG FINAL
   let info = '';
   document.querySelectorAll('.hasil-halaman').forEach(h => {
-    info += h.id + ': syiir=' + h.querySelectorAll('.hasil-syiir-blok').length + ', bab=' + h.querySelectorAll('.hasil-bab-section').length + '\n';
+    const s = h.querySelectorAll('.hasil-syiir-blok').length;
+    const b = h.querySelectorAll('.hasil-bab-section').length;
+    if (s > 0 || b === 0) info += h.id + ': syiir=' + s + ', bab=' + b + '\n';
   });
-  alert('Semua hasil-halaman:\n' + info);
+  alert('Halaman dg syiir atau kosong:\n' + (info || 'TIDAK ADA'));
 
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
     const halId = halEl.id.replace('hasil-halaman-', '');
