@@ -1006,6 +1006,11 @@ body.mode-html-aktif .hasil-kotak {
   background: #ffffff !important;
   border: 1px solid #000000 !important;
 }
+
+    body.mode-pdf .hasil-syiir-blok {
+  border: none;
+  background: none;
+}
  .body.mode-pdf.catatan-nahwu::before {
   content: '';
   display: none !important;
@@ -1849,11 +1854,11 @@ body.mode-html-aktif .hasil-kotak {
       border: 1.5px solid #b8860b;
       border-radius: 6px;
       background: linear-gradient(to bottom, #fffdf5, #fff8e8);
-      margin: 10mm 0 0 0;
+      margin: 10mm -4mm 0 -4mm;
       padding: 8px 6px;
       width: 100%;
       box-sizing: border-box;
-      direction: rtl;
+      direction: rtl;l
     }
     .hasil-syiir-bait {
       margin-bottom: 8px;
@@ -1948,7 +1953,7 @@ body.mode-html-aktif .hasil-kotak {
       text-align: center;
       line-height: 1.4;
       direction: ltr;
-      margin-top: 2px;
+      margin-top: -2px;
     }
 
     @media print {
