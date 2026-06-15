@@ -1,0 +1,4000 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="google" content="notranslate">
+  <title>Makna Gandul Pegon</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  padding: 20px;
+}
+    
+    body.mode-pdf * {
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+    
+    h1 {
+      text-align: center;
+      font-size: 15px;
+      color: #6b4e1a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .sub {
+      text-align: center;
+      font-size: 11px;
+      color: #a07840;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .info-kitab {
+      background: #fffdf7;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      paddig: 14px 16px;
+      max-width: 1000px;
+      margin: 0 auto 16px;
+    }
+
+    .info-kitab h3 {
+      font-size: 11px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .info-grid input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #e0d0a0;
+      background: transparent;
+      padding: 4px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: #1a1208;
+      outline: none;
+    }
+
+    .info-pengantar {
+      margin-top: 10px;
+    }
+
+    .info-pengantar label {
+      font-size: 10px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .info-pengantar textarea {
+      width: 100%;
+      height: 80px;
+      padding: 6px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      border: 1px solid #e0d0a0;
+      border-radius: 3px;
+      background: #fffdf7;
+      outline: none;
+      resize: vertical;
+      color: #1a1208;
+      line-height: 1.5;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-tool {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #c9a84c;
+      background: #fffdf7;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-tool.aktif {
+      background: #7a5a20;
+      color: #fffdf7;
+      border-color: #7a5a20;
+    }
+
+    .btn-tool.merah {
+      border-color: #c07070;
+      color: #c07070;
+    }
+
+    .btn-tool.merah:hover {
+      background: #c07070;
+      color: #fffdf7;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 36px;
+      left: 0;
+      background: #fffdf7;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      min-width: 210px;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-menu.tampil {
+      display: block;
+    }
+
+    .drop-item {
+      display: block;
+      width: 100%;
+      padding: 8px 14px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: #4a3a10;
+      cursor: pointer;
+    }
+
+    .drop-item:hover {
+      background: #f5edd5;
+    }
+
+    .drop-item.aktif {
+      color: #7a5a20;
+      font-weight: bold;
+    }
+
+    .dropdown-label {
+      padding: 6px 14px 2px;
+      font-size: 10px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: #e8dfc0;
+      margin: 4px 0;
+    }
+
+    .halaman-input {
+      background: #fffdf7;
+      border: 2px solid #c9a84c;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+    }
+
+    .halaman-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f5edd5;
+      padding: 8px 14px;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .halaman-label {
+      font-size: 12px;
+      color: #7a5a20;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .btn-hapus-halaman {
+      padding: 3px 10px;
+      background: none;
+      border: 1px solid #e0b0b0;
+      border-radius: 4px;
+      color: #c07070;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .halaman-body {
+      padding: 14px;
+    }
+
+    .bab-input {
+      background: #f8f4ec;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .bab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .bab-label {
+      font-size: 11px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .bab-aksi {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .bab-nama-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #e0d0a0;
+      background: transparent;
+      padding: 4px;
+      font-family: Georgia, serif;
+      font-size: 14px;
+      color: #1a1208;
+      outline: none;
+      margin-bottom: 10px;
+    }
+    
+    
+
+    .btn-hapus-bab {
+      padding: 3px 10px;
+      background: none;
+      border: 1px solid #e0b0b0;
+      border-radius: 4px;
+      color: #c07070;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-pindah-bab {
+      padding: 3px 10px;
+      background: none;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-pindah-bab:hover {
+      background: #f5edd5;
+    }
+
+    .btn-gabung-bab {
+      padding: 3px 10px;
+      background: none;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-gabung-bab:hover {
+      background: #f5edd5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        background: #fffdf7;
+        border: 1px solid #e0d0a0;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        padding: 8px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 6px;
+      }
+      td {
+        border: none;
+        padding: 2px 0;
+        position: relative;
+      }
+      td::before {
+        display: block;
+        font-size: 9px;
+        color: #a07840;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      td.col-kode {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      td.col-kode::before { content: 'Kode'; }
+      td:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      td:nth-child(2)::before { content: 'Arab'; }
+      td.col-indo {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      td.col-indo::before { content: 'Pegon Indo'; }
+      td.col-jawa {
+        grid-column: 2;
+        grid-row: 2;
+      }
+      td.col-jawa::before { content: 'Pegon Jawa'; }
+      td.col-nom {
+        grid-column: 1;
+        grid-row: 3;
+      }
+      td.col-nom::before { content: 'No. Ayat'; }
+      td.col-hapus {
+        grid-column: 2;
+        grid-row: 3;
+        text-align: right;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      td input.arab-input {
+        font-size: 22px;
+      }
+      .btn-tambah-kata {
+        font-size: 14px;
+        padding: 10px;
+      }
+      .bab-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .bab-judul-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .halaman-header {
+        flex-wrap: wrap;
+      }
+      .toolbar {
+        gap: 6px;
+      }
+      .btn-tool {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+      .tombol-utama {
+        flex-direction: column;
+      }
+    }
+
+    th {
+      background: #f0e8d0;
+      color: #7a5a20;
+      padding: 5px 8px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    th.col-kode {
+      width: 88px;
+      text-align: center;
+    }
+
+    th.col-arab {
+  width: 26%;
+  text-align: center;
+  direction: rtl;
+}
+
+th.col-indo {
+  text-align: center;
+  background: #f5ecd8;
+  color: #7a5a20;
+}
+
+th.col-jawa {
+  text-align: center;
+  background: #e8eaf5;
+  color: #3a3a7a;
+}
+    
+.th-resizable {
+  position: relative;
+  user-select: none;
+}
+
+.col-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  z-index: 10;
+}
+
+.col-resize-handle:hover {
+  background: rgba(201, 168, 76, 0.4);
+}
+    th.col-nom {
+      width: 52px;
+      text-align: center;
+      background: #f0ead8;
+      color: #a07840;
+    }
+
+    th.col-hapus {
+      width: 26px;
+    }
+
+    .kode-hint {
+      font-size: 9px;
+      color: #b09050;
+      display: block;
+      text-align: center;
+      margin-top: 1px;
+      line-height: 1.3;
+    }
+
+    td {
+      padding: 3px 5px;
+      border: 1px solid #e8dfc0;
+      vertical-align: middle;
+    }
+
+    td input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: Georgia, serif;
+      padding: 3px;
+      font-size: 13px;
+      color: #4a3a10;
+    }
+
+    td input.arab-input {
+      font-size: 19px;
+      direction: rtl;
+      text-align: right;
+      color: #1a1208;
+    }
+
+    td input.makna-indo {
+      direction: rtl;
+      text-align: right;
+      color: #5a3e10;
+    }
+
+    td input.makna-jawa {
+      direction: rtl;
+      text-align: right;
+      color: #2a2a6a;
+    }
+
+    td input.kode-input {
+      border: 1px solid #e0d0a0;
+      background: #fffdf7;
+      border-radius: 3px;
+      color: #4a3a10;
+      direction: rtl;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    td input.nom-input {
+      border: 1px solid #e0d0a0;
+      background: #fffdf7;
+      border-radius: 3px;
+      color: #7a5a20;
+      direction: rtl;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    td.col-hapus {
+      width: 26px;
+      text-align: center;
+    }
+
+    td.col-hapus button {
+      background: none;
+      border: none;
+      color: #c9a84c;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    td.col-indo {
+      background: rgba(201, 168, 76, 0.06);
+    }
+
+    td.col-jawa {
+      background: rgba(80, 80, 180, 0.05);
+    }
+
+    .btn-tambah-kata {
+      width: 100%;
+      padding: 7px;
+      background: #fffdf7;
+      border: 1px dashed #c9a84c;
+      border-radius: 4px;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .btn-tambah-kata:hover {
+      background: #f5edd5;
+    }
+
+    .btn-tambah-bab {
+      width: 100%;
+      padding: 8px;
+      background: #d4b870;
+      border: none;
+      border-radius: 4px;
+      color: #fffdf7;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .nahwu-input-wrap {
+      margin-top: 12px;
+      border-top: 1px dashed #c9a84c;
+      padding-top: 10px;
+    }
+
+    .nahwu-input-wrap label {
+      font-size: 10px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .nahwu-input-wrap textarea {
+      width: 100%;
+      height: 80px;
+      padding: 8px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      background: #fffdf7;
+      outline: none;
+      resize: vertical;
+      color: #1a1208;
+      line-height: 1.5;
+    }
+
+    .field-override-pegon {
+  margin-top: 10px;
+  border: 1px dashed #c9a84c;
+  border-radius: 4px;
+  padding: 8px 10px;
+  background: #fffdf7;
+}
+.field-override-pegon label {
+  font-size: 10px;
+  color: #a07840;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+.input-override-pegon {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: Georgia, serif;
+  border: 1px solid #c9a84c;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1a1208;
+  outline: none;
+  direction: rtl;
+}
+    
+ .input-override-baris,
+.input-override-nomhlm,
+.input-override-colgap {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: Georgia, serif;
+  border: 1px solid #c9a84c;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1a1208;
+  outline: none;
+}
+    
+    .btn-tambah-halaman {
+      width: 100%;
+      max-width: 900px;
+      display: block;
+      margin: 0 auto 6px;
+      padding: 10px;
+      background: #7a5a20;
+      border: none;
+      border-radius: 4px;
+      color: #fffdf7;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .tombol-utama {
+      display: flex;
+      gap: 10px;
+      max-width: 1000px;
+      margin: 14px auto 20px;
+    }
+
+    .btn-tampil {
+      flex: 1;
+      padding: 12px;
+      background: #c9a84c;
+      border: none;
+      border-radius: 4px;
+      color: #fffdf7;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .btn-reset-tampil {
+      padding: 12px 20px;
+      background: none;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .nav-bab {
+      background: #fffdf7;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      padding: 12px 16px;
+      max-width: 1000px;
+      margin: 0 auto 16px;
+      display: none;
+    }
+
+    .nav-bab h3 {
+      font-size: 11px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .nav-bab-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-bab-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid #c9a84c;
+      background: #fffdf7;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .nav-bab-btn:hover {
+      background: #7a5a20;
+      color: #fffdf7;
+    }
+
+    .hasil-wrapper {
+      max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+    }
+
+    .hasil-kotak {
+      background: #ffffff;
+      height: 210mm;
+      width: 165mm;
+      border-radius: 4px;
+      padding: 10mm 10mm 10mm;
+      position: relative;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+/*
+    .hasil-kotak::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border: 1px solid rgba(180, 140, 60, 0.2);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    */
+
+    .cover-kitab {
+      height: 210mm;
+      width: 165mm;
+      border-radius: 4px;
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 4px solid center #e8dcc8;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    .cover-kitab .judul-arab {
+      font-size: 52px;
+      color: #1a1208;
+      direction: rtl;
+      margin-bottom: 12px;
+    }
+
+    .cover-kitab .judul-indo {
+      font-size: 26px;
+      color: #4a3a10;
+      margin-bottom: 8px;
+    }
+
+    .cover-kitab .sub-info {
+      font-size: 13px;
+      color: #8a6a30;
+      margin-bottom: 4px;
+    }
+
+    .cover-kitab .penyusun {
+      font-size: 23px;
+      color: #8a6a30;
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    .cover-kitab .hiasan {
+      font-size: 24px;
+      color: #c9a84c;
+      margin: 16px 0;
+    }
+
+    .pengantar-hasil {
+      background: #ffffff;
+      height: 210mm;
+      width: 165mm;
+      border-radius: 4px;
+      padding: 20mm 15mm;
+      border-bottom: 4px solid center #e8dcc8;
+      margin: 0;
+    }
+
+    .pengantar-hasil h2 {
+      font-size: 14px;
+      color: #7a5a20;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .pengantar-hasil p {
+      font-size: 14px;
+      color: #1a1208;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      text-align: justify;
+    }
+
+    .float-kelola-halaman {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .float-kelola-halaman .btn-float {
+      pointer-events: auto;
+    }
+
+    .btn-naik-halaman {
+      padding: 2px 7px;
+      background: none;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      color: #7a5a20;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .btn-naik-halaman:hover {
+      background: #f5edd5;
+    }
+
+    .hasil-halaman {
+  position: relative;
+  width: 165mm;
+  min-height: 215mm;
+  height: auto;
+  margin: 0;
+  padding: 5px 0 0 0;
+  overflow: visible;
+  box-sizing: border-box;
+  background: #ffffff;
+      border-bottom: 4px solid center #e8dcc8;
+}
+
+/* ===== Mode HTML (preview portrait, fleksibel) ===== */
+body.mode-html-aktif {
+  padding: 0;
+}
+body.mode-html-aktif .hasil-wrapper,
+body.mode-html-aktif .hasil-kotak {
+  width: 100%;
+}
+.hasil-kotak.mode-html {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.hasil-kotak.mode-html .hasil-halaman {
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  border-bottom: 1px solid #e8dcc8;
+}
+    .hasil-kotak.mode-html .cover-kitab,
+.hasil-kotak.mode-html .pengantar-hasil {
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  box-sizing: border-box;
+  padding: 20px 16px;
+}
+
+.hasil-kotak.mode-html .cover-kitab .judul-arab {
+  font-size: clamp(28px, 9vw, 52px);
+}
+.hasil-kotak.mode-html .cover-kitab .judul-indo {
+  font-size: clamp(16px, 5vw, 26px);
+}
+.hasil-kotak.mode-html .cover-kitab .penyusun {
+  font-size: clamp(14px, 4.5vw, 23px);
+} .hasil-kotak.mode-html .hasil-halaman-judul {
+  width: 100%;
+  min-height: auto;
+  box-sizing: border-box;
+}
+.hasil-kotak.mode-html .hasil-judul-besar-arab {
+  font-size: clamp(20px, 7vw, 35px);
+  overflow-wrap: break-word;
+}
+.hasil-kotak.mode-html .hasil-judul-besar-indo,
+.hasil-kotak.mode-html .hasil-judul-besar-jawa {
+  font-size: clamp(14px, 4.5vw, 20px);
+}
+.hasil-kotak.mode-html .hasil-bab-judul {
+  flex-wrap: wrap;
+}
+.hasil-kotak.mode-html .hasil-bab-judul-teks {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.hasil-kotak.mode-html .hasil-bab-judul-arab {
+  font-size: clamp(20px, 7vw, 35px);
+}
+    .hasil-kotak.mode-html .hasil-aliran {
+  column-gap: 2px;
+}
+.hasil-kotak.mode-html .kata-blok {
+  padding-right: 20px;
+}
+.hasil-kotak.mode-html .arab {
+  padding-left: 6px;
+}
+  .hasil-halaman + .hasil-halaman {
+  margin-top: 10px !important;
+}
+    .catatan-nahwu {
+  position: relative;
+  padding: 15px 32px 15px;
+  background: #fffbee;
+  border: none;
+  box-shadow: none;
+  margin: 20px auto 16px;
+  width: calc(100% - 24px);
+  box-sizing: border-box;
+}
+    
+    body.mode-pdf .catatan-nahwu {
+  background: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+    body.mode-pdf .hasil-syiir-blok {
+  border: none;
+  background: none;
+}
+ .body.mode-pdf.catatan-nahwu::before {
+  content: '';
+  display: none !important;
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='12'%3E%3Cpath d='M0 12 Q5 0 10 6 Q15 12 20 0 L20 12 Z' fill='%23fffbee'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 20px 12px;
+}
+.catatan-nahwu-label,
+.catatan-nahwu-isi {
+  position: relative;
+  z-index: 1;
+}
+.catatan-nahwu-label {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7a5520;
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+.catatan-nahwu-isi {
+  font-size: 13px;
+  color: #2a1a08;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+  .nomor-halaman-hasil {
+  align-items: center bottom;
+  justify-content: center;
+  font-size: 24px;
+  color: #a07840;
+  font-style: italic;
+      
+  padding-top: 10px;
+      padding-bottom: 10px
+  position: absolute
+}
+    
+    .hasil-bab-section {
+      position: relative;
+      overflow: visible;
+      margin-top: 10mm;
+      margin-bottom: 0px;
+      padding-top: 10px;
+    }
+
+    .judul-besar-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 0;
+    }
+
+    .judul-besar-grid input {
+      border: none;
+      border-bottom: 1px solid #e0d0a0;
+      background: transparent;
+      padding: 4px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: #1a1208;
+      outline: none;
+    }
+
+    .hasil-halaman-gambar {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+.hasil-halaman-gambar img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+.hasil-halaman-gambar .placeholder-gambar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 2px dashed #c9a84c;
+  color: #a08050;
+  font-size: 14px;
+  text-align: center;
+}
+.hasil-halaman-gambar.ada-teks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.hasil-halaman-gambar.ada-teks img {
+  width: 88%;
+  height: auto;
+  flex: 0 0 auto;
+}
+.teks-gambar-atas {
+  direction: rtl;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.8;
+  color: #1a1208;
+  white-space: pre-line;
+}
+.teks-gambar-bawah {
+  direction: rtl;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1a1208;
+  white-space: pre-line;
+}
+.hasil-kotak.mode-html .hasil-halaman-gambar {
+  padding: 12px;
+}
+    .hasil-halaman-judul {
+      height: 210mm;
+      weight: 165mm;
+      display: flex;
+      padding-top: 20mm;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      min-height: 40vh;
+    width: calc(165mm - 20px); 
+    }
+
+    .hasil-judul-besar-arab {
+      font-size: 35px;
+      color: #1a1208;
+      line-height: 1.4;
+      direction: rtl;
+      margin-bottom: 16px;
+    }
+
+    .hasil-judul-besar-indo {
+      font-size: 20px;
+      color: #4a3a10;
+      margin-bottom: 6px;
+    }
+
+    .hasil-judul-besar-jawa {
+      font-size: 20px;
+      color: #3a3a8a;
+      margin-bottom: 12px;
+    }
+
+    .hasil-judul-besar-sub {
+      font-size: 18px;
+      color: #8a6a30;
+      font-style: italic;
+    }
+
+    .bab-judul-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 60px;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .bab-judul-grid input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #e0d0a0;
+      background: transparent;
+      padding: 4px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: #1a1208;
+      outline: none;
+    }
+
+    .hasil-bab-judul {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 30px;
+      margin-top: 0;
+      direction: rtl;
+      padding-right: 10px;
+      
+    }
+
+    .hasil-bab-judul-teks {
+      text-align: right;
+      padding: 2px 8px 0px;
+    }
+
+    .hasil-bab-judul-arab {
+      font-size: 35px;
+  font-weight: bold;
+      color: #1a1208;
+      line-height: 1.7;
+      
+    }
+
+    .hasil-bab-judul-indo {
+      font-size: 18px;
+      color: #4a3a10;
+      display: block;
+    }
+
+    .hasil-bab-judul-jawa {
+      font-size: 18px;
+      color: #3a3a8a;
+      display: block;
+    }
+
+    .hasil-bab-judul-nomor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 35px;
+  border: 1px solid #c9a84c;
+  border-radius: 2px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #6b4e1a;
+  background: #fffdf7;
+  padding: 0 8px;
+  height: 80px;
+  max-height: 98px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+    .hasil-aliran {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
+      direction: rtl;
+      padding-bottom: 30px;
+      flex-wrap: wrap;
+      overflow: visible;
+      row-gap: 20px;
+      column-gap: 4px;
+      align-items: stretch;
+    }
+
+    .kata-blok {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 68px;
+      overflow: visible;
+      position: relative;
+      padding-right: 11px;
+      
+  }
+    
+     .kata-blok.ujung-baris .arab {
+  border-left: none;
+}
+.kata-blok.ujung-ayat .arab {
+  border-left: none;
+}
+    
+/*
+    .kata-blok.ganjil {
+      background: rgba(201, 168, 76, 0);
+    }
+
+    .kata-blok.genap {
+      background: rgba(201, 168, 76, 0);
+    }
+*/
+    
+.nomor-ayat {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #6b4e1a;
+  font-family: Georgia, serif;
+  position: absolute;
+  background: #fffdf7;
+  border: 2px double #c9a84c;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #f0ead8, 0 0 0 3.5px #c9a84c;
+  top: 37%;
+  left: -30px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+    /* Kata yang punya nomor ayat diberi padding kiri ekstra */
+    .kata-blok.ada-nomor {
+      margin-left: 33px;
+    }
+
+    .kode-wrapper {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: -14px;
+      flex-wrap: wrap;
+    }
+    
+    .kode-wrapper:empty {
+  display: none;
+}
+
+    .kode-gramatikal {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #7a5a20;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: bold;
+      color: #7a5a20;
+      background: #fffdf7;
+      min-width: 18px;
+      margin: 2px 2px 2px;
+    }
+
+    .kode-gramatikal.murojaah {
+      border-color: #b0a080;
+      color: #b0a080;
+    }
+
+    .kode-gramatikal.diucapkan {
+      border-style: solid;
+    }
+
+    .kode-gramatikal.tidakdiucapkan {
+      border-style: dashed;
+      border-width: 0.7px;
+    }
+
+    .kode-kosong {
+      width: 26px;
+      height: 26px;
+      visibility: hidden;
+      margin-bottom: -6px;
+      display: none;
+    }
+
+    .arab {
+      font-size: 25px;
+      color: #1a1208;
+      line-height: 2;
+      padding-left: 15px;
+      white-space: nowrap;
+      direction: rtl;
+      display: block;
+      text-align: right;
+      border-left: 0.5px solid #c9a84c;
+    }
+    
+    .bawah-kata {
+      display: flex;
+      flex-direction: column;
+      align-items: right;
+      padding-bottom: 2px;
+      overflow: visible;
+      width: 100%;
+    }
+
+    .rujukan-row {
+      display: flex;
+      flex-direction: row;
+      gap: 0px;
+      justify-content: center;
+      align-items: center;
+      min-height: 22px;
+      margin-bottom: 2px;
+    }
+
+    .rujukan-target {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      border: 1.5px solid #7a5a20;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #7a5a20;
+      background: #fffdf7;
+      margin-top: -21px;
+    }
+
+    .rujukan-dhamir {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      border: 1.5px solid #4a7a4a;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      color: #4a7a4a;
+      background: #f0f7f0;
+      padding-top: -21px;
+    }
+
+    .rujukan-kosong {
+      min-height: 16px;
+    }
+    
+    .rujukan-row.kr-kanan {
+  justify-content: flex-end !important;
+  padding-left: 25%;
+}
+
+    .pegon {
+      font-size: 13px;
+      white-space: nowrap;
+      direction: rtl;
+      transform: rotate(-15deg);
+      transform-origin: top right;
+      margin-top: -28px;
+      margin-right: 4px;
+      margin-left: -20px;
+      display: block;
+      white-space: normal;
+      line-height: 1.2;
+      text-align: right;
+      max-width: 90px;
+      opacity: 0.88;
+      overflow: visible;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.2s;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .pegon.indo {
+      color: #7a5a20;
+    }
+
+    .pegon.jawa {
+      color: #3a3a8a;
+    }
+
+    .pegon.tersembunyi {
+      opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    .toggle-pegon-kolom {
+  font-size: 10px;
+  background: #f5edd5;
+  border: 1px solid #c9a84c;
+  border-radius: 4px;
+  padding: 2px 7px;
+  color: #7a5a20;
+  cursor: pointer;
+  margin-top: 4px;
+  display: block;
+  width: 100%;
+      text-align: center;
+}
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+    }
+
+    .modal-box {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fffdf7;
+      border: 2px solid #c9a84c;
+      border-radius: 8px;
+      padding: 24px 28px;
+      z-index: 9999;
+      min-width: 280px;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-box h3 {
+      font-size: 14px;
+      color: #6b4e1a;
+      margin-bottom: 14px;
+    }
+
+    .modal-box select {
+      width: 100%;
+      padding: 8px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      background: #fffdf7;
+      color: #1a1208;
+      outline: none;
+      margin-bottom: 16px;
+    }
+
+    .modal-aksi {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .modal-aksi button {
+      padding: 7px 16px;
+      border-radius: 4px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-modal-ok {
+      background: #7a5a20;
+      border: none;
+      color: #fffdf7;
+    }
+
+    .btn-modal-batal {
+      background: none;
+      border: 1px solid #c9a84c;
+      color: #7a5a20;
+    }
+
+    .float-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .float-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .float-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-float {
+      pointer-events: auto;
+      height: 40px;
+      padding: 0 14px;
+      background: rgba(122, 90, 32, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #fffdf7;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      border-radius: 20px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      transition: opacity 0.5s, background 0.2s;
+      opacity: 0;
+      white-space: nowrap;
+    }
+
+    .btn-float.bulat {
+      width: 40px;
+      padding: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .btn-float.tampil {
+      opacity: 1;
+    }
+
+    .btn-float:hover {
+      background: rgba(122, 90, 32, 0.75);
+    }
+
+    .float-dropdown {
+      position: relative;
+      pointer-events: auto;
+    }
+
+    .float-dropdown-menu {
+      display: none;
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      background: rgba(255, 253, 247, 0.96);
+      border: 1px solid #c9a84c;
+      border-radius: 8px;
+      min-width: 180px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+    .float-dropdown-menu.kanan {
+      left: auto;
+      right: 0;
+    }
+
+    .float-dropdown-menu.aktif {
+      display: block;
+    }
+
+    .float-drop-label {
+      padding: 8px 14px 4px;
+      font-size: 10px;
+      color: #a07840;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .float-drop-item {
+      display: block;
+      width: 100%;
+      padding: 9px 14px;
+      background: none;
+      border: none;
+      border-top: 1px solid #f0e8d0;
+      text-align: right;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      color: #4a3a10;
+      cursor: pointer;
+      direction: rtl;
+    }
+
+    .float-drop-item:first-of-type {
+      border-top: none;
+    }
+
+    .float-drop-item:hover {
+      background: #f5edd5;
+    }
+
+    .notif {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #7a5a20;
+      color: #fffdf7;
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .notif.tampil {
+      opacity: 1;
+    }
+
+    .pdf-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+    }
+
+    .pdf-hint {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fffdf7;
+      border: 2px solid #c9a84c;
+      border-radius: 8px;
+      padding: 24px 32px;
+      z-index: 9999;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 360px;
+    }
+
+    .pdf-hint h3 {
+      font-size: 14px;
+      color: #6b4e1a;
+      margin-bottom: 10px;
+    }
+
+    .pdf-hint p {
+      font-size: 13px;
+      color: #4a3a10;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .pdf-hint button {
+      padding: 8px 20px;
+      background: #7a5a20;
+      border: none;
+      border-radius: 4px;
+      color: #fffdf7;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+
+
+    /* === BAB SYI'IR INPUT === */
+    .syiir-input {
+      border: 2px solid #b8860b;
+      border-radius: 8px;
+      background: #fffdf5;
+      margin-bottom: 12px;
+      padding: 8px;
+    }
+    .syiir-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .syiir-label { font-weight: bold; color: #8b6914; font-size: 13px; }
+    .syiir-model-select {
+      font-size: 12px;
+      border: 1px solid #c9a84c;
+      border-radius: 4px;
+      padding: 2px 6px;
+      background: #fff8e8;
+      color: #5a3e00;
+    }
+    .btn-hapus-syiir {
+      margin-left: auto;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .syiir-bait-list { display: flex; flex-direction: column; gap: 6px; }
+    .syiir-bait {
+      border: 1px solid #e0c870;
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px;
+    }
+    .syiir-bait-header {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+      font-size: 11px;
+      color: #8b6914;
+      flex-wrap: wrap;
+    }
+    .btn-hapus-bait {
+      margin-left: auto;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .syiir-shatr { margin-bottom: 4px; }
+    .syiir-shatr-label { font-size: 10px; color: #a07840; margin-bottom: 2px; }
+    .syiir-kata-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      direction: rtl;
+    }
+    .syiir-kata-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #d4b87a;
+      border-radius: 4px;
+      padding: 2px 4px;
+      background: #fffdf5;
+      min-width: 40px;
+    }
+    .syiir-kata-item input {
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 13px;
+      width: 60px;
+    }
+    .syiir-kata-item input.s-arab { font-size: 15px; font-family: 'Scheherazade New', serif; direction: rtl; }
+    .syiir-kata-item input.s-indo { font-size: 10px; color: #8b4513; direction: ltr; }
+    .syiir-kata-item input.s-jawa { font-size: 10px; color: #4b6b1a; direction: ltr; }
+    .btn-tambah-kata-syiir, .btn-tambah-shatr, .btn-tambah-bait-syiir {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #c9a84c;
+      background: #fff8e8;
+      color: #5a3e00;
+      cursor: pointer;
+      margin-top: 3px;
+    }
+    /* === HASIL SYI'IR === */
+    .hasil-syiir-blok {
+      border: 1.5px solid #b8860b;
+      border-radius: 6px;
+      background: linear-gradient(to bottom, #fffdf5, #fff8e8);
+      margin: 10mm -6mm 0 -6mm;
+      padding: 8px 6px;
+      width: 100%;
+      box-sizing: border-box;
+      direction: rtl;l
+    }
+    .hasil-syiir-bait {
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #d4b87a;
+    }
+    .hasil-syiir-bait:last-child { border-bottom: none; margin-bottom: 0; }
+    .hasil-syiir-bait.model-a {
+      display: flex;
+      flex-direction: row;
+      direction: rtl;
+      gap: 0;
+      align-items: center;
+    }
+    .hasil-syiir-bait.model-b { display: flex; flex-direction: column; gap: 6px; }
+    .hasil-syiir-shatr {
+      display: flex;
+      flex-wrap: wrap;
+      direction: rtl;
+      align-items: flex-start;
+      gap: 4px 6px;
+      padding: 4px 4px;
+    }
+    .hasil-syiir-bait.model-a .hasil-syiir-shatr {
+      flex: 1;
+      padding: 4px 1px;
+    }
+    .syiir-separator {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5mm;
+      padding: 0;
+      flex-shrink: 0;
+      align-self: center;
+      margin-right: calc(0.5cm * 0.2);
+      margin-left: calc(0.5cm * 0.3);
+    }
+    .syiir-separator span {
+      display: block;
+      width: 1.5px;
+      height: 33px;
+      background: #b8860b;
+      border-radius: 1px;
+    }
+    /* Model B: shatr tsani menjorok ke tengah (50%) */
+    .hasil-syiir-bait.model-b .hasil-syiir-shatr.tsani {
+      padding-right: 2cm;
+    }
+    .syiir-kata-blok {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 28px;
+    }
+    /* Fix kesejarajan: semua blok punya kode-kosong dengan tinggi tetap */
+    .syiir-kata-blok .kode-wrapper {
+      margin-bottom: 4px;
+      min-height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .syiir-kata-blok .kode-kosong {
+      display: block;
+      visibility: hidden;
+      height: 22px;
+      margin-bottom: 4px;
+    }
+    .syiir-kata-blok .arab {
+      font-family: 'Scheherazade New', serif;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 4px;
+      /* Hilangkan garis vertikal antar kata */
+      border-left: none !important;
+      padding-left: 0 !important;
+    }
+    .syiir-kata-blok .bawah-kata {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .syiir-kata-blok .rujukan-kosong,
+    .syiir-kata-blok .rujukan-row {
+      min-height: 18px;
+    }
+    .syiir-kata-blok .pegon {
+  font-size: 13px;
+  color: #5a3e00;
+  text-align: center;
+  line-height: 1.4;
+  direction: ltr;
+  margin-top: -4px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+    @media print {
+      .garis-cetak {
+        width: 14cm;
+        border-top: 1px solid black;
+      }
+
+      body {
+        background: white;
+        padding: 0;
+        font-size: 12pt;
+      }
+
+      .garis-margin {
+        margin-top: 50px;
+        border: 1px solid black;
+      }
+
+      .info-kitab,
+      .toolbar,
+      #containerHalaman,
+      .btn-tambah-halaman,
+      .tombol-utama,
+      .notif,
+      .float-bar,
+      .nav-bab,
+      h1,
+      .sub,
+      .pdf-hint,
+      .pdf-overlay,
+      .modal-overlay,
+      .modal-box {
+        display: none !important;
+      }
+
+      .hasil-wrapper {
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .hasil-kotak {
+        box-shadow: none;
+        border: none;
+        padding: 10px 20px;
+      }
+
+      .hasil-kotak::before {
+        display: none;
+      }
+
+      .cover-kitab {
+        page-break-after: always;
+      }
+
+      .pengantar-hasil {
+        page-break-after: always;
+      }
+
+      .hasil-halaman {
+        page-break-before: always;
+        page-break-inside: auto;
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 50px;
+      }
+
+      /*
+     .kata-blok.ganjil { background: #f5edd5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+     .kata-blok.genap  { background: #f0e8d0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    */
+    }
+
+    .hasil-halaman:first-of-type {
+      page-break-before: auto;
+    }
+
+    .hasil-halaman+.hasil-halaman {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .kata-blok {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .footnote-nahwu {
+      position: absolute;
+      height: 140px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+    }
+
+    .nomor-halaman-hasil {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 24px;
+  color: #a07840;
+  font-style: italic;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+    /* ukuran di HTML */
+   /* .hasil-bab-judul-arab {
+      font-size: 56px;
+    } */
+
+    /* ukuran di PDF/print */
+    /*
+  .hasil-bab-judul-arab { font-size: 36px; }
+  .hasil-bab-judul-indo { font-size: 18px; }
+  .hasil-bab-judul-jawa { font-size: 18px; }
+  .hasil-bab-judul-nomor { font-size: 28px; min-width: 60px; }
+  .arab { font-size: 18px; }
+  .pegon { font-size: 11px; }
+  */
+    }
+    
+    .nomor-ayat {
+  cursor: pointer;
+}
+
+.nomor-ayat:hover {
+  background: #f0e2b8;
+}
+    
+.popup-terjemahan {
+  position: fixed;
+  max-width: min(360px, 80vw);
+  background: #fffdf7 !important;
+  border: 1px solid #c9a84c;
+  border-radius: 6px;
+  padding: 10px 14px;
+  min-width: 260px;
+  box-shadow: 0 4px 16px rgba(100,70,20,0.18);
+  z-index: 9999;
+  font-family: Georgia, serif;
+  direction: ltr;
+  text-align: left;
+}
+    
+.popup-terjemahan::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #c9a84c;
+}
+
+.popup-terjemahan-indo {
+  font-size: 10px;
+  color: #1a1208;
+  margin-bottom: 6px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.popup-terjemahan-en {
+  font-size: 10px;
+  color: #7a5a20;
+  font-style: italic;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.popup-terjemahan-label {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #c9a84c;
+  margin-bottom: 2px;
+}
+    
+    .terjemahan-input-wrap {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #fffdf7;
+  border: 1px dashed #c9a84c;
+  border-radius: 4px;
+}
+
+.terjemahan-input-wrap label {
+  font-size: 10px;
+  color: #a07840;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.btn-muat-ayat {
+  font-size: 10px;
+  background: #f5edd5;
+  border: 1px solid #c9a84c;
+  border-radius: 4px;
+  padding: 4px 10px;
+  color: #7a5a20;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.terj-item {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8dfc0;
+}
+
+.terj-nomor {
+  font-size: 10px;
+  color: #c9a84c;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.terj-indo, .terj-en {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e0d0a0;
+  background: transparent;
+  padding: 4px;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  color: #1a1208;
+  outline: none;
+  margin-bottom: 4px;
+  display: block;
+  resize: vertical;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+    .terj-en {
+  font-style: italic;
+}
+
+  @media (max-width: 600px) {
+  .halaman-input {
+    max-width: 100vw;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .hasil-wrapper {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  .hasil-kotak {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    align-items: flex-start;
+  }.cover-kitab .judul-arab {
+  font-size: 8vw !important;
+}
+.cover-kitab .judul-indo {
+  font-size: 4.5vw !important;
+}
+.cover-kitab .penyusun {
+  font-size: 4vw !important;
+}
+}
+  </style>
+<script src="libs/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <h1>Makna Gandul Pegon</h1>
+  <p class="sub">Terjemah per kata · Kode gramatikal · Kode rujukan · Pegon Jawa &amp; Indonesia</p>
+
+  <div class="info-kitab">
+    <h3>Identitas Kitab</h3>
+    <div class="info-grid">
+      <input id="judulKitab" placeholder="Judul Kitab" />
+      <input id="judulArab" placeholder="عنوان الكتاب بالعربية" style="direction:rtl;font-size:18px;" />
+      <input id="namaUstaz" placeholder="Nama Ustaz / Penyusun" />
+      <input id="keterangan" placeholder="Keterangan tambahan" />
+      <input id="tahunKitab" placeholder="Tahun" />
+      <input id="edisiKitab" placeholder="Edisi / Cetakan" />
+    </div>
+    <div class="info-pengantar">
+      <label>Halaman Pengantar / Muqaddimah</label>
+      <textarea id="pengantarKitab" placeholder="Tulis pengantar, muqaddimah, atau kata sambutan di sini..."></textarea>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="dropdown">
+      <button class="btn-tool" onclick="toggleDropdown('dropTampilan')">👁 Tampilan ▾</button>
+      <div class="dropdown-menu" id="dropTampilan">
+        <div class="dropdown-label">Harakat</div>
+        <button class="drop-item aktif" id="togLengkap" onclick="setHarakat('lengkap');tutupDropdown()">Lengkap</button>
+        <button class="drop-item" id="togIrab" onclick="setHarakat('irab');tutupDropdown()">I'rab saja</button>
+        <button class="drop-item" id="togTanpa" onclick="setHarakat('tanpa');tutupDropdown()">Tanpa harakat</button>
+        <div class="dropdown-divider"></div>
+        <button class="drop-item" id="togPegon" onclick="togglePegon();tutupDropdown()">Sembunyikan Pegon</button>
+        <button class="drop-item" id="togKode" onclick="toggleKode();tutupDropdown()">Sembunyikan Kode</button>
+        <div class="dropdown-divider"></div>
+        <button class="drop-item" id="togBahasa" onclick="toggleBahasa();tutupDropdown()">Pegon Jawa</button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn-tool" onclick="toggleDropdown('dropData')">💾 Data ▾</button>
+      <div class="dropdown-menu" id="dropData">
+        <button class="drop-item" onclick="simpan();tutupDropdown()">💾 Simpan</button>
+        <button class="drop-item" onclick="exportJSON();tutupDropdown()">📤 Export JSON</button>
+        <label class="drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
+      </div>
+    </div>
+    <button class="btn-tool" onclick="tampilkanPdfHint()">📄 Simpan PDF</button>
+    <button class="btn-tool" onclick="samakan LebarKolomSemua()">⇔ Samakan Kolom</button>
+    <button class="btn-tool merah" onclick="resetSemua()">🗑 Reset</button>
+  </div>
+
+  <div id="containerHalaman"></div>
+  <button class="btn-tambah-halaman" onclick="tambahHalaman()">+ Tambah Halaman Baru</button>
+  <button class="btn-tambah-halaman" onclick="tambahHalamanJudul()" style="background:#a07840;">+ Tambah Halaman Judul</button>
+  <button class="btn-tambah-halaman" onclick="tambahHalamanGambar()" style="background:#7a8a5a;">+ Tambah Halaman Gambar</button>
+  <div class="tombol-utama">
+    <button class="btn-tampil" onclick="tampilkan('pdf')">Tampilkan PDF</button>
+<button class="btn-tampil" onclick="tampilkan('html')">Tampilkan HTML</button>
+    <button class="btn-reset-tampil" onclick="resetTampilan()">Bersihkan Hasil</button>
+  </div>
+
+  <div class="hasil-wrapper">
+    <div class="hasil-kotak" id="hasil">
+      <div style="text-align:center;color:#bba060;font-style:italic;font-size:13px;padding:30px 0;">Hasil makna gandul akan tampil di sini</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="tutupModal()"></div>
+  <div class="modal-box" id="modalPindah">
+    <h3>Pindahkan Bab ke Halaman</h3>
+    <select id="pindahSelect"></select>
+    <div class="modal-aksi">
+      <button class="btn-modal-batal" onclick="tutupModal()">Batal</button>
+      <button class="btn-modal-ok" onclick="konfirmasiPindah()">Pindahkan</button>
+    </div>
+  </div>
+
+  <div class="pdf-overlay" id="pdfOverlay" onclick="tutupPdfHint()"></div>
+  <div class="pdf-hint" id="pdfHint">
+    <h3>📄 Simpan sebagai PDF</h3>
+    <p>Klik <strong>Ekspor PDF</strong> untuk mengunduh file PDF langsung.</p>
+    <button onclick="lanjutPrint()">Ekspor PDF ▶</button>
+  </div>
+
+  <div class="float-bar">
+    <div class="float-left">
+      <div class="float-kelola-halaman" id="floatKelolaHalaman">
+        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik">↑</button>
+        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun">↓</button>
+        <div class="float-dropdown">
+          <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatTampilan')" title="Tampilan">👁</button>
+          <div class="float-dropdown-menu" id="menuFloatTampilan" style="bottom:auto;top:50px;">
+            <div class="float-drop-label">Harakat</div>
+            <button class="float-drop-item" onclick="setHarakat('lengkap');tutupFloatDropdown()">Lengkap</button>
+            <button class="float-drop-item" onclick="setHarakat('irab');tutupFloatDropdown()">I'rab saja</button>
+            <button class="float-drop-item" onclick="setHarakat('tanpa');tutupFloatDropdown()">Tanpa harakat</button>
+            <div class="float-drop-item" style="border-top:1px solid #e8dfc0;padding:2px 0;"></div>
+            <button class="float-drop-item" id="togPegonFloat" onclick="togglePegon();tutupFloatDropdown()">Sembunyikan Pegon</button>
+            <button class="float-drop-item" id="togKodeFloat" onclick="toggleKode();tutupFloatDropdown()">Sembunyikan Kode</button>
+            <div class="float-drop-item" style="border-top:1px solid #e8dfc0;padding:2px 0;"></div>
+            <button class="float-drop-item" id="togBahasaFloat" onclick="toggleBahasa();tutupFloatDropdown()">Pegon Jawa</button>
+          </div>
+        </div>
+        <div class="float-dropdown">
+          <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatData')" title="Data">💾</button>
+          <div class="float-dropdown-menu" id="menuFloatData" style="bottom:auto;top:50px;">
+            <button class="float-drop-item" onclick="simpan();tutupFloatDropdown()">💾 Simpan</button>
+            <button class="float-drop-item" onclick="exportJSON();tutupFloatDropdown()">📤 Export JSON</button>
+            <label class="float-drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
+          </div>
+        </div>
+      </div>
+      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</button>
+      <div class="float-dropdown">
+        <button class="btn-float" id="btnNavInput" onclick="toggleFloatDropdown('menuNavInput')">≡ Input</button>
+        <div class="float-dropdown-menu" id="menuNavInput">
+          <div class="float-drop-label">Navigasi Halaman Input</div>
+          <div id="listNavInput"></div>
+        </div>
+      </div>
+    </div>
+    <div class="float-right">
+      <div class="float-dropdown">
+        <button class="btn-float" id="btnNavHasil" onclick="toggleFloatDropdown('menuNavHasil')">≡ Hasil</button>
+        <div class="float-dropdown-menu kanan" id="menuNavHasil">
+          <div class="float-drop-label">Navigasi Halaman Hasil</div>
+          <div id="listNavHasil"></div>
+        </div>
+      </div>
+      <button class="btn-float" id="btnTampilFloat" onclick="tampilkan()">Tampilkan ▶</button>
+    </div>
+  </div>
+
+  <div class="notif" id="notif">✓ Tersimpan!</div>
+  <div class="modal-overlay" id="modalPindahHalaman" onclick="tutupModalPindahHalaman()"></div>
+  <div class="modal-box" id="modalBoxPindahHalaman">
+    <h3>Pindahkan Halaman</h3>
+    <p style="font-size:12px;color:#a07840;margin-bottom:12px;">Halaman aktif: <strong id="labelHalamanAktif">-</strong></p>
+    <label style="font-size:12px;color:#a07840;">Sisipkan ke posisi:</label>
+    <input id="inputKe" type="number" min="1" style="width:100%;padding:8px;margin-top:4px;margin-bottom:16px;border:1px solid #c9a84c;border-radius:4px;font-family:Georgia,serif;font-size:14px;" />
+    <div class="modal-aksi">
+      <button class="btn-modal-batal" onclick="tutupModalPindahHalaman()">Batal</button>
+      <button class="btn-modal-ok" onclick="konfirmasiPindahHalaman()">Sisipkan</button>
+    </div>
+  </div>
+  <script>
+    window.onerror = function(msg, src, line) {
+      alert('ERROR: ' + msg + ' (baris ' + line + ')');
+    };
+
+    function isAngkaArab(s) {
+      return /^[\u0660-\u0669]+$/.test(s);
+    }
+
+    function isDhomirArab(s) {
+      return /^\[[\u0660-\u0669]+\]$/.test(s);
+    }
+
+    function ambilDhomirAngka(s) {
+      return s.replace(/[\[\]]/g, '');
+    }
+    let halamanCounter = 0,
+      babCounter = 0,
+      kataCounter = 0;
+    let modeHarakat = 'lengkap',
+      modeBahasa = 'indo';
+    let pegonTersembunyi = false,
+      kodeTersembunyi = false;
+    let hideTimer = null,
+      pindahBabId = null,
+      halamanAktifId = null;;
+    let terjemahanData = {};
+    let lebarKolomDefault = {};
+    let modeTampilTerakhir = 'pdf';
+   
+function togglePopupTerjemahan(el, nomorAyat) {
+  document.querySelectorAll('.popup-terjemahan').forEach(p => p.remove());
+
+  if (el.dataset.popupOpen === '1') {
+    el.dataset.popupOpen = '0';
+    return;
+  }
+
+  const trj = terjemahanData[nomorAyat];
+  const indo = trj?.indo || '—';
+  const en = trj?.en || '—';
+
+  const popup = document.createElement('div');
+  popup.className = 'popup-terjemahan';
+  popup.innerHTML = `
+    <div class="popup-terjemahan-label">🇮🇩 Indonesia</div>
+    <div class="popup-terjemahan-indo">${indo}</div>
+    <div class="popup-terjemahan-label">🇬🇧 English</div>
+    <div class="popup-terjemahan-en">${en}</div>
+  `;
+
+  document.body.appendChild(popup);
+
+  // Posisi berdasarkan koordinat layar
+  const rect = el.getBoundingClientRect();
+  const popupW = 280;
+  let left = rect.left + rect.width / 2 - popupW / 2;
+  let top = rect.top - 10;
+
+  // Jangan sampai keluar kanan
+  if (left + popupW > window.innerWidth - 10) left = window.innerWidth - popupW - 10;
+  // Jangan sampai keluar kiri
+  if (left < 10) left = 10;
+
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+  popup.style.transform = 'translateY(-100%)';
+
+  el.dataset.popupOpen = '1';
+
+  setTimeout(() => {
+    document.addEventListener('click', function handler(e) {
+      if (!popup.contains(e.target) && e.target !== el) {
+        popup.remove();
+        el.dataset.popupOpen = '0';
+        document.removeEventListener('click', handler);
+      }
+    });
+  }, 100);
+}
+    
+    const HARAKAT_SEMUA = /[\u064B-\u065F\u0610-\u061A\u0670]/g;
+    const DIUCAPKAN = ['م', 'خ', 'مف', 'فا', 'ف', 'ما', 'مضا', 'فأ', 'حا', 'ظ', 'ص', 'ب', 'ج', '...', 'مط'];
+
+    function parseKode(raw) {
+      const tokens = raw.trim().split(/[\s,،]+/).filter(Boolean);
+      const gramatikal = [];
+      let targetRujukan = null,
+        dhomirRujukan = null;
+      tokens.forEach(t => {
+        if (isDhomirArab(t)) dhomirRujukan = ambilDhomirAngka(t);
+        else if (isAngkaArab(t)) targetRujukan = t;
+        else gramatikal.push(t);
+      });
+      return {
+        gramatikal,
+        targetRujukan,
+        dhomirRujukan
+      };
+    }
+
+    
+    function toggleTerj(id) {
+  const body = document.getElementById('terjBody-' + id);
+  const icon = document.getElementById('terjIcon-' + id);
+  const buka = body.style.display === 'none';
+  body.style.display = buka ? 'block' : 'none';
+  icon.textContent = buka ? '▼' : '▶';
+}
+    
+    function sesuaikanLebarPegon() {
+  document.querySelectorAll('.hasil-halaman').forEach(halEl => {
+    const halId = halEl.id.replace('hasil-halaman-', '');
+    const inputIndo = document.querySelector(`#halaman-${halId} .input-override-pegon-indo`);
+    const inputJawa = document.querySelector(`#halaman-${halId} .input-override-pegon-jawa`);
+
+    function buatMap(input) {
+      const map = {};
+      if (input && input.value.trim()) {
+        input.value.split(',').forEach(item => {
+          const [arab, pengali] = item.trim().split(':');
+          if (arab && pengali) map[arab.trim()] = parseFloat(pengali.trim());
+        });
+      }
+      return map;
+    }
+
+    const overrideIndo = buatMap(inputIndo);
+    const overrideJawa = buatMap(inputJawa);
+
+    halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
+      const arab = blok.querySelector('.arab');
+      if (!arab) return;
+      const lebarArab = arab.getBoundingClientRect().width || arab.offsetWidth || 60;
+      const teksArab = arab.textContent.trim().replace(/[\u064B-\u065F]/g, '');
+
+      const pegonIndo = blok.querySelector('.pegon.indo');
+      const pegonJawa = blok.querySelector('.pegon.jawa');
+
+      if (pegonIndo) {
+        let pengali = 1.3;
+        for (const [key, val] of Object.entries(overrideIndo)) {
+          if (teksArab.includes(key)) { pengali = val; break; }
+        }
+        pegonIndo.style.maxWidth = (lebarArab * pengali) + 'px';
+      }
+
+      if (pegonJawa) {
+        let pengali = 1.3;
+        for (const [key, val] of Object.entries(overrideJawa)) {
+          if (teksArab.includes(key)) { pengali = val; break; }
+        }
+        pegonJawa.style.maxWidth = (lebarArab * pengali) + 'px';
+      }
+    });
+  });
+}
+    
+    function terapkanOverrideBaris() {
+  document.querySelectorAll('.halaman-input').forEach(hal => {
+    const halId = hal.id.replace('halaman-', '');
+    const hasilEl = document.getElementById('hasil-halaman-' + halId);
+    if (!hasilEl) return;
+
+    // Override jarak baris kata
+    const inputBaris = hal.querySelector('.input-override-baris');
+    if (inputBaris && inputBaris.value.trim()) {
+      const aliranList = hasilEl.querySelectorAll('.hasil-aliran');
+      inputBaris.value.split(',').forEach(item => {
+        const [idx, gap] = item.trim().split(':');
+        const i = parseInt(idx) - 1;
+        const g = parseInt(gap);
+        if (!isNaN(i) && !isNaN(g) && aliranList[i]) {
+          aliranList[i].style.rowGap = g + 'px';
+        }
+      });
+    }
+
+    // Override column gap
+    const inputColGap = hal.querySelector('.input-override-colgap');
+    if (inputColGap && inputColGap.value.trim()) {
+      const g = parseInt(inputColGap.value.trim());
+      if (!isNaN(g)) {
+        hasilEl.querySelectorAll('.hasil-aliran').forEach(aliran => {
+          aliran.style.columnGap = g + 'px';
+        });
+      }
+    }
+    
+    // Override posisi nomor halaman
+    const inputNom = hal.querySelector('.input-override-nomhlm');
+    if (inputNom && inputNom.value !== '' && inputNom.value != 0) {
+      const nomEl = hasilEl.querySelector('.nomor-halaman-hasil');
+      if (nomEl) {
+        const offset = parseInt(inputNom.value);
+        nomEl.style.marginTop = (16 + offset) + 'px';
+      }
+    }
+  });
+}
+    
+    function tampilkanPdfHint() {
+      tampilkan();
+      document.getElementById('pdfOverlay').style.display = 'block';
+      document.getElementById('pdfHint').style.display = 'block';
+    }
+
+    function tutupPdfHint() {
+      document.getElementById('pdfOverlay').style.display = 'none';
+      document.getElementById('pdfHint').style.display = 'none';
+    }
+    async function lanjutPrint() {
+  tutupPdfHint();
+  document.getElementById('hasil').classList.remove('mode-html');
+  const notif = document.getElementById('notif');
+  notif.textContent = '⏳ Membuat PDF...';
+  notif.classList.add('tampil');
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({
+  orientation: 'portrait',
+  unit: 'mm',
+  format: [165, 210]
+});
+
+  const pageW = pdf.internal.pageSize.getWidth();
+  const pageH = pdf.internal.pageSize.getHeight();
+  const halaman = document.querySelectorAll('.cover-kitab, .pengantar-hasil, .hasil-halaman');
+  let nomorHalIsi = 0;
+document.body.classList.add('mode-pdf');
+for (let i = 0; i < halaman.length; i++) {
+    const hal = halaman[i];
+
+    const nomorEl = hal.querySelector('.nomor-halaman-hasil');
+    const footnoteEl = hal.querySelector('.footnote-nahwu');
+
+    // Sembunyikan footnote & nomor saat capture konten utama
+    
+    if (footnoteEl) footnoteEl.style.visibility = 'hidden';
+
+  const canvas = await html2canvas(hal, {
+      scale: 1.5,
+      useCORS: true,
+      windowWidth: 528,
+      height: hal.scrollHeight,
+      windowHeight: hal.scrollHeight
+    });
+    const imgData = canvas.toDataURL('image/jpeg', 0.85);
+
+    if (i > 0) pdf.addPage();
+
+    const isCover = hal.classList.contains('cover-kitab') || hal.classList.contains('pengantar-hasil');
+    const margin = isCover ? 0 : 8;
+    const usableW = pageW - margin * 2;
+    const usableH = pageH - margin * 2;
+    const imgH = (canvas.height * usableW) / canvas.width;
+    const finalH = Math.min(imgH, usableH);
+    pdf.addImage(imgData, 'JPEG', margin, margin, usableW, finalH);
+
+    if (nomorEl) nomorEl.style.visibility = 'visible';
+
+    // Nomor halaman selalu di bawah
+    
+  }
+
+  document.body.classList.remove('mode-pdf');
+notif.textContent = '✓ PDF tersimpan!';
+  setTimeout(() => notif.classList.remove('tampil'), 2000);
+  pdf.save('makna-gandul.pdf');
+}
+
+    function bukaPindahBab(babId) {
+      pindahBabId = babId;
+      const sel = document.getElementById('pindahSelect');
+      sel.innerHTML = '';
+      const babEl = document.getElementById(babId);
+      const babHalamanId = babEl.closest('.halaman-input').id;
+      document.querySelectorAll('.halaman-input').forEach((hal, idx) => {
+        if (hal.id === babHalamanId) return;
+        const opt = document.createElement('option');
+        opt.value = hal.id;
+        opt.textContent = `Halaman ${idx+1}`;
+        sel.appendChild(opt);
+      });
+      if (!sel.options.length) {
+        alert('Tidak ada halaman lain. Tambah halaman baru terlebih dahulu.');
+        pindahBabId = null;
+        return;
+      }
+      document.getElementById('modalOverlay').style.display = 'block';
+      document.getElementById('modalPindah').style.display = 'block';
+    }
+
+    function tutupModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+      document.getElementById('modalPindah').style.display = 'none';
+      pindahBabId = null;
+    }
+
+    function konfirmasiPindah() {
+      if (!pindahBabId) return;
+      const tujuanHalamanId = document.getElementById('pindahSelect').value;
+      const tujuanContainer = document.getElementById('containerBab-' + tujuanHalamanId.replace('halaman-', ''));
+      const babEl = document.getElementById(pindahBabId);
+      if (tujuanContainer && babEl) tujuanContainer.appendChild(babEl);
+      tutupModal();
+    }
+
+    function pecahBab(kataId) {
+      const tr = document.getElementById(kataId);
+      const tbody = tr.closest('tbody');
+      const babEl = tbody.closest('.bab-input');
+      const halamanEl = babEl.closest('.halaman-input');
+      const rows = [...tbody.querySelectorAll('tr')];
+      const idx = rows.indexOf(tr);
+      const pindahan = rows.slice(idx);
+      // Buat halaman baru dan sisipkan setelah halaman sekarang
+      tambahHalaman();
+      const semuaHalaman = document.querySelectorAll('.halaman-input');
+      const halamanBaruEl = semuaHalaman[semuaHalaman.length - 1];
+      halamanEl.insertAdjacentElement('afterend', halamanBaruEl);
+      // Ambil bab pertama di halaman baru, pindahkan baris ke sana
+      setTimeout(() => {
+        const tbodyTarget = halamanBaruEl.querySelector('tbody');
+        tbodyTarget.innerHTML = '';
+        pindahan.forEach(r => tbodyTarget.appendChild(r));
+      }, 500);
+    }
+
+    function gabungBab(babId) {
+      const babEl = document.getElementById(babId);
+      if (!babEl) return;
+      const babBerikut = babEl.nextElementSibling;
+      if (!babBerikut || !babBerikut.classList.contains('bab-input')) {
+        alert('Tidak ada bab berikutnya untuk digabung.');
+        return;
+      }
+      if (!confirm('Gabungkan bab ini dengan bab berikutnya?')) return;
+      const tbodyIni = babEl.querySelector('tbody');
+      const tbodyBerikut = babBerikut.querySelector('tbody');
+      if (!tbodyIni || !tbodyBerikut) return;
+      [...tbodyBerikut.querySelectorAll('tr')].forEach(tr => tbodyIni.appendChild(tr));
+      babBerikut.remove();
+    }
+
+    function getAllFloatBtns() {
+      return document.querySelectorAll('.btn-float');
+    }
+
+    function tampilkanFloat() {
+      getAllFloatBtns().forEach(b => b.classList.add('tampil'));
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        getAllFloatBtns().forEach(b => b.classList.remove('tampil'));
+        tutupFloatDropdown();
+      }, 7000);
+    }
+    const halamanObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          halamanAktifId = entry.target.id;
+        }
+      });
+    }, {
+      threshold: 0
+    });
+
+    function observeHalaman() {
+      document.querySelectorAll('.halaman-input').forEach(hal => {
+        halamanObserver.observe(hal);
+      });
+    }
+    document.getElementById('btnNaikHalaman').onclick = () => {
+      if (!halamanAktifId) return;
+      naikHalaman(halamanAktifId);
+      tampilkanFloat();
+    };
+    document.getElementById('btnTurunHalaman').onclick = () => {
+      if (!halamanAktifId) return;
+      turunHalaman(halamanAktifId);
+      tampilkanFloat();
+    };
+
+    window.addEventListener('scroll', tampilkanFloat);
+    document.addEventListener('touchstart', tampilkanFloat);
+    document.addEventListener('mousemove', tampilkanFloat);
+
+    function toggleFloatDropdown(id) {
+      const m = document.getElementById(id),
+        a = m.classList.contains('aktif');
+      tutupFloatDropdown();
+      if (!a) {
+        m.classList.add('aktif');
+        tampilkanFloat();
+      }
+    }
+
+    function tutupFloatDropdown() {
+      document.querySelectorAll('.float-dropdown-menu').forEach(m => m.classList.remove('aktif'));
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.float-dropdown')) tutupFloatDropdown();
+      if (!e.target.closest('.dropdown')) tutupDropdown();
+    });
+
+    function updateNavInput() {
+  const list = document.getElementById('listNavInput');
+  const hals = document.querySelectorAll('.halaman-input');
+  const total = hals.length;
+  if (!total) {
+    list.innerHTML = '<div class="float-drop-item" style="color:#aaa;cursor:default;">Belum ada halaman</div>';
+    return;
+  }
+  list.innerHTML = `
+    <div style="padding:10px 14px;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:11px;color:#a07840;white-space:nowrap;">Hlm.</span>
+      <input id="gotoInputHal" type="number" min="1" max="${total}" placeholder="1–${total}"
+        style="width:60px;padding:4px 6px;border:1px solid #c9a84c;border-radius:4px;font-family:Georgia,serif;font-size:13px;outline:none;" />
+      <button onclick="gotoHalamanInput()"
+        style="padding:4px 10px;background:#7a5a20;color:#fffdf7;border:none;border-radius:4px;font-family:Georgia,serif;font-size:12px;cursor:pointer;">Go</button>
+    </div>
+    <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${total} halaman</div>
+  `;
+  setTimeout(() => {
+    const inp = document.getElementById('gotoInputHal');
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') gotoHalamanInput(); });
+  }, 50);
+}
+
+function gotoHalamanInput() {
+  const hals = document.querySelectorAll('.halaman-input');
+  const n = parseInt(document.getElementById('gotoInputHal')?.value);
+  if (isNaN(n) || n < 1 || n > hals.length) {
+    alert(`Masukkan angka antara 1 sampai ${hals.length}.`);
+    return;
+  }
+  hals[n - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  tutupFloatDropdown();
+  tampilkanFloat();
+}
+
+    function updateNavHasil(navList) {
+  const list = document.getElementById('listNavHasil');
+  const total = navList ? navList.length : 0;
+  if (!total) {
+    list.innerHTML = '<div class="float-drop-item" style="color:#aaa;cursor:default;">Belum ada hasil</div>';
+    return;
+  }
+  list.innerHTML = `
+    <div style="padding:10px 14px;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:11px;color:#a07840;white-space:nowrap;">Hlm.</span>
+      <input id="gotoInputHasil" type="number" min="1" max="${total}" placeholder="1–${total}"
+        style="width:60px;padding:4px 6px;border:1px solid #c9a84c;border-radius:4px;font-family:Georgia,serif;font-size:13px;outline:none;" />
+      <button onclick="gotoHalamanHasil()"
+        style="padding:4px 10px;background:#7a5a20;color:#fffdf7;border:none;border-radius:4px;font-family:Georgia,serif;font-size:12px;cursor:pointer;">Go</button>
+    </div>
+    <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${total} halaman</div>
+  `;
+  list._navList = navList;
+  setTimeout(() => {
+    const inp = document.getElementById('gotoInputHasil');
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') gotoHalamanHasil(); });
+  }, 50);
+}
+
+function gotoHalamanHasil() {
+  const list = document.getElementById('listNavHasil');
+  const navList = list._navList || [];
+  const n = parseInt(document.getElementById('gotoInputHasil')?.value);
+  if (isNaN(n) || n < 1 || n > navList.length) {
+    alert(`Masukkan angka antara 1 sampai ${navList.length}.`);
+    return;
+  }
+  document.getElementById(navList[n - 1].id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  tutupFloatDropdown();
+  tampilkanFloat();
+}
+    const observer = new MutationObserver(() => updateNavInput());
+    observer.observe(document.getElementById('containerHalaman'), {
+      childList: true,
+      subtree: true
+    });
+
+    function toggleDropdown(id) {
+      tutupDropdown();
+      document.getElementById(id).classList.toggle('tampil');
+    }
+
+    function tutupDropdown() {
+      document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('tampil'));
+    }
+
+    function setHarakat(mode) {
+      modeHarakat = mode;
+      ['Lengkap', 'Irab', 'Tanpa'].forEach(m => document.getElementById('tog' + m).classList.remove('aktif'));
+      document.getElementById('tog' + mode[0].toUpperCase() + mode.slice(1)).classList.add('aktif');
+      document.querySelectorAll('.arab[data-asli]').forEach(el => el.textContent = prosesHarakat(el.dataset.asli));
+    }
+
+    function prosesHarakat(teks) {
+      if (modeHarakat === 'lengkap') return teks;
+      if (modeHarakat === 'tanpa') return teks.replace(HARAKAT_SEMUA, '');
+      if (modeHarakat === 'irab') {
+        return teks.split(' ').map(k => {
+          const b = k.replace(HARAKAT_SEMUA, '');
+          const h = k.match(/[\u064B-\u065F](?=[^\u064B-\u065F\u0600-\u06FF]|$)/);
+          return h ? b + h[0] : b;
+        }).join(' ');
+      }
+      return teks;
+    }
+
+    function togglePegon() {
+      pegonTersembunyi = !pegonTersembunyi;
+      const teks = pegonTersembunyi ? 'Tampilkan Pegon' : 'Sembunyikan Pegon';
+      const btn = document.getElementById('togPegon');
+      if (btn) { btn.textContent = teks; btn.classList.toggle('aktif', pegonTersembunyi); }
+      const btnF = document.getElementById('togPegonFloat');
+      if (btnF) btnF.textContent = teks;
+      document.querySelectorAll('.pegon.indo').forEach(el => {
+        el.classList.toggle('tersembunyi', pegonTersembunyi || modeBahasa !== 'indo');
+      });
+      document.querySelectorAll('.pegon.jawa').forEach(el => {
+        el.classList.toggle('tersembunyi', pegonTersembunyi || modeBahasa !== 'jawa');
+      });
+    }
+
+    function toggleKode() {
+      kodeTersembunyi = !kodeTersembunyi;
+      document.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir').forEach(el => {
+        el.style.visibility = kodeTersembunyi ? 'hidden' : 'visible';
+      });
+      const btn = document.getElementById('togKode');
+      btn.textContent = kodeTersembunyi ? 'Tampilkan Kode' : 'Sembunyikan Kode';
+      btn.classList.toggle('aktif', kodeTersembunyi);
+    }
+
+    function toggleBahasa() {
+      modeBahasa = modeBahasa === 'indo' ? 'jawa' : 'indo';
+      const teks = modeBahasa === 'indo' ? 'Pegon Jawa' : 'Pegon Indonesia';
+      const btn = document.getElementById('togBahasa');
+      if (btn) { btn.textContent = teks; btn.classList.toggle('aktif', modeBahasa === 'jawa'); }
+      const btnF = document.getElementById('togBahasaFloat');
+      if (btnF) btnF.textContent = teks;
+      document.querySelectorAll('.pegon.indo').forEach(el => {
+        el.classList.toggle('tersembunyi', modeBahasa !== 'indo' || pegonTersembunyi);
+      });
+      document.querySelectorAll('.pegon.jawa').forEach(el => {
+        el.classList.toggle('tersembunyi', modeBahasa !== 'jawa' || pegonTersembunyi);
+      });
+    }
+
+  function tambahHalaman(babList = [], nahwu = '', terjemahan = {}, overridePegon = '', overrideBaris = '', overrideNomHlm = 0, overrideColGap = '', lebarKolom = {}, overridePegonJawa = '') {
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+      <span class="halaman-label">📄 Halaman ${id+1}</span>
+      <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+    </div>
+    <div class="halaman-body">
+      <div id="containerBab-${id}"></div>
+      <button class="btn-tambah-bab" onclick="tambahBab(${id})">+ Tambah Bab</button>
+      <button class="btn-tambah-bab" style="background:#8b6914;" onclick="tambahBabSyiir(${id})">🎵 Bab Syi'ir</button>
+      <div class="nahwu-input-wrap">
+        <label>Catatan Nahwu — Halaman ${id+1}</label>
+        <textarea class="nahwu-input" placeholder="Catatan nahwu untuk halaman ini...">${nahwu}</textarea>
+      </div>
+      <div class="terjemahan-input-wrap" id="terjWrap-${id}">
+        <div class="terj-header" onclick="toggleTerj(${id})" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
+          <span class="terj-toggle-icon" id="terjIcon-${id}">▶</span>
+          <label style="cursor:pointer;margin:0;">Terjemahan Ayat — Halaman ${id+1}</label>
+        </div>
+        <div class="terj-body" id="terjBody-${id}" style="display:none;">
+          <button class="btn-muat-ayat" onclick="muatNomorAyat(${id})">⟳ Muat Nomor Ayat</button>
+          <div class="terjemahan-fields" id="terjFields-${id}"></div>
+        </div>
+ </div>
+ <div class="field-override-pegon">
+  <label>Override Pegon Indo (contoh: فقير:0.8)</label>
+  <input type="text" class="input-override-pegon input-override-pegon-indo" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegon||''}" oninput="simpan()">
+</div>
+<div class="field-override-pegon" style="margin-top:6px;">
+  <label>Override Pegon Jawa (contoh: فقير:0.8)</label>
+  <input type="text" class="input-override-pegon input-override-pegon-jawa" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegonJawa||''}" oninput="simpan()">
+</div>
+<div class="field-override-pegon" style="margin-top:6px;">
+  <label>Override Jarak Baris (contoh: 1:30, 3:10)</label>
+  <input type="text" class="input-override-baris" placeholder="nomorBaris:rowGap(px), ..." value="${overrideBaris||''}" oninput="simpan()">
+</div>
+<div class="field-override-pegon" style="margin-top:6px;">
+  <label>Override Posisi Nomor Halaman (px, bisa negatif)</label>
+  <input type="number" class="input-override-nomhlm" placeholder="0" value="${overrideNomHlm||0}" oninput="simpan()">
+</div>
+<div class="field-override-pegon" style="margin-top:6px;">
+  <label>Override Column Gap (contoh: 1:8, 2:4)</label>
+  <input type="text" class="input-override-colgap" placeholder="nomorBaris:gap(px), ..." value="${overrideColGap||''}" oninput="simpan()">
+</div>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  if (babList.length) babList.forEach(b => {
+    if (b.tipe === 'syiir') tambahBabSyiir(id, b);
+    else tambahBab(id, b.namaBab, b.kataList, b.babJudulIndo || '', b.babJudulJawa || '', b.babNomor || '');
+  });
+  else tambahBab(id);
+  // Isi terjemahan jika ada (dari import JSON)
+  if (Object.keys(terjemahan).length) {
+    setTimeout(() => isiTerjemahanFields(id, terjemahan), 300);
+  }
+   const lebarAwal = Object.keys(lebarKolom).length ? lebarKolom : lebarKolomDefault;
+  if (Object.keys(lebarAwal).length) {
+    div.dataset.lebarKolom = JSON.stringify(lebarAwal);
+    setTimeout(() => terapkanLebarKolom(div), 100);
+  }
+    
+  halamanObserver.observe(div);
+  updateNavInput();
+}
+    
+    function muatNomorAyat(halamanId) {
+  const hal = document.getElementById('halaman-' + halamanId);
+  const fieldsEl = document.getElementById('terjFields-' + halamanId);
+  if (!hal || !fieldsEl) return;
+
+  // Kumpulkan semua nomor ayat unik di halaman ini
+  const nomorSet = new Set();
+  hal.querySelectorAll('.nom-input').forEach(inp => {
+    const val = inp.value.trim();
+    if (val) nomorSet.add(val);
+  });
+
+  if (!nomorSet.size) {
+    fieldsEl.innerHTML = '<div style="font-size:12px;color:#a07840;padding:6px 0;">Belum ada nomor ayat di halaman ini.</div>';
+    return;
+  }
+
+  fieldsEl.innerHTML = '';
+  nomorSet.forEach(nomor => {
+    const existing = terjemahanData[nomor] || {};
+    fieldsEl.innerHTML += `
+      <div class="terj-item" data-nomor="${nomor}">
+        <div class="terj-nomor">Ayat ${nomor}</div>
+        <textarea class="terj-indo" placeholder="Terjemah Indonesia...">${existing.indo || ''}</textarea>
+        <textarea class="terj-en" placeholder="English translation...">${existing.en || ''}</textarea>
+      </div>
+    `;
+  });
+
+  // Simpan otomatis saat diketik
+  fieldsEl.querySelectorAll('.terj-item').forEach(item => {
+    const nomor = item.dataset.nomor;
+    item.querySelector('.terj-indo').addEventListener('input', e => {
+      if (!terjemahanData[nomor]) terjemahanData[nomor] = {};
+      terjemahanData[nomor].indo = e.target.value;
+    });
+    item.querySelector('.terj-en').addEventListener('input', e => {
+      if (!terjemahanData[nomor]) terjemahanData[nomor] = {};
+      terjemahanData[nomor].en = e.target.value;
+    });
+  });
+}
+
+function isiTerjemahanFields(halamanId, terjemahan) {
+  Object.assign(terjemahanData, terjemahan);
+  muatNomorAyat(halamanId);
+}
+
+    function tambahHalamanJudul(data = {}) {
+      const id = halamanCounter++;
+      const div = document.createElement('div');
+      div.className = 'halaman-input halaman-judul';
+      div.id = 'halaman-' + id;
+      div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">📄 Halaman ${id+1}</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <div class="judul-besar-grid">
+        <input class="judul-besar-arab" type="text" placeholder="عنوان الفصل الكبير" value="${data.arab||''}" style="direction:rtl;font-size:20px;width:100%;" />
+        <input class="judul-besar-indo" type="text" placeholder="Terjemah Indonesia..." value="${data.indo||''}" style="width:100%;" />
+        <input class="judul-besar-jawa" type="text" placeholder="Terjemah Jawa..." value="${data.jawa||''}" style="width:100%;" />
+        <input class="judul-besar-sub" type="text" placeholder="Keterangan tambahan (opsional)..." value="${data.sub||''}" style="width:100%;" />
+      </div>
+    </div>
+  `;
+      document.getElementById('containerHalaman').appendChild(div);
+      halamanObserver.observe(div);
+      updateNavInput();
+    }
+    document.getElementById('btnNaikHalaman').onclick = () => {
+      bukaModalPindahHalaman();
+      tampilkanFloat();
+    };
+    document.getElementById('btnTurunHalaman').onclick = () => {
+      bukaModalPindahHalaman();
+      tampilkanFloat();
+    };
+    function tambahHalamanGambar(data = {}) {
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-gambar';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">🖼️ Halaman ${id+1} (Gambar)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <input type="file" accept="image/*" class="input-gambar-halaman" onchange="bacaGambarHalaman(this, 'halaman-${id}')" style="width:100%;" />
+      <input type="hidden" class="data-gambar-halaman" value="${data.base64||''}" />
+      <div class="preview-gambar-halaman" style="margin-top:8px;text-align:center;">
+        ${data.base64?`<img src="${data.base64}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`:''}
+      </div>
+      <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Atas Gambar (opsional)</label>
+      <textarea class="teks-atas-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksAtas||''}</textarea>
+      <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Bawah Gambar (opsional)</label>
+      <textarea class="teks-bawah-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksBawah||''}</textarea>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+}
+
+function bacaGambarHalaman(input, halId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const hal = document.getElementById(halId);
+    hal.querySelector('.data-gambar-halaman').value = e.target.result;
+    hal.querySelector('.preview-gambar-halaman').innerHTML =
+      `<img src="${e.target.result}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+    function bukaModalPindahHalaman() {
+      const semua = [...document.querySelectorAll('.halaman-input')];
+      const posAktif = halamanAktifId ? semua.findIndex(h => h.id === halamanAktifId) + 1 : 0;
+      document.getElementById('labelHalamanAktif').textContent = posAktif ? `Halaman ${posAktif}` : 'Tidak terdeteksi';
+      document.getElementById('inputKe').value = '';
+      document.getElementById('modalPindahHalaman').style.display = 'block';
+      document.getElementById('modalBoxPindahHalaman').style.display = 'block';
+    }
+
+    function tutupFloatDropdown() {
+      document.querySelectorAll('.float-dropdown-menu').forEach(m => m.classList.remove('aktif'));
+    }
+
+    function tutupModalPindahHalaman() {
+      document.getElementById('modalPindahHalaman').style.display = 'none';
+      document.getElementById('modalBoxPindahHalaman').style.display = 'none';
+    }
+
+    function konfirmasiPindahHalaman() {
+      const semua = [...document.querySelectorAll('.halaman-input')];
+      const total = semua.length;
+      const posAktif = halamanAktifId ? semua.findIndex(h => h.id === halamanAktifId) : -1;
+      const ke = parseInt(document.getElementById('inputKe').value) - 1;
+      if (posAktif === -1) {
+        alert('Halaman aktif tidak terdeteksi. Scroll ke halaman dulu.');
+        return;
+      }
+      if (isNaN(ke) || ke < 0 || ke >= total) {
+        alert(`Masukkan angka antara 1 sampai ${total}.`);
+        return;
+      }
+      if (ke === posAktif) {
+        tutupModalPindahHalaman();
+        return;
+      }
+      const container = document.getElementById('containerHalaman');
+      const elPindah = semua[posAktif];
+      const elTarget = semua[ke];
+      if (ke < posAktif) {
+        container.insertBefore(elPindah, elTarget);
+      } else {
+        container.insertBefore(elPindah, elTarget.nextSibling);
+      }
+      updateNavInput();
+      tutupModalPindahHalaman();
+    }
+
+    function hapusHalaman(id) {
+      if (confirm('Yakin ingin menghapus halaman ini beserta semua isinya?')) {
+        document.getElementById(id)?.remove();
+        updateNavInput();
+      }
+    }
+
+    function tambahBab(halamanId, namaBab = '', kataList = [], babJudulIndo = '', babJudulJawa = '', babNomor = '') {
+      const id = babCounter++;
+      const container = document.getElementById('containerBab-' + halamanId);
+      if (!container) return;
+      const div = document.createElement('div');
+      div.className = 'bab-input';
+      div.id = 'bab-' + id;
+      div.innerHTML = `
+  <div class="bab-header">
+    <span class="bab-label">Bab</span>
+    <div class="bab-aksi">
+  <button class="btn-gabung-bab" onclick="gabungBab('bab-${id}')">⊕ Gabung</button>
+  <button class="btn-pindah-bab" onclick="bukaPindahBab('bab-${id}')">⇄ Pindah</button>
+  <button class="btn-hapus-bab"  onclick="hapusBab('bab-${id}')">Hapus Bab</button>
+  </div>
+  <div class="bab-judul-grid">
+    <input class="bab-nama-input" type="text" placeholder="عنوان الباب بالعربية" value="${namaBab}" style="direction:rtl;font-size:18px;" />
+    <input class="bab-judul-indo" type="text" placeholder="Terjemah Indonesia..." value="${babJudulIndo||''}" />
+    <input class="bab-judul-jawa" type="text" placeholder="Terjemah Jawa..." value="${babJudulJawa||''}" />
+    <input class="bab-judul-nomor" type="text" placeholder="١" value="${babNomor||''}" style="direction:rtl;width:60px;" />
+  </div>
+  <table>
+    <thead><tr>
+  <th class="col-kode th-resizable" id="th-kode-${id}">Kode<span class="kode-hint">م · ١ · [١]</span><div class="col-resize-handle" onmousedown="mulaiResize(event,'kode',${id})" ontouchstart="mulaiResize(event,'kode',${id})"></div></th>
+  <th class="col-arab th-resizable" id="th-arab-${id}">Kata Arab<div class="col-resize-handle" onmousedown="mulaiResize(event,'arab',${id})" ontouchstart="mulaiResize(event,'arab',${id})"></div></th>
+  <th class="col-indo th-resizable" id="th-indo-${id}">Pegon Indonesia<button class="toggle-pegon-kolom" onclick="toggleKolomPegon(${id})">⇄ Jawa</button><div class="col-resize-handle" onmousedown="mulaiResize(event,'indo',${id})" ontouchstart="mulaiResize(event,'indo',${id})"></div></th>
+  <th class="col-jawa th-resizable" id="th-jawa-${id}" style="display:none;">Pegon Jawa<button class="toggle-pegon-kolom" onclick="toggleKolomPegon(${id})">⇄ Indo</button><div class="col-resize-handle" onmousedown="mulaiResize(event,'jawa',${id})" ontouchstart="mulaiResize(event,'jawa',${id})"></div></th>
+  <th class="col-nom th-resizable" id="th-nom-${id}">No. Ayat<div class="col-resize-handle" onmousedown="mulaiResize(event,'nom',${id})" ontouchstart="mulaiResize(event,'nom',${id})" ></div></th>
+  <th class="col-hapus"></th>
+</tr></thead>
+    <tbody id="tbody-${id}"></tbody>
+  </table>
+  <button class="btn-tambah-kata" onclick="tambahKata(${id})">+ Tambah Kata</button>
+`;
+      container.appendChild(div);
+      if (kataList && kataList.length) kataList.forEach(d => tambahKata(id, d.arab, d.maknaIndo || d.makna || '', d.maknaJawa || '', d.kode || '', d.nomor || '', d.krKanan || false, d.geserPegon || ''));
+      else tambahKata(id);
+    }
+
+    function hapusBab(id) {
+      if (confirm('Yakin ingin menghapus bab ini beserta semua katanya?'))
+        document.getElementById(id)?.remove();
+    }
+
+    function tambahKata(babId, arab = '', maknaIndo = '', maknaJawa = '', kode = '', nomor = '', krKanan = false, geserPegon = '') {
+      const tbody = document.getElementById('tbody-' + babId);
+      if (!tbody) return;
+      const id = kataCounter++;
+      const tr = document.createElement('tr');
+      tr.id = 'kata-' + id;
+      tr.innerHTML = `
+      <td class="col-kode"><input class="kode-input" type="text" placeholder="م · ١ · [١]" value="${kode}" /><label style="font-size:9px;color:#a07840;display:block;margin-top:2px;white-space:nowrap;"><input type="checkbox" class="kr-kanan-cb" ${krKanan?'checked':''} style="width:12px;height:12px;"> KR→kanan</label><input class="geser-pegon-input" type="number" placeholder="Geser px" value="${geserPegon||''}" title="Geser Pegon (px): positif=kiri, negatif=kanan" style="width:54px;font-size:9px;margin-top:2px;border:1px solid #d4b87a;border-radius:3px;padding:1px 3px;color:#7a5a20;" /></td>
+      <td><input class="arab-input" type="text" placeholder="كَلِمَة" value="${arab}" /></td>
+      <td class="col-indo td-indo-${babId}"><input class="makna-indo" type="text" placeholder="artinya..." value="${maknaIndo}" /></td>
+<td class="col-jawa td-jawa-${babId}" style="display:none;"><input class="makna-jawa" type="text" placeholder="tegese..." value="${maknaJawa}" /></td>
+      <td class="col-nom"><input class="nom-input" type="text" placeholder="١" value="${nomor}" /></td>
+      <td class="col-hapus">
+      <button onclick="pecahBab('kata-${id}')">✂</button>
+      <button onclick="hapusKata('kata-${id}')">✕</button>
+</td>
+    `;
+      tbody.appendChild(tr);
+    }
+    
+    function toggleKolomPegon(babId) {
+  const thIndo = document.getElementById('th-indo-' + babId);
+  const thJawa = document.getElementById('th-jawa-' + babId);
+  const tdIndo = document.querySelectorAll('.td-indo-' + babId);
+  const tdJawa = document.querySelectorAll('.td-jawa-' + babId);
+
+  const indoTampil = thIndo.style.display !== 'none';
+  thIndo.style.display = indoTampil ? 'none' : '';
+  thJawa.style.display = indoTampil ? '' : 'none';
+  tdIndo.forEach(td => td.style.display = indoTampil ? 'none' : '');
+  tdJawa.forEach(td => td.style.display = indoTampil ? '' : 'none');
+}
+
+    let resizeState = null;
+
+function mulaiResize(e, kolom, babId) {
+  e.preventDefault();
+  const th = document.getElementById('th-' + kolom + '-' + babId);
+  const startX = e.touches ? e.touches[0].clientX : e.clientX;
+  const startW = th.offsetWidth;
+  resizeState = { kolom, babId, startX, startW, th };
+
+  document.addEventListener('mousemove', gerakResize);
+  document.addEventListener('mouseup', selesaiResize);
+  document.addEventListener('touchmove', gerakResize, { passive: false });
+  document.addEventListener('touchend', selesaiResize);
+}
+
+function gerakResize(e) {
+  if (!resizeState) return;
+  e.preventDefault();
+  const { th, startX, startW } = resizeState;
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const delta = x - startX;
+  const newW = Math.max(30, startW + delta);
+  th.style.width = newW + 'px';
+}
+
+function selesaiResize() {
+  if (!resizeState) return;
+  const { kolom, babId } = resizeState;
+  const th = document.getElementById('th-' + kolom + '-' + babId);
+
+  const babEl = document.getElementById('bab-' + babId);
+  if (!babEl) { resizeState = null; return; }
+  const halEl = babEl.closest('.halaman-input');
+  if (!halEl) { resizeState = null; return; }
+
+  if (!halEl.dataset.lebarKolom) halEl.dataset.lebarKolom = '{}';
+  const lebarMap = JSON.parse(halEl.dataset.lebarKolom);
+  lebarMap[kolom] = th.offsetWidth;
+  halEl.dataset.lebarKolom = JSON.stringify(lebarMap);
+
+  terapkanLebarKolom(halEl);
+  lebarKolomDefault = JSON.parse(halEl.dataset.lebarKolom);
+  simpan();
+  document.removeEventListener('mousemove', gerakResize);
+  document.removeEventListener('mouseup', selesaiResize);
+  document.removeEventListener('touchmove', gerakResize);
+  document.removeEventListener('touchend', selesaiResize);
+  resizeState = null;
+}
+
+function terapkanLebarKolom(halEl) {
+  if (!halEl.dataset.lebarKolom) return;
+  const lebarMap = JSON.parse(halEl.dataset.lebarKolom);
+  halEl.querySelectorAll('.bab-input').forEach(bab => {
+    const babId = bab.id.replace('bab-', '');
+    Object.entries(lebarMap).forEach(([kolom, lebar]) => {
+      const th = document.getElementById('th-' + kolom + '-' + babId);
+      if (th) th.style.width = lebar + 'px';
+    });
+  });
+}
+    
+    function samakanLebarKolomSemua() {
+  const semua = document.querySelectorAll('.halaman-input');
+  if (!semua.length) return;
+
+  // Ambil lebar dari halaman pertama
+  let halPertama = null;
+  for (const hal of semua) {
+    if (hal.dataset.lebarKolom) { halPertama = hal; break; }
+  }
+  if (!halPertama) {
+    alert('Belum ada halaman yang diatur lebarnya. Geser kolom di salah satu halaman dulu.');
+    return;
+  }
+  const lebarMap = JSON.parse(halPertama.dataset.lebarKolom);
+  // Terapkan ke semua halaman
+  semua.forEach(hal => {
+    hal.dataset.lebarKolom = JSON.stringify(lebarMap);
+    terapkanLebarKolom(hal);
+  });
+
+  // Jadikan default untuk halaman baru
+  lebarKolomDefault = lebarMap;
+
+  simpan();
+  alert('Lebar kolom semua halaman sudah disamakan.');
+}
+    
+    /* ===== BAB SYI'IR ===== */
+    function tambahBabSyiir(halamanId, data = {}) {
+      const id = babCounter++;
+      const container = document.getElementById('containerBab-' + halamanId);
+      if (!container) return;
+      const model = data.model || 'A';
+      const div = document.createElement('div');
+      div.className = 'syiir-input';
+      div.id = 'syiir-' + id;
+      div.dataset.tipe = 'syiir';
+      div.innerHTML = `
+        <div class="syiir-header">
+          <span class="syiir-label">🎵 Syi'ir</span>
+          <select class="syiir-model-select" onchange="simpan()">
+            <option value="A"${model==='A'?' selected':''}>Model A – dua shatr berdampingan</option>
+            <option value="B"${model==='B'?' selected':''}>Model B – shatr tsani menjorok</option>
+          </select>
+          <button class="btn-hapus-syiir" onclick="hapusBabSyiir('syiir-${id}')">Hapus Syi'ir</button>
+        </div>
+        <div class="syiir-bait-list" id="baitList-${id}"></div>
+        <button class="btn-tambah-bait-syiir" onclick="tambahBaitSyiir(${id})">+ Tambah Bait</button>
+      `;
+      container.appendChild(div);
+      const baitList = data.baitList || [];
+      if (baitList.length) {
+        baitList.forEach(b => tambahBaitSyiir(id, b));
+      } else {
+        tambahBaitSyiir(id);
+      }
+    }
+
+    function tambahBaitSyiir(syiirId, data = {}) {
+      const container = document.getElementById('baitList-' + syiirId);
+      if (!container) return;
+      const id = babCounter++;
+      const div = document.createElement('div');
+      div.className = 'syiir-bait';
+      div.id = 'bait-' + id;
+      div.innerHTML = `
+        <div class="syiir-bait-header">
+          <span>Bait</span>
+          <button class="btn-hapus-bait" onclick="hapusBaitSyiir('bait-${id}')">✕</button>
+        </div>
+        <div class="syiir-shatr" id="shatrAwwal-${id}">
+          <div class="syiir-shatr-label">Shatr Awwal</div>
+          <div class="syiir-kata-list" id="kataAwwal-${id}"></div>
+          <button class="btn-tambah-kata-syiir" onclick="tambahKataSyiir(${id},'awwal')">+ Kata</button>
+        </div>
+        <div class="syiir-shatr" id="shatrTsani-${id}">
+          <div class="syiir-shatr-label">Shatr Tsani</div>
+          <div class="syiir-kata-list" id="kataTsani-${id}"></div>
+          <button class="btn-tambah-kata-syiir" onclick="tambahKataSyiir(${id},'tsani')">+ Kata</button>
+        </div>
+      `;
+      container.appendChild(div);
+      const awwalList = data.awwal || [];
+      const tsaniList = data.tsani || [];
+      if (awwalList.length) awwalList.forEach(k => tambahKataSyiir(id, 'awwal', k));
+      else tambahKataSyiir(id, 'awwal');
+      if (tsaniList.length) tsaniList.forEach(k => tambahKataSyiir(id, 'tsani', k));
+      else tambahKataSyiir(id, 'tsani');
+    }
+
+    function tambahKataSyiir(baitId, shatr, data = {}) {
+      const container = document.getElementById('kata' + (shatr === 'awwal' ? 'Awwal' : 'Tsani') + '-' + baitId);
+      if (!container) return;
+      const id = kataCounter++;
+      const item = document.createElement('div');
+      item.className = 'syiir-kata-item';
+      item.id = 'skata-' + id;
+      item.innerHTML = `
+        <input class="s-kode" type="text" placeholder="كode" value="${data.kode||''}" oninput="simpan()" style="font-size:10px;width:60px;border:none;background:transparent;text-align:center;color:#7a5a20;" />
+        <input class="s-arab" type="text" placeholder="كَلِمَةٌ" value="${data.arab||''}" oninput="simpan()" />
+        <input class="s-indo" type="text" placeholder="makna indo" value="${data.maknaIndo||''}" oninput="simpan()" />
+        <input class="s-jawa" type="text" placeholder="makna jawa" value="${data.maknaJawa||''}" oninput="simpan()" />
+        <input class="s-geser" type="number" placeholder="±px" value="${data.geserPegon||''}" oninput="simpan()" title="Geser Pegon (px)" style="width:40px;font-size:9px;border:1px solid #d4b87a;border-radius:3px;padding:1px 2px;text-align:center;color:#7a5a20;" />
+        <button style="font-size:9px;border:none;background:transparent;color:#c0392b;cursor:pointer;" onclick="document.getElementById('skata-${id}').remove();simpan()">✕</button>
+      `;
+      container.appendChild(item);
+    }
+
+    function hapusBabSyiir(id) {
+      if (confirm('Hapus syi\'ir ini?')) document.getElementById(id)?.remove();
+    }
+    function hapusBaitSyiir(id) {
+      if (confirm('Hapus bait ini?')) document.getElementById(id)?.remove();
+    }
+
+    function hapusKata(id) {
+      if (confirm('Yakin ingin menghapus kata ini?'))
+        document.getElementById(id)?.remove();
+    }
+
+    function tampilkan(mode) {
+      if (!mode) mode = modeTampilTerakhir;
+      modeTampilTerakhir = mode;
+      try {
+      const hasilEl = document.getElementById('hasil');
+      hasilEl.classList.toggle('mode-html', mode === 'html');
+        document.body.classList.toggle('mode-html-aktif', mode === 'html');
+      const judulKitab = document.getElementById('judulKitab').value.trim();
+      const judulArab = document.getElementById('judulArab').value.trim();
+      const namaUstaz = document.getElementById('namaUstaz').value.trim();
+      const tahun = document.getElementById('tahunKitab').value.trim();
+      const edisi = document.getElementById('edisiKitab').value.trim();
+      const pengantar = document.getElementById('pengantarKitab').value.trim();
+      let html = '', navList = [];
+      let nomorHalIsi = 0;
+      if (judulKitab || judulArab) {
+        html += `<div class="cover-kitab">
+        ${judulArab?`<div class="judul-arab">${judulArab}</div>`:''}
+        ${judulKitab?`<div class="judul-indo">${judulKitab}</div>`:''}
+        <div class="hiasan">&#10087; &#10022; &#10087;</div>
+        ${namaUstaz?`<div class="penyusun">${namaUstaz}</div>`:''}
+        ${tahun||edisi?`<div class="sub-info">${[edisi,tahun].filter(Boolean).join(' · ')}</div>`:''}
+      </div>`;
+      }
+      let pengantarHtml = '';
+let pengantarNav = null;
+if (pengantar) {
+  nomorHalIsi++;
+  pengantarNav = {id: 'hasil-pengantar', nama: 'Pengantar'};
+  pengantarHtml = `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
+}
+      
+document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
+  if (hIdx === 1 && pengantarHtml) {
+    html += pengantarHtml;
+    navList.push(pengantarNav);
+    pengantarHtml = '';
+  }
+  const halId = hal.id.replace('halaman-', '');
+  const nomorHal = hIdx + 1;
+        const anchor = `hasil-halaman-${halId}`;
+
+  if (hal.classList.contains('halaman-gambar')) {
+          const gambar = hal.querySelector('.data-gambar-halaman')?.value || '';
+          const teksAtas = hal.querySelector('.teks-atas-gambar')?.value.trim() || '';
+          const teksBawah = hal.querySelector('.teks-bawah-gambar')?.value.trim() || '';
+          const adaTeks = teksAtas || teksBawah;
+          navList.push({
+            id: anchor,
+            nama: `Gambar: Halaman ${nomorHal}`
+          });
+          let nomorDivGambar = '';
+          if (hIdx !== 0) {
+            nomorHalIsi++;
+            nomorDivGambar = `<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+          }
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-gambar${adaTeks?' ada-teks':''}">
+        ${teksAtas?`<div class="teks-gambar-atas">${teksAtas}</div>`:''}
+        ${gambar?`<img src="${gambar}" alt="Gambar halaman">`:`<div class="placeholder-gambar">(Belum ada gambar)</div>`}
+        ${teksBawah?`<div class="teks-gambar-bawah">${teksBawah}</div>`:''}
+      </div>
+      ${nomorDivGambar}
+    </div>`;
+          return;
+        }
+        if (hal.classList.contains('halaman-judul')) {
+          const arab = hal.querySelector('.judul-besar-arab')?.value.trim() || '';
+          const indo = hal.querySelector('.judul-besar-indo')?.value.trim() || '';
+          const jawa = hal.querySelector('.judul-besar-jawa')?.value.trim() || '';
+          const sub = hal.querySelector('.judul-besar-sub')?.value.trim() || '';
+          navList.push({
+            id: anchor,
+            nama: `Judul: ${arab||indo||'—'}`
+          });
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-judul">
+        ${arab?`<div class="hasil-judul-besar-arab">${arab}</div>`:''}
+        ${indo?`<div class="hasil-judul-besar-indo">${indo}</div>`:''}
+        ${jawa?`<div class="hasil-judul-besar-jawa">${jawa}</div>`:''}
+        ${sub?`<div class="hasil-judul-besar-sub">${sub}</div>`:''}
+      </div>
+    </div>`;
+          return;
+        } else {
+        navList.push({id:anchor,nama:`Halaman ${nomorHal}`});
+        html+=`<div class="hasil-halaman" id="${anchor}">`;
+
+        hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab=>{
+          // ===== RENDER SYI'IR =====
+          if (bab.classList.contains('syiir-input')) {
+            const model = bab.querySelector('.syiir-model-select')?.value || 'A';
+            html += `<div class="hasil-syiir-blok">`;
+            bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
+              const baitId = baitEl.id.replace('bait-','');
+              const baitCls = `hasil-syiir-bait model-${model.toLowerCase()}`;
+              html += `<div class="${baitCls}">`;
+              // direction:rtl pada container — render Awwal dulu (tampil kanan), Tsani kemudian (tampil kiri)
+              const urutan = ['Awwal','Tsani'];
+              urutan.forEach((shatrNama, idx) => {
+                // Tambah separator dua garis di antara shatr (model A saja)
+                if (model === 'A' && idx === 1) {
+                  html += `<div class="syiir-separator"><span></span><span></span></div>`;
+                }
+                const kataContainer = baitEl.querySelector(`#kata${shatrNama}-${baitId}`);
+                if (!kataContainer) return;
+                const kataItems = kataContainer.querySelectorAll('.syiir-kata-item');
+                if (!kataItems.length) return;
+                const shatrCls = 'hasil-syiir-shatr' + (shatrNama==='Tsani' && model==='B' ? ' tsani':'');
+                html += `<div class="${shatrCls}">`;
+                kataItems.forEach(item => {
+                  const arab = item.querySelector('.s-arab')?.value || '';
+                  const kode = item.querySelector('.s-kode')?.value || '';
+                  const maknaIndo = item.querySelector('.s-indo')?.value || '';
+                  const maknaJawa = item.querySelector('.s-jawa')?.value || '';
+                  const geserPegon = item.querySelector('.s-geser')?.value || '';
+                  if (!arab) return;
+                  const arabTampil = prosesHarakat(arab);
+                  const showIndo = modeBahasa === 'indo';
+                  const hiddenCls = pegonTersembunyi ? ' tersembunyi' : '';
+                  const geser = geserPegon ? parseInt(geserPegon) : 0;
+                  const geserStyle = geser ? `style="margin-right:${geser}px;"` : '';
+                  const { gramatikal, targetRujukan, dhomirRujukan } = parseKode(kode);
+                  let kodeHtml = gramatikal.length === 0 ?
+                    `<div class="kode-kosong"></div>` :
+                    `<div class="kode-wrapper">${gramatikal.map(k => {
+                      if (!k) return '';
+                      if (k === '...') return `<div class="kode-gramatikal murojaah">...</div>`;
+                      const cls = DIUCAPKAN.includes(k) ? 'diucapkan' : 'tidakdiucapkan';
+                      return `<div class="kode-gramatikal ${cls}">${k}</div>`;
+                    }).join('')}</div>`;
+                  let rujukanRowHtml = '';
+                  if (targetRujukan !== null || dhomirRujukan !== null) {
+                    rujukanRowHtml = `<div class="rujukan-row">`;
+                    if (targetRujukan !== null) rujukanRowHtml += `<div class="rujukan-target">${targetRujukan}</div>`;
+                    if (dhomirRujukan !== null) rujukanRowHtml += `<div class="rujukan-dhamir">&#8594;${dhomirRujukan}</div>`;
+                    rujukanRowHtml += `</div>`;
+                  } else {
+                    rujukanRowHtml = `<div class="rujukan-kosong"></div>`;
+                  }
+                  html += `<div class="syiir-kata-blok">
+                    ${kodeHtml}
+                    <span class="arab" data-asli="${arab}">${arabTampil}</span>
+                    <div class="bawah-kata">
+                      ${rujukanRowHtml}
+                      <span class="pegon indo${hiddenCls}${showIndo?'':' tersembunyi'}" ${geserStyle} data-indo="${maknaIndo}" data-jawa="${maknaJawa}">${maknaIndo||maknaJawa}</span>
+                      <span class="pegon jawa${hiddenCls}${showIndo?' tersembunyi':''}" ${geserStyle} data-indo="${maknaIndo}" data-jawa="${maknaJawa}">${maknaJawa||maknaIndo}</span>
+                    </div>
+                  </div>`;
+                });
+                html += `</div>`;
+              });
+              html += `</div>`;
+            });
+            html += `</div>`;
+            return;
+          }
+          // ===== RENDER BAB BIASA =====
+          const babId=bab.id.replace('bab-','');
+          const namaBab=bab.querySelector('.bab-nama-input').value.trim();
+          const tbody=document.getElementById('tbody-'+babId);
+          if(!tbody)return;
+          const kataList=[];
+          tbody.querySelectorAll('tr').forEach(tr=>{
+            const kode=tr.querySelector('.kode-input').value.trim();
+            const arab=tr.querySelector('.arab-input').value.trim();
+            const maknaIndo=tr.querySelector('.makna-indo').value.trim();
+            const maknaJawa=tr.querySelector('.makna-jawa').value.trim();
+            const nomor=tr.querySelector('.nom-input').value.trim();
+            const krKanan=tr.querySelector('.kr-kanan-cb')?.checked||false;
+if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nomor,krKanan,geserPegon:tr.querySelector('.geser-pegon-input')?.value||''});        
+         });
+          html += `<div class="hasil-bab-section">`;
+          const judulIndo = bab.querySelector('.bab-judul-indo')?.value.trim() || '';
+          const judulJawa = bab.querySelector('.bab-judul-jawa')?.value.trim() || '';
+          const judulNomor = bab.querySelector('.bab-judul-nomor')?.value.trim() || '';
+          if (namaBab || judulNomor) {
+            html += `<div class="hasil-bab-judul">
+    ${judulNomor?`<div class="hasil-bab-judul-nomor">${judulNomor}</div>`:''}
+    <div class="hasil-bab-judul-teks">
+      ${namaBab?`<span class="hasil-bab-judul-arab">${namaBab}</span>`:''}
+      ${judulIndo?`<span class="hasil-bab-judul-indo">${judulIndo}</span>`:''}
+      ${judulJawa?`<span class="hasil-bab-judul-jawa">${judulJawa}</span>`:''}
+    </div>
+  </div>`;
+          }
+          if(!kataList.length){html+=`</div></div>`; return; }
+          html += `<div class="hasil-aliran">`;
+          kataList.forEach((item, index) => {
+            const {
+              gramatikal,
+              targetRujukan,
+              dhomirRujukan
+            } = parseKode(item.kode);
+            let kodeHtml = gramatikal.length === 0 ?
+              `<div class="kode-kosong"></div>` :
+              `<div class="kode-wrapper">${gramatikal.map(k=>{
+                if(!k)return'';
+                if(k==='...')return`<div class="kode-gramatikal murojaah">...</div>`;
+                const cls=DIUCAPKAN.includes(k)?'diucapkan':'tidakdiucapkan';
+                return`<div class="kode-gramatikal ${cls}">${k}</div>`;
+              }).join('')}</div>`;
+            let rujukanRowHtml = '';
+            if (targetRujukan !== null || dhomirRujukan !== null) {
+              rujukanRowHtml = `<div class="rujukan-row${item.krKanan ? ' kr-kanan' : ''}">`;
+              if (targetRujukan !== null) rujukanRowHtml += `<div class="rujukan-target">${targetRujukan}</div>`;
+              if (dhomirRujukan !== null) rujukanRowHtml += `<div class="rujukan-dhamir">&#8594;${dhomirRujukan}</div>`;
+              rujukanRowHtml += `</div>`;
+            } else {
+              rujukanRowHtml = `<div class="rujukan-kosong"></div>`;
+            }
+            const hiddenCls = pegonTersembunyi ? ' tersembunyi' : '';
+            const arabTampil = prosesHarakat(item.arab);
+            const zebra = index % 2 === 0 ? 'ganjil' : 'genap';
+            const nomorHtml = item.nomor ? `<div class="nomor-ayat" onclick="togglePopupTerjemahan(this, '${item.nomor}')">${item.nomor}</div>` : '';
+            const showIndo = modeBahasa === 'indo';
+            const geser = item.geserPegon ? parseInt(item.geserPegon) : 0;
+            const geserStyle = geser ? `style="margin-right:${geser}px;"` : '';
+            html += `<div class="kata-blok ${zebra}${item.nomor?' ada-nomor ujung-ayat':''}">
+            ${kodeHtml}
+            <span class="arab" data-asli="${item.arab}">${arabTampil}</span>
+            <div class="bawah-kata">
+              ${rujukanRowHtml}
+              <span class="pegon indo${hiddenCls}${showIndo?'':' tersembunyi'}" ${geserStyle} data-indo="${item.maknaIndo}" data-jawa="${item.maknaJawa}">${item.maknaIndo || item.maknaJawa}</span>
+              <span class="pegon jawa${hiddenCls}${showIndo?' tersembunyi':''}" ${geserStyle} data-indo="${item.maknaIndo}" data-jawa="${item.maknaJawa}">${item.maknaJawa || item.maknaIndo}</span>
+            </div>
+            ${nomorHtml}
+          </div>`;
+          });
+          html += `</div></div>`;
+        });
+        const nahwu = hal.querySelector('.nahwu-input').value.trim();
+if (nahwu) {
+  html += `<div class="catatan-nahwu">
+    <div class="catatan-nahwu-label">✦ Catatan Nahwu ✦</div>
+    <div class="catatan-nahwu-isi">${nahwu}</div>
+  </div>`;
+}
+nomorHalIsi++;
+html+=`<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+html += `</div>`;
+        }
+      });
+      if (pengantarHtml) {
+        html += pengantarHtml;
+        navList.push(pengantarNav);
+      }
+      hasilEl.innerHTML = html;
+      if (kodeTersembunyi) {
+        hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
+          .forEach(el => el.style.visibility = 'hidden');
+      }
+      
+      updateNavHasil(navList);
+        } catch(e) { alert('ERROR: ' + e.message); }
+      setTimeout(() => sembunyikanBorderUjung(), 100);
+      setTimeout(() => sesuaikanLebarPegon(), 400);
+      setTimeout(() => terapkanOverrideBaris(), 80);
+    }
+
+    function sembunyikanBorderUjung() {
+  document.querySelectorAll('.hasil-aliran').forEach(aliran => {
+    const blok = aliran.querySelectorAll('.kata-blok');
+    if (!blok.length) return;
+
+    // Reset dulu semua
+    blok.forEach(b => b.classList.remove('ujung-baris'));
+
+    // Deteksi ujung baris berdasarkan posisi top
+    let topSaat = null;
+    let terakhirDiBaris = null;
+    blok.forEach(b => {
+      const top = b.getBoundingClientRect().top;
+      if (topSaat !== null && top !== topSaat) {
+        // Baris baru — blok sebelumnya adalah ujung baris
+        if (terakhirDiBaris) terakhirDiBaris.classList.add('ujung-baris');
+      }
+      topSaat = top;
+      terakhirDiBaris = b;
+    });
+    // Kata terakhir di aliran (ujung ayat/baris terakhir)
+    if (terakhirDiBaris) terakhirDiBaris.classList.add('ujung-baris');
+  });
+}
+    
+    function simpan() {
+      localStorage.setItem('gandul_data', JSON.stringify(ambilSemuaData()));
+      const notif = document.getElementById('notif');
+      notif.classList.add('tampil');
+      setTimeout(() => notif.classList.remove('tampil'), 2000);
+    }
+
+    function ambilSemuaData() {
+      const halamanList = [];
+      document.querySelectorAll('.halaman-input').forEach(hal => {
+        if (hal.classList.contains('halaman-gambar')) {
+          halamanList.push({
+            tipe: 'gambar',
+            base64: hal.querySelector('.data-gambar-halaman')?.value || '',
+            teksAtas: hal.querySelector('.teks-atas-gambar')?.value || '',
+            teksBawah: hal.querySelector('.teks-bawah-gambar')?.value || ''
+          });
+          return;
+        }
+        if (hal.classList.contains('halaman-judul')) {
+          halamanList.push({
+            tipe: 'judul',
+            arab: hal.querySelector('.judul-besar-arab')?.value || '',
+            indo: hal.querySelector('.judul-besar-indo')?.value || '',
+            jawa: hal.querySelector('.judul-besar-jawa')?.value || '',
+            sub: hal.querySelector('.judul-besar-sub')?.value || '',
+            overridePegon: hal.querySelector('.input-override-pegon')?.value || ''
+          });
+          return;
+        }
+        const nahwu = hal.querySelector('.nahwu-input').value;
+        const babList = [];
+        hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab => {
+          if (bab.classList.contains('syiir-input')) {
+            const model = bab.querySelector('.syiir-model-select')?.value || 'A';
+            const baitList = [];
+            bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
+              const baitId = baitEl.id.replace('bait-','');
+              const ambilKata = (shatr) => {
+                const container = baitEl.querySelector(`#kata${shatr}-${baitId}`);
+                if (!container) return [];
+                return [...container.querySelectorAll('.syiir-kata-item')].map(item => ({
+                  arab: item.querySelector('.s-arab')?.value || '',
+                  kode: item.querySelector('.s-kode')?.value || '',
+                  maknaIndo: item.querySelector('.s-indo')?.value || '',
+                  maknaJawa: item.querySelector('.s-jawa')?.value || '',
+                  geserPegon: item.querySelector('.s-geser')?.value || '',
+                }));
+              };
+              baitList.push({ awwal: ambilKata('Awwal'), tsani: ambilKata('Tsani') });
+            });
+            babList.push({ tipe: 'syiir', model, baitList });
+            return;
+          }
+          const babId = bab.id.replace('bab-', '');
+          const namaBab = bab.querySelector('.bab-nama-input').value;
+          const tbody = document.getElementById('tbody-' + babId);
+          const kataList = [];
+          tbody?.querySelectorAll('tr').forEach(tr => {
+            kataList.push({
+              kode: tr.querySelector('.kode-input').value,
+              arab: tr.querySelector('.arab-input').value,
+              maknaIndo: tr.querySelector('.makna-indo').value,
+              maknaJawa: tr.querySelector('.makna-jawa').value,
+              nomor: tr.querySelector('.nom-input').value,
+              krKanan: tr.querySelector('.kr-kanan-cb').checked,
+              geserPegon: tr.querySelector('.geser-pegon-input')?.value || '',
+            });
+          });
+          babList.push({
+            namaBab,
+            babJudulIndo: bab.querySelector('.bab-judul-indo')?.value || '',
+            babJudulJawa: bab.querySelector('.bab-judul-jawa')?.value || '',
+            babNomor: bab.querySelector('.bab-judul-nomor')?.value || '',
+            kataList
+          });
+        });
+        halamanList.push({
+   nahwu,
+   babList,
+   overridePegon: hal.querySelector('.input-override-pegon-indo')?.value || '',
+   overridePegonJawa: hal.querySelector('.input-override-pegon-jawa')?.value || '',
+   overrideBaris: hal.querySelector('.input-override-baris')?.value || '',
+   overrideNomHlm: hal.querySelector('.input-override-nomhlm')?.value || 0,
+   overrideColGap: hal.querySelector('.input-override-colgap')?.value || '',
+   lebarKolom: hal.dataset.lebarKolom ? JSON.parse(hal.dataset.lebarKolom) : {}
+});
+   
+    });
+         return {
+                   versi: 3,
+        judulKitab: document.getElementById('judulKitab').value,
+        judulArab: document.getElementById('judulArab').value,
+        namaUstaz: document.getElementById('namaUstaz').value,
+        keterangan: document.getElementById('keterangan').value,
+        tahunKitab: document.getElementById('tahunKitab').value,
+        edisiKitab: document.getElementById('edisiKitab').value,
+        pengantarKitab: document.getElementById('pengantarKitab').value,
+        halamanList
+      };
+    }
+
+    function flattenBarisList(barisList) {
+      const result = [];
+      (barisList || []).forEach(baris => {
+        const kata = baris.kataList || [];
+        kata.forEach((k, i) => {
+          result.push({
+            kode: k.kode || '',
+            arab: k.arab || '',
+            maknaIndo: k.maknaIndo || k.makna || '',
+            maknaJawa: k.maknaJawa || '',
+            nomor: i === kata.length - 1 ? (baris.nomor || '') : '',
+          });
+        });
+      });
+      return result;
+    }
+
+    function migrasi(data) {
+      if (data.versi === 3) return data;
+      let halamanList = [];
+      if (data.versi === 2 && data.halamanList) {
+        halamanList = data.halamanList.map(h => ({
+          nahwu: h.nahwu || '',
+          babList: (h.babList || []).map(b => ({
+            namaBab: b.namaBab || '',
+            kataList: b.kataList || flattenBarisList(b.barisList || [])
+          }))
+        }));
+      } else {
+        const br = data.babList || (data.barisList ? [{
+          namaBab: 'Bab 1',
+          barisList: data.barisList
+        }] : []);
+        halamanList = [{
+          nahwu: data.catatanNahwu || '',
+          babList: br.map(b => ({
+            namaBab: b.namaBab || '',
+            kataList: flattenBarisList(b.barisList || [])
+          }))
+        }];
+      }
+      return {
+        versi: 3,
+        judulKitab: data.judulKitab || '',
+        judulArab: data.judulArab || '',
+        namaUstaz: data.namaUstaz || '',
+        keterangan: data.keterangan || '',
+        tahunKitab: data.tahunKitab || '',
+        edisiKitab: data.edisiKitab || '',
+        pengantarKitab: data.pengantarKitab || '',
+        halamanList
+      };
+    }
+
+    function muat() {
+      const raw = localStorage.getItem('gandul_data');
+      if (!raw) return false;
+      try {
+        let data = JSON.parse(raw);
+        data = migrasi(data);
+        document.getElementById('judulKitab').value = data.judulKitab || '';
+        document.getElementById('judulArab').value = data.judulArab || '';
+        document.getElementById('namaUstaz').value = data.namaUstaz || '';
+        document.getElementById('keterangan').value = data.keterangan || '';
+        document.getElementById('tahunKitab').value = data.tahunKitab || '';
+        document.getElementById('edisiKitab').value = data.edisiKitab || '';
+        document.getElementById('pengantarKitab').value = data.pengantarKitab || '';
+        if (data.halamanList && data.halamanList.length) data.halamanList.forEach(h => {
+  if (h.tipe === 'judul') tambahHalamanJudul(h);
+  else if (h.tipe === 'gambar') tambahHalamanGambar(h);
+  else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '');
+});
+else tambahHalaman();
+if (data.halamanList) {
+  data.halamanList.forEach(h => {
+    if (h.terjemahan) Object.assign(terjemahanData, h.terjemahan);
+  });
+}
+       
+        else tambahHalaman();
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function exportJSON() {
+  const blob = new Blob([JSON.stringify(ambilSemuaData(), null, 2)], {
+    type: 'application/json'
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'gandul-data.json';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 1000);
+}
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          localStorage.setItem('gandul_data', e.target.result);
+          location.reload();
+        } catch {
+          alert('File tidak valid!');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetTampilan() {
+      document.getElementById('hasil').innerHTML = '<div style="text-align:center;color:#bba060;font-style:italic;font-size:13px;padding:30px 0;">Hasil makna gandul akan tampil di sini</div>';
+      document.getElementById('navBab').style.display = 'none';
+      updateNavHasil([]);
+    }
+
+    function resetSemua() {
+      if (!confirm('Yakin ingin mereset semua data? Semua yang belum disimpan akan hilang.')) return;
+      localStorage.removeItem('gandul_data');
+      document.getElementById('containerHalaman').innerHTML = '';
+      ['judulKitab', 'judulArab', 'namaUstaz', 'keterangan', 'tahunKitab', 'edisiKitab', 'pengantarKitab'].forEach(id => document.getElementById(id).value = '');
+      halamanCounter = 0;
+      babCounter = 0;
+      kataCounter = 0;
+      pegonTersembunyi = false;
+      kodeTersembunyi = false;
+      modeBahasa = 'indo';
+      document.getElementById('togPegon').textContent = 'Sembunyikan Pegon';
+      document.getElementById('togPegon').classList.remove('aktif');
+      document.getElementById('togKode').textContent = 'Sembunyikan Kode';
+      document.getElementById('togKode').classList.remove('aktif');
+      document.getElementById('togBahasa').textContent = 'Pegon Jawa';
+      document.getElementById('togBahasa').classList.remove('aktif');
+      resetTampilan();
+      init();
+    }
+
+    function init() {
+      if (!muat()) {
+        tambahHalaman([{
+          namaBab: 'Al-Fatihah',
+          kataList: [{
+              kode: '',
+              arab: 'بِسْمِ',
+              maknaIndo: 'دڠن نام',
+              maknaJawa: 'کلوان اسما',
+              nomor: ''
+            },
+            {
+              kode: '',
+              arab: 'اللهِ',
+              maknaIndo: 'الله',
+              maknaJawa: 'الله',
+              nomor: ''
+            },
+            {
+              kode: '',
+              arab: 'الرَّحْمَنِ',
+              maknaIndo: 'يڠ مها ڤڠاسيه',
+              maknaJawa: 'کڠ مها مرم',
+              nomor: ''
+            },
+            {
+              kode: '',
+              arab: 'الرَّحِيمِ',
+              maknaIndo: 'يڠ مها ڤڽاياڠ',
+              maknaJawa: 'کڠ مها اسيه',
+              nomor: '١'
+            },
+            {
