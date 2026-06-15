@@ -3709,6 +3709,13 @@ html += `</div>`;
         html += pengantarHtml;
         navList.push(pengantarNav);
       }
+      // DEBUG: tampilkan semua anchor yang dihasilkan
+      const anchorList = [];
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      tempDiv.querySelectorAll('.hasil-halaman').forEach(h => anchorList.push(h.id));
+      alert('Semua hasil-halaman: ' + anchorList.join(', '));
+
       hasilEl.innerHTML = html;
       // DEBUG: cek hasil-halaman-32 setelah innerHTML diset
       const h32 = document.getElementById('hasil-halaman-32');
