@@ -2506,7 +2506,7 @@ function togglePopupTerjemahan(el, nomorAyat) {
     const overrideIndo = buatMap(inputIndo);
     const overrideJawa = buatMap(inputJawa);
 
-    halEl.querySelectorAll('.kata-blok').forEach(blok => {
+    halEl.querySelectorAll('.kata-blok, .syiir-kata-blok').forEach(blok => {
       const arab = blok.querySelector('.arab');
       if (!arab) return;
       const lebarArab = arab.getBoundingClientRect().width || arab.offsetWidth || 60;
