@@ -1614,6 +1614,17 @@ body.mode-html-aktif .hasil-kotak {
       justify-content: center;
       font-size: 18px;
     }
+    #btnNaikHalaman, #btnTurunHalaman, #btnTop {
+      background: #111111;
+      border: 2px solid #111111;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 900;
+      text-shadow: 0 0 2px #000;
+    }
+    #btnNaikHalaman:hover, #btnTurunHalaman:hover, #btnTop:hover {
+      background: #333333;
+    }
 
     .btn-float.tampil {
       opacity: 1;
@@ -1948,6 +1959,7 @@ body.mode-html-aktif .hasil-kotak {
     .syiir-kata-blok .rujukan-kosong,
     .syiir-kata-blok .rujukan-row {
       min-height: 18px;
+      margin-top: 1mm;
     }
     .syiir-kata-blok .pegon {
   font-size: 13px;
@@ -2347,8 +2359,8 @@ body.mode-html-aktif .hasil-kotak {
             <label class="float-drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
           </div>
         </div>
-        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF">📄</button>
-        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML">🌐</button>
+        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="font-size:16px;filter:grayscale(1) brightness(0);">📄</button>
+        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML" style="font-size:16px;filter:grayscale(1) brightness(0);">🌐</button>
       </div>
       <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">⏫</button>
       <div class="float-dropdown">
