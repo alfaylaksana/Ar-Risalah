@@ -2967,11 +2967,11 @@ function gotoHalamanHasil() {
  </div>
  <div class="field-override-pegon">
   <label>Override Pegon Indo (contoh: فقير:0.8)</label>
-  <input type="text" class="input-override-pegon input-override-pegon-indo" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegon||''}" oninput="simpan()">
+  <input type="text" class="input-override-pegon input-override-pegon-indo" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegon||''}" oninput="simpan(); sesuaikanLebarPegon();">
 </div>
 <div class="field-override-pegon" style="margin-top:6px;">
   <label>Override Pegon Jawa (contoh: فقير:0.8)</label>
-  <input type="text" class="input-override-pegon input-override-pegon-jawa" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegonJawa||''}" oninput="simpan()">
+  <input type="text" class="input-override-pegon input-override-pegon-jawa" placeholder="arabawal:pengali, arablalin:pengali" value="${overridePegonJawa||''}" oninput="simpan(); sesuaikanLebarPegon();">
 </div>
 <div class="field-override-pegon" style="margin-top:6px;">
   <label>Override Jarak Baris (contoh: 1:30, 3:10)</label>
@@ -3695,7 +3695,7 @@ html += `</div>`;
       updateNavHasil(navList);
         } catch(e) { alert('ERROR: ' + e.message); }
       setTimeout(() => sembunyikanBorderUjung(), 100);
-      setTimeout(() => sesuaikanLebarPegon(), 400);
+      setTimeout(() => sesuaikanLebarPegon(), 800);
       setTimeout(() => terapkanOverrideBaris(), 80);
     }
 
