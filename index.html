@@ -2490,6 +2490,17 @@ function togglePopupTerjemahan(el, nomorAyat) {
 }
     
     function sesuaikanLebarPegon() {
+  // DEBUG FINAL
+  const hal32 = document.getElementById('halaman-32');
+  let info = 'halaman-32 ada: ' + (hal32 ? 'YA' : 'TIDAK') + '\n';
+  if (hal32) {
+    info += 'classes: ' + hal32.className + '\n';
+    info += 'syiir-input count: ' + hal32.querySelectorAll('.syiir-input').length + '\n';
+    info += 'bab-input count: ' + hal32.querySelectorAll('.bab-input').length + '\n';
+  }
+  info += '\nhasil-halaman-32 ada: ' + (document.getElementById('hasil-halaman-32') ? 'YA' : 'TIDAK') + '\n';
+  alert(info);
+
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
     const halId = halEl.id.replace('hasil-halaman-', '');
     const inputIndo = document.querySelector(`#halaman-${halId} .input-override-pegon-indo`);
