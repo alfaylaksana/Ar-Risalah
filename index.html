@@ -2490,15 +2490,7 @@ function togglePopupTerjemahan(el, nomorAyat) {
 }
     
     function sesuaikanLebarPegon() {
-  // DEBUG FINAL
-  let info = 'Halaman input yg punya syiir-input:\n';
-  document.querySelectorAll('.halaman-input').forEach(h => {
-    if (h.querySelectorAll('.syiir-input').length > 0) {
-      info += 'ID: ' + h.id + ', classes: ' + h.className + '\n';
-      info += '  hasil-halaman ada: ' + (document.getElementById('hasil-' + h.id) ? 'YA' : 'TIDAK') + '\n';
-    }
-  });
-  alert(info || 'TIDAK ADA halaman dengan syiir-input');
+
 
   document.querySelectorAll('.hasil-halaman').forEach(halEl => {
     const halId = halEl.id.replace('hasil-halaman-', '');
@@ -3674,7 +3666,7 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
           });
           html += `</div></div>`;
         });
-        const nahwu = hal.querySelector('.nahwu-input').value.trim();
+        const nahwu = hal.querySelector('.nahwu-input')?.value.trim() || '';
 if (nahwu) {
   html += `<div class="catatan-nahwu">
     <div class="catatan-nahwu-label">✦ Catatan Nahwu ✦</div>
