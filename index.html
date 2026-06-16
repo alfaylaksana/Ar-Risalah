@@ -1855,7 +1855,7 @@ body.mode-html-aktif .hasil-kotak {
       border-radius: 6px;
       background: linear-gradient(to bottom, #fffdf5, #fff8e8);
       margin: 10mm -6mm 0 -6mm;
-      padding: 8px 2px;
+      padding: 8px 6px;
       width: 100%;
       box-sizing: border-box;
       direction: rtl;l
@@ -1885,6 +1885,7 @@ body.mode-html-aktif .hasil-kotak {
     .hasil-syiir-bait.model-a .hasil-syiir-shatr {
       flex: 1;
       padding: 4px 1px;
+      justify-content: center;
     }
     .syiir-separator {
       display: flex;
@@ -1895,8 +1896,8 @@ body.mode-html-aktif .hasil-kotak {
       padding: 0;
       flex-shrink: 0;
       align-self: center;
-      margin-right: calc(5mm * 4);
-      margin-left: calc(5mm* 1);
+      margin-right: 3mm;
+      margin-left: 2mm;
     }
     .syiir-separator span {
       display: block;
@@ -1913,7 +1914,7 @@ body.mode-html-aktif .hasil-kotak {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 28px;
+      min-width: none;
     }
     /* Fix kesejarajan: semua blok punya kode-kosong dengan tinggi tetap */
     .syiir-kata-blok .kode-wrapper {
@@ -1950,7 +1951,7 @@ body.mode-html-aktif .hasil-kotak {
     .syiir-kata-blok .pegon {
   font-size: 13px;
   color: #5a3e00;
-  text-align: right;
+  text-align: center;
   line-height: 1.4;
   direction: rtl;
   margin-top: -8px;
@@ -2516,24 +2517,27 @@ function togglePopupTerjemahan(el, nomorAyat) {
       if (!arab) return;
       const lebarArab = arab.getBoundingClientRect().width || arab.offsetWidth || 60;
       const teksArab = arab.textContent.trim().replace(/[\u064B-\u065F]/g, '');
+      const isSyiir = blok.classList.contains('syiir-kata-blok');
 
       const pegonIndo = blok.querySelector('.pegon.indo');
       const pegonJawa = blok.querySelector('.pegon.jawa');
 
       if (pegonIndo) {
-        let pengali = 1.3;
+        let pengali = isSyiir ? null : 1.3;
         for (const [key, val] of Object.entries(overrideIndo)) {
           if (teksArab.includes(key)) { pengali = val; break; }
         }
-        pegonIndo.style.maxWidth = (lebarArab * pengali) + 'px';
+        if (pengali !== null) pegonIndo.style.maxWidth = (lebarArab * pengali) + 'px';
+        else pegonIndo.style.maxWidth = '';
       }
 
       if (pegonJawa) {
-        let pengali = 1.3;
+        let pengali = isSyiir ? null : 1.3;
         for (const [key, val] of Object.entries(overrideJawa)) {
           if (teksArab.includes(key)) { pengali = val; break; }
         }
-        pegonJawa.style.maxWidth = (lebarArab * pengali) + 'px';
+        if (pengali !== null) pegonJawa.style.maxWidth = (lebarArab * pengali) + 'px';
+        else pegonJawa.style.maxWidth = '';
       }
     });
   });
