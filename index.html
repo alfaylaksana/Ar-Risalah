@@ -1871,7 +1871,7 @@ body.mode-html-aktif .hasil-kotak {
       flex-direction: row;
       direction: rtl;
       gap: 0;
-      align-items: center;
+      align-items: flex-start;
     }
     .hasil-syiir-bait.model-b { display: flex; flex-direction: column; gap: 6px; }
     .hasil-syiir-shatr {
@@ -1892,6 +1892,7 @@ body.mode-html-aktif .hasil-kotak {
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      align-self: center;
       gap: 2.5mm;
       padding: 0;
       flex-shrink: 0;
@@ -2322,8 +2323,8 @@ body.mode-html-aktif .hasil-kotak {
   <div class="float-bar">
     <div class="float-left">
       <div class="float-kelola-halaman" id="floatKelolaHalaman">
-        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik">↑</button>
-        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun">↓</button>
+        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik">⬆</button>
+        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun">⬇</button>
         <div class="float-dropdown">
           <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatTampilan')" title="Tampilan">👁</button>
           <div class="float-dropdown-menu" id="menuFloatTampilan" style="bottom:auto;top:50px;">
@@ -2346,8 +2347,10 @@ body.mode-html-aktif .hasil-kotak {
             <label class="float-drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
           </div>
         </div>
+        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF">📄</button>
+        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML">🌐</button>
       </div>
-      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</button>
+      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">⏫</button>
       <div class="float-dropdown">
         <button class="btn-float" id="btnNavInput" onclick="toggleFloatDropdown('menuNavInput')">≡ Input</button>
         <div class="float-dropdown-menu" id="menuNavInput">
