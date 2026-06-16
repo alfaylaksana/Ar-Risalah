@@ -3554,11 +3554,14 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         navList.push({id:anchor,nama:`Halaman ${nomorHal}`});
         html+=`<div class="hasil-halaman" id="${anchor}">`;
 
+        // Render bab biasa dulu (jika ada)
+        const adaBabBiasa = hal.querySelector('.bab-input');
+        if (!adaBabBiasa) html = html.slice(0, html.lastIndexOf(`<div class="hasil-halaman" id="${anchor}">`));
+
         hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab=>{
           // ===== RENDER SYI'IR =====
           if (bab.classList.contains('syiir-input')) {
             const model = bab.querySelector('.syiir-model-select')?.value || 'A';
-            html += `</div>`;
             html += `<div class="hasil-syiir-blok" data-halaman="${halId}">`;
             bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
               const baitId = baitEl.id.replace('bait-','');
@@ -3715,6 +3718,11 @@ html += `</div>`;
         navList.push(pengantarNav);
       }
       hasilEl.innerHTML = html;
+
+      // Pindahkan semua hasil-syiir-blok keluar dari hasil-halaman ke level hasilEl
+      hasilEl.querySelectorAll('.hasil-halaman .hasil-syiir-blok').forEach(blok => {
+        hasilEl.appendChild(blok);
+      });
       if (kodeTersembunyi) {
         hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
           .forEach(el => el.style.visibility = 'hidden');
