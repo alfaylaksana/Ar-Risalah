@@ -1615,15 +1615,15 @@ body.mode-html-aktif .hasil-kotak {
       font-size: 18px;
     }
     #btnNaikHalaman, #btnTurunHalaman, #btnTop {
-      background: #111111;
+      background: rgba(122, 90, 32, 0.45);
       border: 2px solid #111111;
       color: #ffffff;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 900;
-      text-shadow: 0 0 2px #000;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
     #btnNaikHalaman:hover, #btnTurunHalaman:hover, #btnTop:hover {
-      background: #333333;
+      background: rgba(122, 90, 32, 0.75);
     }
 
     .btn-float.tampil {
@@ -2359,8 +2359,17 @@ body.mode-html-aktif .hasil-kotak {
             <label class="float-drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
           </div>
         </div>
-        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="font-size:16px;filter:grayscale(1) brightness(0);">📄</button>
-        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML" style="font-size:16px;filter:grayscale(1) brightness(0);">🌐</button>
+        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="overflow:hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26">
+  <rect x="1" y="1" width="15" height="20" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
+  <polyline points="11,1 11,7 17,7" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
+  <text x="8" y="28" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Pdf</text>
+</svg></button>
+        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML" style="overflow:hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26">
+  <rect x="1" y="1" width="15" height="20" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
+  <polyline points="11,1 11,7 17,7" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
+  <text x="5" y="16" font-size="7" font-family="monospace" fill="#111" font-weight="bold">&lt;/&gt;</text>
+  <text x="8" y="28" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Html</text>
+</svg></button>
       </div>
       <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">⏫</button>
       <div class="float-dropdown">
