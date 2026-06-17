@@ -3764,11 +3764,71 @@ html += `</div>`;
   });
 }
     
+    // ── IndexedDB Setup ──────────────────────────────────────────
+    const DB_NAME = 'ArRisalahDB';
+    const DB_STORE = 'gandul';
+    const DB_KEY = 'gandul_data';
+    let _db = null;
+
+    function bukaDB() {
+      return new Promise((resolve, reject) => {
+        if (_db) return resolve(_db);
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => {
+          e.target.result.createObjectStore(DB_STORE);
+        };
+        req.onsuccess = e => { _db = e.target.result; resolve(_db); };
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    function simpanDB(data) {
+      return bukaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).put(data, DB_KEY);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      }));
+    }
+
+    function muatDB() {
+      return bukaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, 'readonly');
+        const req = tx.objectStore(DB_STORE).get(DB_KEY);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      }));
+    }
+
+    function hapusDB() {
+      return bukaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).delete(DB_KEY);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      }));
+    }
+    // ─────────────────────────────────────────────────────────────
+
+    let _simpanTimer = null;
     function simpan() {
-      localStorage.setItem('gandul_data', JSON.stringify(ambilSemuaData()));
-      const notif = document.getElementById('notif');
-      notif.classList.add('tampil');
-      setTimeout(() => notif.classList.remove('tampil'), 2000);
+      clearTimeout(_simpanTimer);
+      _simpanTimer = setTimeout(() => {
+        const data = ambilSemuaData();
+        simpanDB(data).then(() => {
+          const notif = document.getElementById('notif');
+          notif.classList.add('tampil');
+          setTimeout(() => notif.classList.remove('tampil'), 2000);
+        }).catch(() => {
+          // fallback localStorage jika IndexedDB gagal
+          try {
+            localStorage.setItem('gandul_data', JSON.stringify(data));
+            const notif = document.getElementById('notif');
+            notif.classList.add('tampil');
+            setTimeout(() => notif.classList.remove('tampil'), 2000);
+          } catch(e) {}
+        });
+      }, 1500);
     }
 
     function ambilSemuaData() {
@@ -3920,36 +3980,57 @@ html += `</div>`;
       };
     }
 
-    function muat() {
-      const raw = localStorage.getItem('gandul_data');
-      if (!raw) return false;
-      try {
-        let data = JSON.parse(raw);
-        data = migrasi(data);
-        document.getElementById('judulKitab').value = data.judulKitab || '';
-        document.getElementById('judulArab').value = data.judulArab || '';
-        document.getElementById('namaUstaz').value = data.namaUstaz || '';
-        document.getElementById('keterangan').value = data.keterangan || '';
-        document.getElementById('tahunKitab').value = data.tahunKitab || '';
-        document.getElementById('edisiKitab').value = data.edisiKitab || '';
-        document.getElementById('pengantarKitab').value = data.pengantarKitab || '';
-        if (data.halamanList && data.halamanList.length) data.halamanList.forEach(h => {
-  if (h.tipe === 'judul') tambahHalamanJudul(h);
-  else if (h.tipe === 'gambar') tambahHalamanGambar(h);
-  else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '');
-});
-else tambahHalaman();
-if (data.halamanList) {
-  data.halamanList.forEach(h => {
-    if (h.terjemahan) Object.assign(terjemahanData, h.terjemahan);
-  });
-}
-       
-        else tambahHalaman();
-        return true;
-      } catch {
-        return false;
+    function terapkanData(data) {
+      data = migrasi(data);
+      document.getElementById('judulKitab').value = data.judulKitab || '';
+      document.getElementById('judulArab').value = data.judulArab || '';
+      document.getElementById('namaUstaz').value = data.namaUstaz || '';
+      document.getElementById('keterangan').value = data.keterangan || '';
+      document.getElementById('tahunKitab').value = data.tahunKitab || '';
+      document.getElementById('edisiKitab').value = data.edisiKitab || '';
+      document.getElementById('pengantarKitab').value = data.pengantarKitab || '';
+      if (data.halamanList && data.halamanList.length) {
+        data.halamanList.forEach(h => {
+          if (h.tipe === 'judul') tambahHalamanJudul(h);
+          else if (h.tipe === 'gambar') tambahHalamanGambar(h);
+          else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '');
+        });
+        data.halamanList.forEach(h => {
+          if (h.terjemahan) Object.assign(terjemahanData, h.terjemahan);
+        });
+      } else {
+        tambahHalaman();
       }
+    }
+
+    function muat() {
+      // muat() sekarang async — kembalikan Promise
+      return muatDB().then(data => {
+        if (data) {
+          terapkanData(data);
+          // Hapus localStorage lama jika masih ada
+          try { localStorage.removeItem('gandul_data'); } catch(e) {}
+          return true;
+        }
+        // Fallback: cek localStorage lama (migrasi sekali)
+        const raw = localStorage.getItem('gandul_data');
+        if (!raw) return false;
+        try {
+          const parsed = JSON.parse(raw);
+          terapkanData(parsed);
+          // Pindahkan ke IndexedDB, hapus localStorage
+          return simpanDB(migrasi(parsed)).then(() => {
+            try { localStorage.removeItem('gandul_data'); } catch(e) {}
+            return true;
+          });
+        } catch { return false; }
+      }).catch(() => {
+        // Kalau IndexedDB gagal total, coba localStorage
+        const raw = localStorage.getItem('gandul_data');
+        if (!raw) return false;
+        try { terapkanData(JSON.parse(raw)); return true; }
+        catch { return false; }
+      });
     }
 
     function exportJSON() {
@@ -3972,14 +4053,31 @@ if (data.halamanList) {
     function importJSON(event) {
       const file = event.target.files[0];
       if (!file) return;
+      const notif = document.getElementById('notif');
+      notif.textContent = '⏳ Mengimpor...';
+      notif.classList.add('tampil');
       const reader = new FileReader();
       reader.onload = e => {
-        try {
-          localStorage.setItem('gandul_data', e.target.result);
-          location.reload();
-        } catch {
-          alert('File tidak valid!');
-        }
+        setTimeout(() => {
+          try {
+            const data = JSON.parse(e.target.result);
+            simpanDB(data).then(() => {
+              try { localStorage.removeItem('gandul_data'); } catch(ex) {}
+              notif.textContent = '✓ Tersimpan!';
+              setTimeout(() => {
+                notif.classList.remove('tampil');
+                notif.textContent = '✓ Tersimpan!';
+                location.reload();
+              }, 800);
+            }).catch(() => {
+              alert('Gagal menyimpan ke IndexedDB!');
+              notif.classList.remove('tampil');
+            });
+          } catch {
+            alert('File tidak valid!');
+            notif.classList.remove('tampil');
+          }
+        }, 100);
       };
       reader.readAsText(file);
     }
@@ -3992,7 +4090,7 @@ if (data.halamanList) {
 
     function resetSemua() {
       if (!confirm('Yakin ingin mereset semua data? Semua yang belum disimpan akan hilang.')) return;
-      localStorage.removeItem('gandul_data');
+      hapusDB().catch(() => {}); try { localStorage.removeItem('gandul_data'); } catch(e) {}
       document.getElementById('containerHalaman').innerHTML = '';
       ['judulKitab', 'judulArab', 'namaUstaz', 'keterangan', 'tahunKitab', 'edisiKitab', 'pengantarKitab'].forEach(id => document.getElementById(id).value = '');
       halamanCounter = 0;
@@ -4012,80 +4110,82 @@ if (data.halamanList) {
     }
 
     function init() {
-      if (!muat()) {
-        tambahHalaman([{
-          namaBab: 'Al-Fatihah',
-          kataList: [{
-              kode: '',
-              arab: 'بِسْمِ',
-              maknaIndo: 'دڠن نام',
-              maknaJawa: 'کلوان اسما',
-              nomor: ''
-            },
-            {
-              kode: '',
-              arab: 'اللهِ',
-              maknaIndo: 'الله',
-              maknaJawa: 'الله',
-              nomor: ''
-            },
-            {
-              kode: '',
-              arab: 'الرَّحْمَنِ',
-              maknaIndo: 'يڠ مها ڤڠاسيه',
-              maknaJawa: 'کڠ مها مرم',
-              nomor: ''
-            },
-            {
-              kode: '',
-              arab: 'الرَّحِيمِ',
-              maknaIndo: 'يڠ مها ڤڽاياڠ',
-              maknaJawa: 'کڠ مها اسيه',
-              nomor: '١'
-            },
-            {
-              kode: 'م',
-              arab: 'اَلْحَمْدُ',
-              maknaIndo: 'سيݢالا ڤوجي',
-              maknaJawa: 'سيگال ڤوجي',
-              nomor: ''
-            },
-            {
-              kode: 'خ جم',
-              arab: 'لِلّٰهِ',
-              maknaIndo: 'باݢي الله',
-              maknaJawa: 'کاڠ الله',
-              nomor: ''
-            },
-            {
-              kode: 'ص ١',
-              arab: 'رَبِّ الْعَالَمِيْنَ',
-              maknaIndo: 'توهان سيميستا عالم',
-              maknaJawa: 'توهانيڤون عالم',
-              nomor: '٢'
-            },
-            {
-              kode: '[١]',
-              arab: 'الرَّحْمَنِ',
-              maknaIndo: 'يڠ مها ڤڠاسيه',
-              maknaJawa: 'کڠ مها مرم',
-              nomor: ''
-            },
-            {
-              kode: '...',
-              arab: 'الرَّحِيمِ',
-              maknaIndo: 'يڠ مها ڤڽاياڠ',
-              maknaJawa: 'کڠ مها اسيه',
-              nomor: '٣'
-            },
-          ]
-        }], "Contoh catatan nahwu: بِسْمِ adalah jar-majrur...");
-      }
-      updateNavInput();
-      updateNavHasil([]);
-      setTimeout(() => observeHalaman(), 500);
+      muat().then(berhasil => {
+        if (!berhasil) {
+          tambahHalaman([{
+            namaBab: 'Al-Fatihah',
+            kataList: [{
+                kode: '',
+                arab: 'بِسْمِ',
+                maknaIndo: 'دڠن نام',
+                maknaJawa: 'کلوان اسما',
+                nomor: ''
+              },
+              {
+                kode: '',
+                arab: 'اللهِ',
+                maknaIndo: 'الله',
+                maknaJawa: 'الله',
+                nomor: ''
+              },
+              {
+                kode: '',
+                arab: 'الرَّحْمَنِ',
+                maknaIndo: 'يڠ مها ڤڠاسيه',
+                maknaJawa: 'کڠ مها مرم',
+                nomor: ''
+              },
+              {
+                kode: '',
+                arab: 'الرَّحِيمِ',
+                maknaIndo: 'يڠ مها ڤڽاياڠ',
+                maknaJawa: 'کڠ مها اسيه',
+                nomor: '١'
+              },
+              {
+                kode: 'م',
+                arab: 'اَلْحَمْدُ',
+                maknaIndo: 'سيݢالا ڤوجي',
+                maknaJawa: 'سيگال ڤوجي',
+                nomor: ''
+              },
+              {
+                kode: 'خ جم',
+                arab: 'لِلّٰهِ',
+                maknaIndo: 'باݢي الله',
+                maknaJawa: 'کاڠ الله',
+                nomor: ''
+              },
+              {
+                kode: 'ص ١',
+                arab: 'رَبِّ الْعَالَمِيْنَ',
+                maknaIndo: 'توهان سيميستا عالم',
+                maknaJawa: 'توهانيڤون عالم',
+                nomor: '٢'
+              },
+              {
+                kode: '[١]',
+                arab: 'الرَّحْمَنِ',
+                maknaIndo: 'يڠ مها ڤڠاسيه',
+                maknaJawa: 'کڠ مها مرم',
+                nomor: ''
+              },
+              {
+                kode: '...',
+                arab: 'الرَّحِيمِ',
+                maknaIndo: 'يڠ مها ڤڽاياڠ',
+                maknaJawa: 'کڠ مها اسيه',
+                nomor: '٣'
+              },
+            ]
+          }], "Contoh catatan nahwu: بِسْمِ adalah jar-majrur...");
+        }
+        updateNavInput();
+        updateNavHasil([]);
+        setTimeout(() => observeHalaman(), 500);
+      }).catch(e => { alert('ERROR: ' + e.message); });
     }
-    try { init(); } catch(e) { alert('ERROR: ' + e.message); }
+    init();
   </script>
   <script>
   if ('serviceWorker' in navigator) {
