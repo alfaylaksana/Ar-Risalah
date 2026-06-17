@@ -1590,7 +1590,7 @@ body.mode-html-aktif .hasil-kotak {
       pointer-events: auto;
       height: 40px;
       padding: 0 14px;
-      background: #fffdf7;
+      background: #f5edd5;
       color: #7a5a20;
       border: 1px solid #c9a84c;
       border-radius: 20px;
@@ -1619,7 +1619,7 @@ body.mode-html-aktif .hasil-kotak {
     }
 
     .btn-float:hover {
-      background: #f0e8d0;
+      background: #e8dab8;
     }
 
     .float-dropdown {
@@ -2323,8 +2323,8 @@ body.mode-html-aktif .hasil-kotak {
   <div class="float-bar">
     <div class="float-left">
       <div class="float-kelola-halaman" id="floatKelolaHalaman">
-        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik">⬆</button>
-        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun">⬇</button>
+        <button class="btn-float bulat" id="btnNaikHalaman"  title="Naik" style="background:none;border:none;padding:0;box-shadow:none;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48"><defs><radialGradient id="gup" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#ffe8c8"/><stop offset="100%" stop-color="#d4a870"/></radialGradient></defs><circle cx="24" cy="24" r="22" fill="url(#gup)" stroke="#7a5010" stroke-width="2.5"/><path d="M20,28 L20,14 L14,14 L24,4 L34,14 L28,14 L28,28 Z" fill="white" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></button>
+        <button class="btn-float bulat" id="btnTurunHalaman"  title="Turun" style="background:none;border:none;padding:0;box-shadow:none;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48"><defs><radialGradient id="gdown" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#ffe8c8"/><stop offset="100%" stop-color="#d4a870"/></radialGradient></defs><circle cx="24" cy="24" r="22" fill="url(#gdown)" stroke="#7a5010" stroke-width="2.5"/><path d="M20,12 L20,26 L14,26 L24,36 L34,26 L28,26 L28,12 Z" fill="white" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></button>
         <div class="float-dropdown">
           <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatTampilan')" title="Tampilan">👁</button>
           <div class="float-dropdown-menu" id="menuFloatTampilan" style="bottom:auto;top:50px;">
@@ -2350,7 +2350,7 @@ body.mode-html-aktif .hasil-kotak {
         <button class="btn-float" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="font-size:11px;font-weight:bold;padding:0 10px;">PDF</button>
         <button class="btn-float" onclick="tampilkan('html')" title="Tampilkan HTML" style="font-size:11px;font-weight:bold;padding:0 10px;">HTML</button>
       </div>
-      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">⏫</button>
+      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas" style="background:none;border:none;padding:0;box-shadow:none;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48"><defs><radialGradient id="gtop" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#ffe8c8"/><stop offset="100%" stop-color="#d4a870"/></radialGradient></defs><circle cx="24" cy="24" r="22" fill="url(#gtop)" stroke="#7a5010" stroke-width="2.5"/><path d="M20,25 L20,13 L14,13 L24,3 L34,13 L28,13 L28,25 Z M14,29 L34,29 L34,32 L14,32 Z" fill="white" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></button>
       <div class="float-dropdown">
         <button class="btn-float" id="btnNavInput" onclick="toggleFloatDropdown('menuNavInput')">≡ Input</button>
         <div class="float-dropdown-menu" id="menuNavInput">
