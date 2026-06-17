@@ -3268,10 +3268,43 @@ function bacaGambarHalaman(input, halId) {
       <td class="col-nom"><input class="nom-input" type="text" placeholder="١" value="${nomor}" /></td>
       <td class="col-hapus">
       <button onclick="pecahBab('kata-${id}')">✂</button>
+      <button onclick="insertKata('kata-${id}')" title="Sisipkan baris baru di bawah ini">＋</button>
       <button onclick="hapusKata('kata-${id}')">✕</button>
 </td>
     `;
       tbody.appendChild(tr);
+    }
+
+    function insertKata(kataId) {
+      const tr = document.getElementById(kataId);
+      if (!tr) return;
+      const tbody = tr.closest('tbody');
+      const babEl = tbody.closest('.bab-input');
+      const babId = babEl.id.replace('bab-', '');
+      const id = kataCounter++;
+      const trBaru = document.createElement('tr');
+      trBaru.id = 'kata-' + id;
+      trBaru.innerHTML = `
+      <td class="col-kode"><input class="kode-input" type="text" placeholder="م · ١ · [١]" value="" /><label style="font-size:9px;color:#a07840;display:block;margin-top:2px;white-space:nowrap;"><input type="checkbox" class="kr-kanan-cb" style="width:12px;height:12px;"> KR→kanan</label><input class="geser-pegon-input" type="number" placeholder="Geser px" value="" title="Geser Pegon (px): positif=kiri, negatif=kanan" style="width:54px;font-size:9px;margin-top:2px;border:1px solid #d4b87a;border-radius:3px;padding:1px 3px;color:#7a5a20;" /></td>
+      <td><input class="arab-input" type="text" placeholder="كَلِمَة" value="" /></td>
+      <td class="col-indo td-indo-${babId}"><input class="makna-indo" type="text" placeholder="artinya..." value="" /></td>
+      <td class="col-jawa td-jawa-${babId}" style="display:none;"><input class="makna-jawa" type="text" placeholder="tegese..." value="" /></td>
+      <td class="col-nom"><input class="nom-input" type="text" placeholder="١" value="" /></td>
+      <td class="col-hapus">
+      <button onclick="pecahBab('kata-${id}')">✂</button>
+      <button onclick="insertKata('kata-${id}')" title="Sisipkan baris baru di bawah ini">＋</button>
+      <button onclick="hapusKata('kata-${id}')">✕</button>
+      </td>
+      `;
+      // Sisipkan SETELAH tr yang diklik
+      tr.insertAdjacentElement('afterend', trBaru);
+      // Sinkron tampilan kolom Indo/Jawa
+      const indoTampil = document.getElementById('th-indo-' + babId)?.style.display !== 'none';
+      trBaru.querySelector('.td-indo-' + babId).style.display = indoTampil ? '' : 'none';
+      trBaru.querySelector('.td-jawa-' + babId).style.display = indoTampil ? 'none' : '';
+      // Fokus ke input Arab baris baru
+      trBaru.querySelector('.arab-input').focus();
+      simpan();
     }
     
     function toggleKolomPegon(babId) {
