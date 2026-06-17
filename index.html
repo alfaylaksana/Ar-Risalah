@@ -1614,17 +1614,7 @@ body.mode-html-aktif .hasil-kotak {
       justify-content: center;
       font-size: 18px;
     }
-    #btnNaikHalaman, #btnTurunHalaman, #btnTop {
-      background: rgba(122, 90, 32, 0.45);
-      border: 2px solid #111111;
-      color: #ffffff;
-      font-size: 22px;
-      font-weight: 900;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-    #btnNaikHalaman:hover, #btnTurunHalaman:hover, #btnTop:hover {
-      background: rgba(122, 90, 32, 0.75);
-    }
+
 
     .btn-float.tampil {
       opacity: 1;
@@ -2335,8 +2325,26 @@ body.mode-html-aktif .hasil-kotak {
   <div class="float-bar">
     <div class="float-left">
       <div class="float-kelola-halaman" id="floatKelolaHalaman">
-        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik">⬆</button>
-        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun">⬇</button>
+        <button class="btn-float bulat" id="btnNaikHalaman" title="Naik" style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="url(#gup)" stroke="#5a3010" stroke-width="2.5"/>
+  <defs>
+    <radialGradient id="gup" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe8c8"/>
+      <stop offset="100%" stop-color="#c9a070"/>
+    </radialGradient>
+  </defs>
+  <path d="M20,28 L20,14 L14,14 L24,4 L34,14 L28,14 L28,28 Z" fill="white" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+</svg></button>
+        <button class="btn-float bulat" id="btnTurunHalaman" title="Turun" style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="url(#gdown)" stroke="#5a3010" stroke-width="2.5"/>
+  <defs>
+    <radialGradient id="gdown" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe8c8"/>
+      <stop offset="100%" stop-color="#c9a070"/>
+    </radialGradient>
+  </defs>
+  <path d="M20,12 L20,26 L14,26 L24,36 L34,26 L28,26 L28,12 Z" fill="white" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+</svg></button>
         <div class="float-dropdown">
           <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatTampilan')" title="Tampilan">👁</button>
           <div class="float-dropdown-menu" id="menuFloatTampilan" style="bottom:auto;top:50px;">
@@ -2359,19 +2367,42 @@ body.mode-html-aktif .hasil-kotak {
             <label class="float-drop-item" style="cursor:pointer;">📥 Import JSON<input type="file" accept=".json" onchange="importJSON(event)" style="display:none;" /></label>
           </div>
         </div>
-        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="overflow:hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26">
-  <rect x="1" y="1" width="15" height="20" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
-  <polyline points="11,1 11,7 17,7" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
-  <text x="8" y="28" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Pdf</text>
+        <button class="btn-float bulat" onclick="tampilkan('pdf')" title="Tampilkan PDF" style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="url(#gpdf)" stroke="#5a3010" stroke-width="2.5"/>
+  <defs>
+    <radialGradient id="gpdf" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe8c8"/>
+      <stop offset="100%" stop-color="#c9a070"/>
+    </radialGradient>
+  </defs>
+  <rect x="13" y="8" width="16" height="22" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.5"/>
+  <polyline points="24,8 24,15 30,15" fill="none" stroke="#111" stroke-width="1.5"/>
+  <text x="21" y="36" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Pdf</text>
 </svg></button>
-        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML" style="overflow:hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26">
-  <rect x="1" y="1" width="15" height="20" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
-  <polyline points="11,1 11,7 17,7" fill="#fffdf5" stroke="#111" stroke-width="1.8"/>
-  <text x="5" y="16" font-size="7" font-family="monospace" fill="#111" font-weight="bold">&lt;/&gt;</text>
-  <text x="8" y="28" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Html</text>
+        <button class="btn-float bulat" onclick="tampilkan('html')" title="Tampilkan HTML" style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="url(#ghtml)" stroke="#5a3010" stroke-width="2.5"/>
+  <defs>
+    <radialGradient id="ghtml" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe8c8"/>
+      <stop offset="100%" stop-color="#c9a070"/>
+    </radialGradient>
+  </defs>
+  <rect x="13" y="8" width="16" height="22" rx="2" fill="#fffdf5" stroke="#111" stroke-width="1.5"/>
+  <polyline points="24,8 24,15 30,15" fill="none" stroke="#111" stroke-width="1.5"/>
+  <text x="21" y="21" font-size="6" font-family="monospace" fill="#111" text-anchor="middle" font-weight="bold">&lt;/&gt;</text>
+  <text x="21" y="36" font-size="7" font-family="Georgia,serif" fill="#111" text-anchor="middle" font-weight="bold">Html</text>
 </svg></button>
       </div>
-      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">⏫</button>
+      <button class="btn-float bulat" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas" style="background:none;border:none;padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="22" fill="url(#gtop)" stroke="#5a3010" stroke-width="2.5"/>
+  <defs>
+    <radialGradient id="gtop" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ffe8c8"/>
+      <stop offset="100%" stop-color="#c9a070"/>
+    </radialGradient>
+  </defs>
+  <path d="M20,26 L20,14 L14,14 L24,4 L34,14 L28,14 L28,26 Z M14,30 L34,30 L34,33 L14,33 Z" fill="white" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+</svg></button>
       <div class="float-dropdown">
         <button class="btn-float" id="btnNavInput" onclick="toggleFloatDropdown('menuNavInput')">≡ Input</button>
         <div class="float-dropdown-menu" id="menuNavInput">
