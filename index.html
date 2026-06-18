@@ -1269,18 +1269,16 @@ body.mode-html-aktif .hasil-kotak {
     .kata-blok {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       min-width: 68px;
       overflow: visible;
       position: relative;
       padding-right: 11px;
-      
+      border-left: 0.5px solid #c9a84c;
   }
     
-     .kata-blok.ujung-baris .arab {
-  border-left: none;
-}
-.kata-blok.ujung-ayat .arab {
+     .kata-blok.ujung-baris,
+     .kata-blok.ujung-ayat {
   border-left: none;
 }
     
@@ -1322,10 +1320,11 @@ body.mode-html-aktif .hasil-kotak {
 
     .kode-wrapper {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       justify-content: center;
       margin-bottom: -14px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      width: 100%;
     }
     
     .kode-wrapper:empty {
@@ -1379,7 +1378,6 @@ body.mode-html-aktif .hasil-kotak {
       direction: rtl;
       display: block;
       text-align: right;
-      border-left: 0.5px solid #c9a84c;
     }
     
     .bawah-kata {
