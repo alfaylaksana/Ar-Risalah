@@ -1857,7 +1857,7 @@ body.mode-html-aktif .hasil-kotak {
       padding: 8px 6px;
       width: 100%;
       box-sizing: border-box;
-      direction: rtl;l
+      direction: rtl;
     }
     .hasil-syiir-bait {
       margin-bottom: 8px;
@@ -2529,7 +2529,7 @@ function togglePopupTerjemahan(el, nomorAyat) {
     return map;
   }
 
-  // Proses syiir-blok langsung (di luar hasil-halaman)
+  // Proses syiir-blok (sekarang di dalam hasil-halaman)
   document.querySelectorAll('.hasil-syiir-blok').forEach(syiirEl => {
     const halId = syiirEl.dataset.halaman;
     const inputIndo = document.querySelector(`#halaman-${halId} .input-override-pegon-indo`);
@@ -3763,7 +3763,10 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           // ===== RENDER SYI'IR =====
           if (bab.classList.contains('syiir-input')) {
             const model = bab.querySelector('.syiir-model-select')?.value || 'A';
-            html += `<div class="hasil-syiir-blok" data-halaman="${halId}">`;
+            // Ambil halId dari parent halaman aktual (bukan iterasi), agar benar setelah dipindah
+            const parentHal = bab.closest('.halaman-input');
+            const syiirHalId = parentHal ? parentHal.id.replace('halaman-', '') : halId;
+            html += `<div class="hasil-syiir-blok" data-halaman="${syiirHalId}">`;
             bab.querySelectorAll('.syiir-bait').forEach(baitEl => {
               const baitId = baitEl.id.replace('bait-','');
               const baitCls = `hasil-syiir-bait model-${model.toLowerCase()}`;
@@ -3920,10 +3923,8 @@ html += `</div>`;
       }
       hasilEl.innerHTML = html;
 
-      // Pindahkan semua hasil-syiir-blok keluar dari hasil-halaman ke level hasilEl
-      hasilEl.querySelectorAll('.hasil-halaman .hasil-syiir-blok').forEach(blok => {
-        hasilEl.appendChild(blok);
-      });
+      // Syiir tetap di dalam hasil-halaman sesuai posisi DOM (tidak di-appendChild keluar)
+      // Posisi render sudah benar karena mengikuti urutan bab dalam halaman
       if (kodeTersembunyi) {
         hasilEl.querySelectorAll('.kode-wrapper,.kode-kosong,.rujukan-target,.rujukan-dhamir')
           .forEach(el => el.style.visibility = 'hidden');
