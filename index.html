@@ -2768,6 +2768,29 @@ notif.textContent = '✓ PDF tersimpan!';
       }, 500);
     }
 
+    function gabungSyiir(syiirId) {
+      const syiirEl = document.getElementById(syiirId);
+      if (!syiirEl) return;
+      // Cari syiir berikutnya dalam container yang sama
+      const berikut = syiirEl.nextElementSibling;
+      if (!berikut || !berikut.classList.contains('syiir-input')) {
+        alert('Tidak ada bab syi'ir berikutnya untuk digabung.');
+        return;
+      }
+      if (!confirm('Gabungkan bait-bait syi'ir ini ke syi'ir berikutnya?')) return;
+      const idIni = syiirId.replace('syiir-', '');
+      const idBerikut = berikut.id.replace('syiir-', '');
+      const baitListIni = document.getElementById('baitList-' + idIni);
+      const baitListBerikut = document.getElementById('baitList-' + idBerikut);
+      if (!baitListIni || !baitListBerikut) return;
+      // Pindahkan semua bait dari syiir ini ke AWAL syiir berikutnya
+      const baitIni = [...baitListIni.querySelectorAll('.syiir-bait')];
+      baitIni.reverse().forEach(bait => {
+        baitListBerikut.insertBefore(bait, baitListBerikut.firstChild);
+      });
+      simpan();
+    }
+
     function gabungBab(babId) {
       const babEl = document.getElementById(babId);
       if (!babEl) return;
@@ -3566,6 +3589,8 @@ function terapkanLebarKolom(halEl) {
             <option value="A"${model==='A'?' selected':''}>Model A – dua shatr berdampingan</option>
             <option value="B"${model==='B'?' selected':''}>Model B – shatr tsani menjorok</option>
           </select>
+          <button class="btn-gabung-bab" onclick="gabungSyiir('syiir-${id}')">⊕ Gabung</button>
+          <button class="btn-pindah-bab" onclick="bukaPindahBab('syiir-${id}')">⇄ Pindah</button>
           <button class="btn-hapus-syiir" onclick="hapusBabSyiir('syiir-${id}')">Hapus Syi'ir</button>
         </div>
         <div class="syiir-bait-list" id="baitList-${id}"></div>
