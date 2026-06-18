@@ -2774,10 +2774,10 @@ notif.textContent = '✓ PDF tersimpan!';
       // Cari syiir berikutnya dalam container yang sama
       const berikut = syiirEl.nextElementSibling;
       if (!berikut || !berikut.classList.contains('syiir-input')) {
-        alert('Tidak ada bab syi'ir berikutnya untuk digabung.');
+        alert('Tidak ada bab syiir berikutnya untuk digabung.');
         return;
       }
-      if (!confirm('Gabungkan bait-bait syi'ir ini ke syi'ir berikutnya?')) return;
+      if (!confirm('Gabungkan bait-bait syiir ini ke syiir berikutnya?')) return;
       const idIni = syiirId.replace('syiir-', '');
       const idBerikut = berikut.id.replace('syiir-', '');
       const baitListIni = document.getElementById('baitList-' + idIni);
