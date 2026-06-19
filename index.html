@@ -1314,6 +1314,15 @@ body.mode-html-aktif .hasil-kotak {
       margin-left: 33px;
     }
 
+    @keyframes kedipKuning {
+      0%, 100% { background-color: transparent; }
+      25%, 75% { background-color: #fff3a0; }
+    }
+    tr.highlight-kedip,
+    .syiir-kata-item.highlight-kedip {
+      animation: kedipKuning 0.6s ease-in-out 3;
+    }
+
     .kode-wrapper {
       display: flex;
       gap: 2px;
@@ -3244,6 +3253,57 @@ function bacaGambarHalaman(input, halId) {
       document.getElementById('modalBoxGabung').style.display = 'none';
     }
 
+    // ── Lompat dari Hasil ke field Input terkait ───────────────────
+    let _posisiScrollHasil = null;
+
+    function lompatKeInput(srcId) {
+      if (!srcId) return;
+      const target = document.getElementById(srcId);
+      if (!target) { alert('Baris input tidak ditemukan (mungkin sudah dihapus/diubah).'); return; }
+
+      // Simpan posisi scroll saat ini supaya bisa kembali persis ke tempat semula
+      _posisiScrollHasil = window.scrollY;
+
+      // Tentukan field utama untuk difokuskan: arab-input (bab biasa) atau s-arab (syiir)
+      let field = target.querySelector('.arab-input') || target.querySelector('.s-arab');
+      const elScroll = field || target;
+
+      elScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Highlight kedip kuning sebentar
+      target.classList.add('highlight-kedip');
+      setTimeout(() => target.classList.remove('highlight-kedip'), 1800);
+
+      // Fokus ke field setelah scroll selesai
+      setTimeout(() => { if (field) field.focus(); }, 400);
+
+      tampilkanTombolKembali();
+    }
+
+    function tampilkanTombolKembali() {
+      let btn = document.getElementById('btnKembaliHasil');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'btnKembaliHasil';
+        btn.textContent = '↩ Kembali ke Hasil';
+        btn.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9999;background:#c9a84c;color:#fff;border:1.5px solid #7a5a20;border-radius:24px;padding:10px 18px;font-size:13px;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer;';
+        btn.onclick = kembaliKeHasil;
+        document.body.appendChild(btn);
+      }
+      btn.style.display = 'block';
+    }
+
+    function kembaliKeHasil() {
+      const btn = document.getElementById('btnKembaliHasil');
+      if (btn) btn.style.display = 'none';
+      if (_posisiScrollHasil !== null) {
+        window.scrollTo({ top: _posisiScrollHasil, behavior: 'smooth' });
+      } else {
+        document.getElementById('hasil')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    // ─────────────────────────────────────────────────────────────
+
     function pilihPosisiGabung(btn) {
       _gbPosisi = btn.dataset.pos;
       ['akhir','awal','nomor'].forEach(p => {
@@ -3809,7 +3869,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
                   } else {
                     rujukanRowHtml = `<div class="rujukan-kosong"></div>`;
                   }
-                  html += `<div class="syiir-kata-blok">
+                  html += `<div class="syiir-kata-blok" onclick="lompatKeInput('${item.id}')" style="cursor:pointer;">
                     ${kodeHtml}
                     <span class="arab" data-asli="${arab}">${arabTampil}</span>
                     <div class="bawah-kata">
@@ -3839,7 +3899,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const maknaJawa=tr.querySelector('.makna-jawa').value.trim();
             const nomor=tr.querySelector('.nom-input').value.trim();
             const krKanan=tr.querySelector('.kr-kanan-cb')?.checked||false;
-if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nomor,krKanan,geserPegon:tr.querySelector('.geser-pegon-input')?.value||''});        
+if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nomor,krKanan,geserPegon:tr.querySelector('.geser-pegon-input')?.value||'',srcId:tr.id});        
          });
           html += `<div class="hasil-bab-section">`;
           const judulIndo = bab.querySelector('.bab-judul-indo')?.value.trim() || '';
@@ -3887,7 +3947,7 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
             const showIndo = modeBahasa === 'indo';
             const geser = item.geserPegon ? parseInt(item.geserPegon) : 0;
             const geserStyle = geser ? `style="margin-right:${geser}px;"` : '';
-            html += `<div class="kata-blok ${zebra}${item.nomor?' ada-nomor ujung-ayat':''}">
+            html += `<div class="kata-blok ${zebra}${item.nomor?' ada-nomor ujung-ayat':''}" onclick="lompatKeInput('${item.srcId}')" style="cursor:pointer;">
             ${kodeHtml}
             <span class="arab" data-asli="${item.arab}">${arabTampil}</span>
             <div class="bawah-kata">
