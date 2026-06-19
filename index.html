@@ -1269,7 +1269,7 @@ body.mode-html-aktif .hasil-kotak {
     .kata-blok {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       min-width: 68px;
       overflow: visible;
       position: relative;
@@ -1321,10 +1321,12 @@ body.mode-html-aktif .hasil-kotak {
     .kode-wrapper {
       display: flex;
       gap: 4px;
-      justify-content: center;
+      justify-content: flex-end;
       margin-bottom: -14px;
       flex-wrap: nowrap;
       width: 100%;
+      padding-left: 2mm;
+      box-sizing: border-box;
     }
     
     .kode-wrapper:empty {
@@ -3944,19 +3946,20 @@ html += `</div>`;
     // Reset dulu semua
     blok.forEach(b => b.classList.remove('ujung-baris'));
 
-    // Deteksi ujung baris berdasarkan posisi top
+    // Deteksi ujung baris: bandingkan offsetTop relatif ke aliran
+    // Toleransi 4px untuk mengatasi sub-pixel rendering
+    const TOLERANSI = 4;
     let topSaat = null;
     let terakhirDiBaris = null;
     blok.forEach(b => {
-      const top = b.getBoundingClientRect().top;
-      if (topSaat !== null && top !== topSaat) {
-        // Baris baru — blok sebelumnya adalah ujung baris
+      const top = b.offsetTop;
+      if (topSaat !== null && Math.abs(top - topSaat) > TOLERANSI) {
         if (terakhirDiBaris) terakhirDiBaris.classList.add('ujung-baris');
       }
       topSaat = top;
       terakhirDiBaris = b;
     });
-    // Kata terakhir di aliran (ujung ayat/baris terakhir)
+    // Kata terakhir di aliran (ujung baris terakhir)
     if (terakhirDiBaris) terakhirDiBaris.classList.add('ujung-baris');
   });
 }
