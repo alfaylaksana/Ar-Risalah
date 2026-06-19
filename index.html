@@ -1274,13 +1274,9 @@ body.mode-html-aktif .hasil-kotak {
       overflow: visible;
       position: relative;
       padding-right: 11px;
-      border-left: 0.5px solid #c9a84c;
   }
     
-     .kata-blok.ujung-baris,
-     .kata-blok.ujung-ayat {
-  border-left: none;
-}
+     /* separator dihilangkan — spasi antar kata sudah cukup */
     
 /*
     .kata-blok.ganjil {
@@ -1321,11 +1317,11 @@ body.mode-html-aktif .hasil-kotak {
     .kode-wrapper {
       display: flex;
       gap: 4px;
-      justify-content: flex-end;
+      justify-content: flex-start;
       margin-bottom: -14px;
       flex-wrap: nowrap;
       width: 100%;
-      padding-left: 2mm;
+      padding-right: 2mm;
       box-sizing: border-box;
     }
     
