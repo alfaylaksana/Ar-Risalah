@@ -4663,6 +4663,10 @@ html += `</div>`;
       setTimeout(() => sesuaikanLebarPegon(), 800);
 
       setTimeout(() => terapkanOverrideBaris(), 80);
+      setTimeout(() => {
+        terapkanOverrideBaris();
+        sembunyikanBorderUjung();
+      }, 900);
     }
 
     function sembunyikanBorderUjung() {
