@@ -2561,7 +2561,7 @@ body.mode-html-aktif .hasil-kotak {
             <option value="20px">Sangat Besar</option>
           </select>
         </div>
-        <div id="pengantarKitab" class="rte-editor" contenteditable="true" data-placeholder="Tulis pengantar, muqaddimah, atau kata sambutan di sini..." oninput="simpan()"></div>
+        <div id="pengantarKitab" class="rte-editor" contenteditable="true" data-placeholder="Tulis pengantar, muqaddimah, atau kata sambutan di sini..." oninput="rteBersihkanJikaKosong(this); simpan()"></div>
       </div>
     </div>
   </div>
@@ -3733,8 +3733,15 @@ function tambahHalamanDaftarKode(data = {}) {
             <option value="20px">Sangat Besar</option>
           </select>
         </div>
-        <div class="rte-editor ${className}" contenteditable="true" data-placeholder="${placeholder}"${dirAttr} oninput="simpan()">${existingHTML || ''}</div>
+        <div class="rte-editor ${className}" contenteditable="true" data-placeholder="${placeholder}"${dirAttr} oninput="rteBersihkanJikaKosong(this); simpan()">${existingHTML || ''}</div>
       </div>`;
+    }
+
+    function rteBersihkanJikaKosong(editor) {
+      const teksPolos = editor.innerHTML.replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, '').trim();
+      if (!teksPolos && editor.innerHTML !== '') {
+        editor.innerHTML = '';
+      }
     }
 
     function rteExec(btn, cmd) {
@@ -4249,6 +4256,9 @@ function terapkanLebarKolom(halEl) {
       const tahun = document.getElementById('tahunKitab').value.trim();
       const edisi = document.getElementById('edisiKitab').value.trim();
       const pengantar = document.getElementById('pengantarKitab').innerHTML.trim();
+      function htmlAdaIsi(htmlStr) {
+        return !!(htmlStr || '').replace(/<[^>]*>/g, '').replace(/&nbsp;/gi, '').trim();
+      }
       let html = '', navList = [];
       let nomorHalIsi = 0;
       if (judulKitab || judulArab) {
@@ -4262,7 +4272,7 @@ function terapkanLebarKolom(halEl) {
       }
       let pengantarHtml = '';
 let pengantarNav = null;
-if (pengantar) {
+if (htmlAdaIsi(pengantar)) {
   nomorHalIsi++;
   pengantarNav = {id: 'hasil-pengantar', nama: 'Pengantar'};
   pengantarHtml = `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
@@ -4282,7 +4292,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           const gambar = hal.querySelector('.data-gambar-halaman')?.value || '';
           const teksAtas = hal.querySelector('.teks-atas-gambar')?.innerHTML.trim() || '';
           const teksBawah = hal.querySelector('.teks-bawah-gambar')?.innerHTML.trim() || '';
-          const adaTeks = teksAtas || teksBawah;
+          const adaTeks = htmlAdaIsi(teksAtas) || htmlAdaIsi(teksBawah);
           navList.push({
             id: anchor,
             nama: `Gambar: Halaman ${nomorHal}`
@@ -4294,9 +4304,9 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           }
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-gambar${adaTeks?' ada-teks':''}">
-        ${teksAtas?`<div class="teks-gambar-atas">${teksAtas}</div>`:''}
+        ${htmlAdaIsi(teksAtas)?`<div class="teks-gambar-atas">${teksAtas}</div>`:''}
         ${gambar?`<img src="${gambar}" alt="Gambar halaman">`:`<div class="placeholder-gambar">(Belum ada gambar)</div>`}
-        ${teksBawah?`<div class="teks-gambar-bawah">${teksBawah}</div>`:''}
+        ${htmlAdaIsi(teksBawah)?`<div class="teks-gambar-bawah">${teksBawah}</div>`:''}
       </div>
       ${nomorDivGambar}
     </div>`;
@@ -4317,7 +4327,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         ${subInfo?`<div class="pk-sub">${subInfo}</div>`:''}
         ${penyusun?`<div class="pk-label">Penyusun (Aplikasi dan Terjemah)</div><div class="pk-value">${penyusun}</div>`:''}
         ${penerbit?`<div class="pk-label">Penerbit</div><div class="pk-value">${penerbit}</div>`:''}
-        ${ketHtml?`<div class="pk-keterangan">${ketHtml}</div>`:''}
+        ${htmlAdaIsi(ketHtml)?`<div class="pk-keterangan">${ketHtml}</div>`:''}
       </div></div>
     </div>`;
           return;
@@ -4610,7 +4620,7 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
           html += `</div></div>`;
         });
         const nahwu = hal.querySelector('.nahwu-input')?.innerHTML.trim() || '';
-if (nahwu) {
+if (htmlAdaIsi(nahwu)) {
   html += `<div class="catatan-nahwu">
     <div class="catatan-nahwu-label">✦ Catatan Nahwu ✦</div>
     <div class="catatan-nahwu-isi">${nahwu}</div>
