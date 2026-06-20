@@ -2946,6 +2946,22 @@ function togglePopupTerjemahan(el, nomorAyat) {
         }
       });
     }
+
+    // Override lebar minimum kata (min-width .kata-blok)
+    const inputMinKata = hal.querySelector('.input-override-minkata');
+    if (inputMinKata && inputMinKata.value.trim()) {
+      const aliranListMin = hasilEl.querySelectorAll('.hasil-aliran');
+      inputMinKata.value.split(',').forEach(item => {
+        const [idx, lebar] = item.trim().split(':');
+        const i = parseInt(idx) - 1;
+        const l = parseInt(lebar);
+        if (!isNaN(i) && !isNaN(l) && aliranListMin[i]) {
+          aliranListMin[i].querySelectorAll('.kata-blok').forEach(blok => {
+            blok.style.minWidth = l + 'px';
+          });
+        }
+      });
+    }
     
     // Override posisi nomor halaman
     const inputNom = hal.querySelector('.input-override-nomhlm');
@@ -3333,7 +3349,7 @@ function gotoHalamanHasil() {
       });
     }
 
-  function tambahHalaman(babList = [], nahwu = '', terjemahan = {}, overridePegon = '', overrideBaris = '', overrideNomHlm = 0, overrideColGap = '', lebarKolom = {}, overridePegonJawa = '') {
+  function tambahHalaman(babList = [], nahwu = '', terjemahan = {}, overridePegon = '', overrideBaris = '', overrideNomHlm = 0, overrideColGap = '', lebarKolom = {}, overridePegonJawa = '', overrideMinKata = '') {
   const id = halamanCounter++;
   const div = document.createElement('div');
   div.className = 'halaman-input';
@@ -3380,6 +3396,10 @@ function gotoHalamanHasil() {
 <div class="field-override-pegon" style="margin-top:6px;">
   <label>Override Column Gap (contoh: 1:8, 2:4)</label>
   <input type="text" class="input-override-colgap" placeholder="nomorBaris:gap(px), ..." value="${overrideColGap||''}" oninput="simpan()">
+</div>
+<div class="field-override-pegon" style="margin-top:6px;">
+  <label>Override Lebar Minimum Kata (contoh: 1:40, 2:50 — default 68px)</label>
+  <input type="text" class="input-override-minkata" placeholder="nomorBaris:lebar(px), ..." value="${overrideMinKata||''}" oninput="simpan()">
 </div>
     </div>
   `;
@@ -4867,6 +4887,7 @@ html += `</div>`;
    overrideBaris: hal.querySelector('.input-override-baris')?.value || '',
    overrideNomHlm: hal.querySelector('.input-override-nomhlm')?.value || 0,
    overrideColGap: hal.querySelector('.input-override-colgap')?.value || '',
+   overrideMinKata: hal.querySelector('.input-override-minkata')?.value || '',
    lebarKolom: hal.dataset.lebarKolom ? JSON.parse(hal.dataset.lebarKolom) : {}
 });
    
@@ -4955,7 +4976,7 @@ html += `</div>`;
           else if (h.tipe === 'daftarisi') tambahHalamanDaftarIsi(h);
           else if (h.tipe === 'pegon') tambahHalamanPegon(h);
           else if (h.tipe === 'daftarkode') tambahHalamanDaftarKode(h);
-          else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '');
+          else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '', h.overrideMinKata || '');
         });
         data.halamanList.forEach(h => {
           if (h.terjemahan) Object.assign(terjemahanData, h.terjemahan);
