@@ -644,6 +644,68 @@ th.col-jawa {
       line-height: 1.5;
     }
 
+    /* ── Rich Text Editor (toolbar + contenteditable) ───────────── */
+    .rte-wrap { width: 100%; }
+    .rte-toolbar {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+      background: #f5edd5;
+      border: 1px solid #c9a84c;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      padding: 4px;
+      flex-wrap: wrap;
+    }
+    .rte-toolbar button {
+      width: 26px;
+      height: 26px;
+      border: 1px solid #c9a84c;
+      border-radius: 3px;
+      background: #fffdf7;
+      color: #7a5a20;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .rte-toolbar button:hover { background: #fff3d0; }
+    .rte-toolbar button.rte-aktif { background: #c9a84c; color: #fff; }
+    .rte-toolbar button[data-cmd="bold"] { font-weight: bold; }
+    .rte-toolbar button[data-cmd="italic"] { font-style: italic; }
+    .rte-toolbar button[data-cmd="underline"] { text-decoration: underline; }
+    .rte-toolbar select.rte-size {
+      height: 26px;
+      border: 1px solid #c9a84c;
+      border-radius: 3px;
+      background: #fffdf7;
+      color: #7a5a20;
+      font-size: 11px;
+      padding: 0 2px;
+    }
+    .rte-editor {
+      width: 100%;
+      min-height: 80px;
+      padding: 8px;
+      font-family: Georgia, serif;
+      font-size: 13px;
+      border: 1px solid #c9a84c;
+      border-radius: 0 0 4px 4px;
+      background: #fffdf7;
+      outline: none;
+      color: #1a1208;
+      line-height: 1.5;
+      overflow-y: auto;
+    }
+    .rte-editor:empty::before {
+      content: attr(data-placeholder);
+      color: #b0a080;
+    }
+    .rte-editor[dir="rtl"] { text-align: right; }
+
+
     .field-override-pegon {
   margin-top: 10px;
   border: 1px dashed #c9a84c;
@@ -1327,7 +1389,7 @@ body.mode-html-aktif .hasil-kotak {
       display: flex;
       gap: 2px;
       justify-content: flex-start;
-      margin-bottom: calc(-14px - 1.25mm);
+      margin-bottom: calc(-14px + 1.25mm);
       flex-wrap: nowrap;
       width: fit-content;
       align-self: flex-start;
@@ -2259,7 +2321,21 @@ body.mode-html-aktif .hasil-kotak {
     </div>
     <div class="info-pengantar">
       <label>Halaman Pengantar / Muqaddimah</label>
-      <textarea id="pengantarKitab" placeholder="Tulis pengantar, muqaddimah, atau kata sambutan di sini..."></textarea>
+      <div class="rte-wrap">
+        <div class="rte-toolbar">
+          <button type="button" data-cmd="bold" onclick="rteExec(this,'bold')" title="Tebal"><b>B</b></button>
+          <button type="button" data-cmd="italic" onclick="rteExec(this,'italic')" title="Miring"><i>I</i></button>
+          <button type="button" data-cmd="underline" onclick="rteExec(this,'underline')" title="Garis bawah"><u>U</u></button>
+          <select class="rte-size" onchange="rteSetSize(this)" title="Ukuran teks">
+            <option value="">Ukuran</option>
+            <option value="11px">Kecil</option>
+            <option value="13px">Sedang</option>
+            <option value="16px">Besar</option>
+            <option value="20px">Sangat Besar</option>
+          </select>
+        </div>
+        <div id="pengantarKitab" class="rte-editor" contenteditable="true" data-placeholder="Tulis pengantar, muqaddimah, atau kata sambutan di sini..." oninput="simpan()"></div>
+      </div>
     </div>
   </div>
 
@@ -3034,7 +3110,7 @@ function gotoHalamanHasil() {
       <button class="btn-tambah-bab" style="background:#8b6914;" onclick="tambahBabSyiir(${id})">🎵 Bab Syi'ir</button>
       <div class="nahwu-input-wrap">
         <label>Catatan Nahwu — Halaman ${id+1}</label>
-        <textarea class="nahwu-input" placeholder="Catatan nahwu untuk halaman ini...">${nahwu}</textarea>
+        ${buatRTE('nahwu-input', nahwu, 'Catatan nahwu untuk halaman ini...', true)}
       </div>
       <div class="terjemahan-input-wrap" id="terjWrap-${id}">
         <div class="terj-header" onclick="toggleTerj(${id})" style="cursor:pointer;display:flex;align-items:center;gap:8px;">
@@ -3111,8 +3187,8 @@ function gotoHalamanHasil() {
     fieldsEl.innerHTML += `
       <div class="terj-item" data-nomor="${nomor}">
         <div class="terj-nomor">Ayat ${nomor}</div>
-        <textarea class="terj-indo" placeholder="Terjemah Indonesia...">${existing.indo || ''}</textarea>
-        <textarea class="terj-en" placeholder="English translation...">${existing.en || ''}</textarea>
+        ${buatRTE('terj-indo', existing.indo || '', 'Terjemah Indonesia...', false)}
+        ${buatRTE('terj-en', existing.en || '', 'English translation...', false)}
       </div>
     `;
   });
@@ -3122,11 +3198,11 @@ function gotoHalamanHasil() {
     const nomor = item.dataset.nomor;
     item.querySelector('.terj-indo').addEventListener('input', e => {
       if (!terjemahanData[nomor]) terjemahanData[nomor] = {};
-      terjemahanData[nomor].indo = e.target.value;
+      terjemahanData[nomor].indo = e.target.innerHTML;
     });
     item.querySelector('.terj-en').addEventListener('input', e => {
       if (!terjemahanData[nomor]) terjemahanData[nomor] = {};
-      terjemahanData[nomor].en = e.target.value;
+      terjemahanData[nomor].en = e.target.innerHTML;
     });
   });
 }
@@ -3184,9 +3260,9 @@ function isiTerjemahanFields(halamanId, terjemahan) {
         ${data.base64?`<img src="${data.base64}" style="max-width:100%;max-height:200px;border-radius:4px;border:1px solid #c9a84c;">`:''}
       </div>
       <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Atas Gambar (opsional)</label>
-      <textarea class="teks-atas-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksAtas||''}</textarea>
+      ${buatRTE('teks-atas-gambar', data.teksAtas||'', 'Teks atas gambar...', true)}
       <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Teks Bawah Gambar (opsional)</label>
-      <textarea class="teks-bawah-gambar" dir="rtl" style="width:100%;min-height:50px;padding:6px;font-family:Georgia, serif;font-size:14px;border:1px solid #e0d0a0;direction:rtl;">${data.teksBawah||''}</textarea>
+      ${buatRTE('teks-bawah-gambar', data.teksBawah||'', 'Teks bawah gambar...', true)}
     </div>
   `;
   document.getElementById('containerHalaman').appendChild(div);
@@ -3255,6 +3331,62 @@ function bacaGambarHalaman(input, halId) {
 
     // ── Lompat dari Hasil ke field Input terkait ───────────────────
     let _posisiScrollHasil = null;
+
+    // ── Rich Text Editor (RTE) reusable ─────────────────────────────
+    // Membuat markup toolbar + editor contenteditable.
+    // existingHTML: konten awal (HTML). placeholder: teks placeholder.
+    // rtl: true jika arah teks kanan-ke-kiri.
+    function buatRTE(className, existingHTML, placeholder, rtl) {
+      const dirAttr = rtl ? ' dir="rtl"' : '';
+      return `
+      <div class="rte-wrap">
+        <div class="rte-toolbar">
+          <button type="button" data-cmd="bold" onclick="rteExec(this,'bold')" title="Tebal"><b>B</b></button>
+          <button type="button" data-cmd="italic" onclick="rteExec(this,'italic')" title="Miring"><i>I</i></button>
+          <button type="button" data-cmd="underline" onclick="rteExec(this,'underline')" title="Garis bawah"><u>U</u></button>
+          <select class="rte-size" onchange="rteSetSize(this)" title="Ukuran teks">
+            <option value="">Ukuran</option>
+            <option value="11px">Kecil</option>
+            <option value="13px">Sedang</option>
+            <option value="16px">Besar</option>
+            <option value="20px">Sangat Besar</option>
+          </select>
+        </div>
+        <div class="rte-editor ${className}" contenteditable="true" data-placeholder="${placeholder}"${dirAttr} oninput="simpan()">${existingHTML || ''}</div>
+      </div>`;
+    }
+
+    function rteExec(btn, cmd) {
+      const editor = btn.closest('.rte-wrap').querySelector('.rte-editor');
+      editor.focus();
+      document.execCommand(cmd, false, null);
+      simpan();
+    }
+
+    function rteSetSize(sel) {
+      const ukuran = sel.value;
+      if (!ukuran) return;
+      const editor = sel.closest('.rte-wrap').querySelector('.rte-editor');
+      editor.focus();
+      // Gunakan span dengan font-size karena execCommand fontSize terbatas (hanya 1-7)
+      const sel2 = window.getSelection();
+      if (sel2.rangeCount && !sel2.isCollapsed) {
+        const range = sel2.getRangeAt(0);
+        const span = document.createElement('span');
+        span.style.fontSize = ukuran;
+        try {
+          range.surroundContents(span);
+        } catch(e) {
+          // Jika seleksi melintasi banyak elemen, fallback: bungkus isi range
+          const frag = range.extractContents();
+          span.appendChild(frag);
+          range.insertNode(span);
+        }
+      }
+      sel.value = '';
+      simpan();
+    }
+    // ─────────────────────────────────────────────────────────────
 
     function lompatKeInput(srcId) {
       if (!srcId) return;
@@ -3734,7 +3866,7 @@ function terapkanLebarKolom(halEl) {
       const namaUstaz = document.getElementById('namaUstaz').value.trim();
       const tahun = document.getElementById('tahunKitab').value.trim();
       const edisi = document.getElementById('edisiKitab').value.trim();
-      const pengantar = document.getElementById('pengantarKitab').value.trim();
+      const pengantar = document.getElementById('pengantarKitab').innerHTML.trim();
       let html = '', navList = [];
       let nomorHalIsi = 0;
       if (judulKitab || judulArab) {
@@ -3766,8 +3898,8 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
 
   if (hal.classList.contains('halaman-gambar')) {
           const gambar = hal.querySelector('.data-gambar-halaman')?.value || '';
-          const teksAtas = hal.querySelector('.teks-atas-gambar')?.value.trim() || '';
-          const teksBawah = hal.querySelector('.teks-bawah-gambar')?.value.trim() || '';
+          const teksAtas = hal.querySelector('.teks-atas-gambar')?.innerHTML.trim() || '';
+          const teksBawah = hal.querySelector('.teks-bawah-gambar')?.innerHTML.trim() || '';
           const adaTeks = teksAtas || teksBawah;
           navList.push({
             id: anchor,
@@ -3960,7 +4092,7 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
           });
           html += `</div></div>`;
         });
-        const nahwu = hal.querySelector('.nahwu-input')?.value.trim() || '';
+        const nahwu = hal.querySelector('.nahwu-input')?.innerHTML.trim() || '';
 if (nahwu) {
   html += `<div class="catatan-nahwu">
     <div class="catatan-nahwu-label">✦ Catatan Nahwu ✦</div>
@@ -4093,8 +4225,8 @@ html += `</div>`;
           halamanList.push({
             tipe: 'gambar',
             base64: hal.querySelector('.data-gambar-halaman')?.value || '',
-            teksAtas: hal.querySelector('.teks-atas-gambar')?.value || '',
-            teksBawah: hal.querySelector('.teks-bawah-gambar')?.value || ''
+            teksAtas: hal.querySelector('.teks-atas-gambar')?.innerHTML || '',
+            teksBawah: hal.querySelector('.teks-bawah-gambar')?.innerHTML || ''
           });
           return;
         }
@@ -4109,7 +4241,7 @@ html += `</div>`;
           });
           return;
         }
-        const nahwu = hal.querySelector('.nahwu-input').value;
+        const nahwu = hal.querySelector('.nahwu-input').innerHTML;
         const babList = [];
         hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab => {
           if (bab.classList.contains('syiir-input')) {
@@ -4176,7 +4308,7 @@ html += `</div>`;
         keterangan: document.getElementById('keterangan').value,
         tahunKitab: document.getElementById('tahunKitab').value,
         edisiKitab: document.getElementById('edisiKitab').value,
-        pengantarKitab: document.getElementById('pengantarKitab').value,
+        pengantarKitab: document.getElementById('pengantarKitab').innerHTML,
         halamanList
       };
     }
@@ -4243,7 +4375,7 @@ html += `</div>`;
       document.getElementById('keterangan').value = data.keterangan || '';
       document.getElementById('tahunKitab').value = data.tahunKitab || '';
       document.getElementById('edisiKitab').value = data.edisiKitab || '';
-      document.getElementById('pengantarKitab').value = data.pengantarKitab || '';
+      document.getElementById('pengantarKitab').innerHTML = data.pengantarKitab || '';
       if (data.halamanList && data.halamanList.length) {
         data.halamanList.forEach(h => {
           if (h.tipe === 'judul') tambahHalamanJudul(h);
@@ -4347,7 +4479,8 @@ html += `</div>`;
       if (!confirm('Yakin ingin mereset semua data? Semua yang belum disimpan akan hilang.')) return;
       hapusDB().catch(() => {}); try { localStorage.removeItem('gandul_data'); } catch(e) {}
       document.getElementById('containerHalaman').innerHTML = '';
-      ['judulKitab', 'judulArab', 'namaUstaz', 'keterangan', 'tahunKitab', 'edisiKitab', 'pengantarKitab'].forEach(id => document.getElementById(id).value = '');
+      ['judulKitab', 'judulArab', 'namaUstaz', 'keterangan', 'tahunKitab', 'edisiKitab'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('pengantarKitab').innerHTML = '';
       halamanCounter = 0;
       babCounter = 0;
       kataCounter = 0;
