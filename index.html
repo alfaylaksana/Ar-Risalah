@@ -2936,12 +2936,15 @@ function togglePopupTerjemahan(el, nomorAyat) {
     // Override column gap
     const inputColGap = hal.querySelector('.input-override-colgap');
     if (inputColGap && inputColGap.value.trim()) {
-      const g = parseInt(inputColGap.value.trim());
-      if (!isNaN(g)) {
-        hasilEl.querySelectorAll('.hasil-aliran').forEach(aliran => {
-          aliran.style.columnGap = g + 'px';
-        });
-      }
+      const aliranListGap = hasilEl.querySelectorAll('.hasil-aliran');
+      inputColGap.value.split(',').forEach(item => {
+        const [idx, gap] = item.trim().split(':');
+        const i = parseInt(idx) - 1;
+        const g = parseInt(gap);
+        if (!isNaN(i) && !isNaN(g) && aliranListGap[i]) {
+          aliranListGap[i].style.columnGap = g + 'px';
+        }
+      });
     }
     
     // Override posisi nomor halaman
