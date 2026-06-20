@@ -1240,6 +1240,233 @@ body.mode-html-aktif .hasil-kotak {
       font-style: normal;
     }
 
+    /* ===== Halaman Profil Kitab ===== */
+    .hasil-halaman-profil {
+      width: calc(165mm - 30px);
+      min-height: 215mm;
+      box-sizing: border-box;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .profil-kitab-box {
+      border-top: 2px solid #c9a84c;
+      padding-top: 18px;
+      margin-top: auto;
+    }
+    .profil-kitab-box .pk-judul-arab {
+      font-size: 22px;
+      color: #1a1208;
+      direction: rtl;
+      margin-bottom: 4px;
+    }
+    .profil-kitab-box .pk-judul-indo {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1a1208;
+      margin-bottom: 2px;
+    }
+    .profil-kitab-box .pk-sub {
+      font-size: 13px;
+      color: #4a3a10;
+      margin-bottom: 14px;
+    }
+    .profil-kitab-box .pk-label {
+      font-size: 11px;
+      color: #7a5a20;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .profil-kitab-box .pk-value {
+      font-size: 14px;
+      color: #1a1208;
+      margin-top: 2px;
+    }
+    .profil-kitab-box .pk-keterangan {
+      font-size: 12.5px;
+      color: #4a3a10;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+
+    /* ===== Halaman Daftar Isi ===== */
+    .hasil-halaman-daftarisi {
+      width: calc(165mm - 30px);
+      min-height: 215mm;
+      box-sizing: border-box;
+      padding: 20mm 15mm;
+    }
+    .daftarisi-judul {
+      font-size: 18px;
+      color: #1a1208;
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+    .daftarisi-baris {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 14px;
+      color: #1a1208;
+      line-height: 2;
+    }
+    .daftarisi-baris .di-nama {
+      white-space: nowrap;
+    }
+    .daftarisi-baris .di-titik {
+      flex: 1;
+      border-bottom: 1px dotted #b09050;
+      margin-bottom: 4px;
+    }
+    .daftarisi-baris .di-nomor {
+      white-space: nowrap;
+      min-width: 18px;
+      text-align: right;
+    }
+
+    /* ===== Halaman Penjelasan Pegon ===== */
+    .hasil-halaman-pegon {
+      width: calc(165mm - 30px);
+      min-height: 215mm;
+      box-sizing: border-box;
+      padding: 15mm 12mm;
+    }
+    .pegon-nomor-romawi {
+      text-align: center;
+      font-size: 12px;
+      color: #7a5a20;
+      border: 1px solid #c9a84c;
+      width: 28px;
+      margin: 0 auto 14px;
+      padding: 2px 0;
+    }
+    .pegon-judul {
+      text-align: center;
+      font-size: 19px;
+      font-weight: bold;
+      color: #1a1208;
+      margin-bottom: 14px;
+    }
+    .pegon-intro {
+      font-size: 12.5px;
+      color: #1a1208;
+      line-height: 1.7;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+    .pegon-tabel-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .pegon-tabel-box {
+      flex: 1;
+      border: 1px solid #b09050;
+      border-radius: 3px;
+      padding: 6px 10px;
+    }
+    .pegon-tabel-box .ptb-judul {
+      text-align: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #1a1208;
+      border-bottom: 1px solid #d8c090;
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+    .pegon-tabel-box .ptb-baris {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: #1a1208;
+      padding: 2px 0;
+    }
+    .pegon-tabel-box .ptb-baris .ptb-arab {
+      direction: rtl;
+      font-family: 'Scheherazade New', serif;
+      font-size: 14px;
+    }
+    .pegon-contoh-judul {
+      font-size: 12px;
+      font-weight: bold;
+      color: #1a1208;
+      margin-bottom: 6px;
+    }
+    .pegon-contoh-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px 14px;
+      font-size: 11.5px;
+      color: #1a1208;
+    }
+    .pegon-contoh-grid .pcg-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 1px 0;
+    }
+    .pegon-contoh-grid .pcg-arab {
+      direction: rtl;
+      font-family: 'Scheherazade New', serif;
+      font-size: 14px;
+    }
+
+    /* ===== Halaman Daftar Kode Gramatikal ===== */
+    .hasil-halaman-daftarkode {
+      width: calc(165mm - 30px);
+      min-height: 215mm;
+      box-sizing: border-box;
+      padding: 20mm 15mm;
+    }
+    .daftarkode-judul {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #1a1208;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .daftarkode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 20px;
+    }
+    .daftarkode-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #1a1208;
+      border-bottom: 1px dotted #e0d0a0;
+      padding: 3px 0;
+    }
+    .daftarkode-item .dk-lingkaran {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      border: 1px solid #7a5a20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      color: #7a5a20;
+    }
+    .daftarkode-item .dk-lingkaran.tidakdiucapkan {
+      border-style: dashed;
+    }
+    .daftarkode-item .dk-arti {
+      flex: 1;
+    }
+
     .bab-judul-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 60px;
@@ -1430,11 +1657,11 @@ body.mode-html-aktif .hasil-kotak {
     }
 
     .kode-kosong {
-      width: 26px;
-      height: 26px;
+      width: 18px;
+      height: 22px;
+      margin-bottom: calc(-14px + 1.25mm);
       visibility: hidden;
-      margin-bottom: -6px;
-      display: none;
+      display: block;
     }
 
     .arab {
@@ -2371,6 +2598,10 @@ body.mode-html-aktif .hasil-kotak {
   <button class="btn-tambah-halaman" onclick="tambahHalaman()">+ Tambah Halaman Baru</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanJudul()" style="background:#a07840;">+ Tambah Halaman Judul</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanGambar()" style="background:#7a8a5a;">+ Tambah Halaman Gambar</button>
+  <button id="btnTambahProfil" class="btn-tambah-halaman" onclick="tambahHalamanProfil()" style="background:#8a6a30;">+ Profil Kitab</button>
+  <button id="btnTambahDaftarIsi" class="btn-tambah-halaman" onclick="tambahHalamanDaftarIsi()" style="background:#5a7a8a;">+ Daftar Isi</button>
+  <button id="btnTambahPegon" class="btn-tambah-halaman" onclick="tambahHalamanPegon()" style="background:#6a5a8a;">+ Penjelasan Pegon</button>
+  <button id="btnTambahDaftarKode" class="btn-tambah-halaman" onclick="tambahHalamanDaftarKode()" style="background:#7a5a5a;">+ Daftar Kode</button>
   <div class="tombol-utama">
     <button class="btn-tampil" onclick="tampilkan('pdf')">Tampilkan PDF</button>
 <button class="btn-tampil" onclick="tampilkan('html')">Tampilkan HTML</button>
@@ -3283,6 +3514,156 @@ function bacaGambarHalaman(input, halId) {
   reader.readAsDataURL(file);
 }
 
+// ── Halaman Tetap (singleton): Profil Kitab, Daftar Isi, Penjelasan Pegon, Daftar Kode ──
+function halamanTetapSudahAda(kelas) {
+  return document.querySelector('.halaman-input.' + kelas);
+}
+function updateTombolHalamanTetap() {
+  [
+    ['halaman-profil', 'btnTambahProfil'],
+    ['halaman-daftarisi', 'btnTambahDaftarIsi'],
+    ['halaman-pegon', 'btnTambahPegon'],
+    ['halaman-daftarkode', 'btnTambahDaftarKode']
+  ].forEach(([kelas, btnId]) => {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    const ada = halamanTetapSudahAda(kelas);
+    btn.disabled = !!ada;
+    btn.style.opacity = ada ? '0.5' : '1';
+    btn.title = ada ? 'Sudah ada di dokumen — hapus dulu untuk membuat ulang' : '';
+  });
+}
+
+function tambahHalamanProfil(data = {}) {
+  if (halamanTetapSudahAda('halaman-profil')) { return; }
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-profil';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">🪪 Halaman ${id+1} (Profil Kitab)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <p style="font-size:11px;color:#a07840;margin:0 0 8px;">Judul kitab &amp; edisi diambil otomatis dari Identitas Kitab di atas. Lengkapi sisanya:</p>
+      <input class="profil-penyusun" type="text" placeholder="Penyusun (Aplikasi dan Terjemah)" value="${data.penyusun||''}" style="width:100%;margin-bottom:6px;" />
+      <input class="profil-penerbit" type="text" placeholder="Penerbit" value="${data.penerbit||''}" style="width:100%;margin-bottom:6px;" />
+      <label style="font-size:10px;color:#a07840;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:8px;margin-bottom:4px;">Keterangan Penggunaan</label>
+      ${buatRTE('profil-keterangan', data.keteranganHtml||'', 'Digunakan untuk kali pertama di... Tahun Ajaran...', false)}
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+  updateTombolHalamanTetap();
+}
+
+function tambahHalamanDaftarIsi(data = {}) {
+  if (halamanTetapSudahAda('halaman-daftarisi')) { return; }
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-daftarisi';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">📑 Halaman ${id+1} (Daftar Isi)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <button type="button" class="btn-tool" style="margin-bottom:8px;" onclick="generateDaftarIsi('halaman-${id}')">🔄 Generate dari Bab</button>
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu entri, format: <b>Nama Bab | Nomor Halaman</b>. Bisa diedit/dihapus/ditambah manual.</p>
+      <textarea class="daftarisi-input" placeholder="Bab 1: Muqaddimah | 1" style="width:100%;min-height:160px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;" oninput="simpan()">${data.teks||''}</textarea>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+  updateTombolHalamanTetap();
+}
+
+function generateDaftarIsi(halId) {
+  const hal = document.getElementById(halId);
+  if (!hal) return;
+  const baris = [];
+  const semuaHalaman = [...document.querySelectorAll('.halaman-input')];
+  semuaHalaman.forEach((h, idx) => {
+    h.querySelectorAll('.bab-input').forEach(bab => {
+      const nama = bab.querySelector('.bab-nama-input')?.value.trim();
+      if (nama) baris.push(`${nama} | ${idx+1}`);
+    });
+    h.querySelectorAll('.syiir-input').forEach(syiir => {
+      baris.push(`Syi'ir | ${idx+1}`);
+    });
+  });
+  const ta = hal.querySelector('.daftarisi-input');
+  if (ta) {
+    ta.value = baris.length ? baris.join('\n') : '(Belum ada Bab di dokumen)';
+    simpan();
+  }
+}
+
+function tambahHalamanPegon(data = {}) {
+  if (halamanTetapSudahAda('halaman-pegon')) { return; }
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-pegon';
+  div.id = 'halaman-' + id;
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">🔤 Halaman ${id+1} (Penjelasan Pegon)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <p style="font-size:11px;color:#a07840;margin:0;">Konten halaman ini baku (mengikuti standar Pegon) dan otomatis tampil saat ditambahkan. Tidak perlu diisi manual.</p>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+  updateTombolHalamanTetap();
+}
+
+function tambahHalamanDaftarKode(data = {}) {
+  if (halamanTetapSudahAda('halaman-daftarkode')) { return; }
+  const id = halamanCounter++;
+  const div = document.createElement('div');
+  div.className = 'halaman-input halaman-daftarkode';
+  div.id = 'halaman-' + id;
+  const defaultKode = [
+    ['م','Madhi (kata kerja lampau)','diucapkan'],
+    ['خ','Khabar','diucapkan'],
+    ['مف','Maf\'ul','diucapkan'],
+    ['فا','Fa\'il','diucapkan'],
+    ['ف','Fi\'il','diucapkan'],
+    ['ما','Mubtada','diucapkan'],
+    ['مضا','Mudhaf','diucapkan'],
+    ['فأ','Fi\'il Amr','diucapkan'],
+    ['حا','Haal','diucapkan'],
+    ['ظ','Zharaf','diucapkan'],
+    ['ص','Shifat','diucapkan'],
+    ['ب','Badal','diucapkan'],
+    ['ج','Jar-Majrur','diucapkan'],
+    ['...','Murojaah','murojaah'],
+    ['مط','Mathuf','diucapkan']
+  ];
+  const teksDefault = data.teks || defaultKode.map(([k,a,c]) => `${k} | ${a} | ${c}`).join('\n');
+  div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">🔣 Halaman ${id+1} (Daftar Kode Gramatikal)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Kode | Arti | diucapkan / tidakdiucapkan / murojaah</b></p>
+      <textarea class="daftarkode-input" style="width:100%;min-height:220px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefault}</textarea>
+    </div>
+  `;
+  document.getElementById('containerHalaman').appendChild(div);
+  halamanObserver.observe(div);
+  updateNavInput();
+  updateTombolHalamanTetap();
+}
+
     function bukaModalPindahHalaman() {
       const semua = [...document.querySelectorAll('.halaman-input')];
       const posAktif = halamanAktifId ? semua.findIndex(h => h.id === halamanAktifId) + 1 : 0;
@@ -3557,6 +3938,7 @@ function bacaGambarHalaman(input, halId) {
       if (confirm('Yakin ingin menghapus halaman ini beserta semua isinya?')) {
         document.getElementById(id)?.remove();
         updateNavInput();
+        updateTombolHalamanTetap();
       }
     }
 
@@ -3920,6 +4302,141 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
     </div>`;
           return;
         }
+        if (hal.classList.contains('halaman-profil')) {
+          const judulArabK = judulArab || '';
+          const judulIndoK = judulKitab || '';
+          const subInfo = [edisi, tahun].filter(Boolean).join(' · ');
+          const penyusun = hal.querySelector('.profil-penyusun')?.value.trim() || '';
+          const penerbit = hal.querySelector('.profil-penerbit')?.value.trim() || '';
+          const ketHtml = hal.querySelector('.profil-keterangan')?.innerHTML.trim() || '';
+          navList.push({ id: anchor, nama: 'Profil Kitab' });
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-profil"><div class="profil-kitab-box">
+        ${judulArabK?`<div class="pk-judul-arab">${judulArabK}</div>`:''}
+        ${judulIndoK?`<div class="pk-judul-indo">${judulIndoK}</div>`:''}
+        ${subInfo?`<div class="pk-sub">${subInfo}</div>`:''}
+        ${penyusun?`<div class="pk-label">Penyusun (Aplikasi dan Terjemah)</div><div class="pk-value">${penyusun}</div>`:''}
+        ${penerbit?`<div class="pk-label">Penerbit</div><div class="pk-value">${penerbit}</div>`:''}
+        ${ketHtml?`<div class="pk-keterangan">${ketHtml}</div>`:''}
+      </div></div>
+    </div>`;
+          return;
+        }
+        if (hal.classList.contains('halaman-daftarisi')) {
+          const teksDI = hal.querySelector('.daftarisi-input')?.value || '';
+          navList.push({ id: anchor, nama: 'Daftar Isi' });
+          const barisHtmlDI = teksDI.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
+            const parts = b.split('|');
+            const nama = (parts[0]||'').trim();
+            const nomor = (parts[1]||'').trim();
+            return `<div class="daftarisi-baris"><span class="di-nama">${nama}</span><span class="di-titik"></span><span class="di-nomor">${nomor}</span></div>`;
+          }).join('');
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-daftarisi">
+        <div class="daftarisi-judul">Daftar Isi</div>
+        ${barisHtmlDI}
+      </div>
+    </div>`;
+          return;
+        }
+        if (hal.classList.contains('halaman-pegon')) {
+          navList.push({ id: anchor, nama: 'Penjelasan Pegon' });
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-pegon">
+        <div class="pegon-nomor-romawi">iii</div>
+        <div class="pegon-judul">APA ITU PEGON?</div>
+        <div class="pegon-intro">Pegon adalah bahasa kita (baik Indonesia, Jawa, dll, non-Arab) yang ditulis dengan teks Arab. Berikut ini hal-hal yang harus diketahui:</div>
+        <div class="pegon-tabel-row">
+          <div class="pegon-tabel-box">
+            <div class="ptb-judul">Huruf Mati:</div>
+            <div class="ptb-baris"><span>b = </span><span class="ptb-arab">ب</span></div>
+            <div class="ptb-baris"><span>c = </span><span class="ptb-arab">چ</span></div>
+            <div class="ptb-baris"><span>d = </span><span class="ptb-arab">د</span></div>
+            <div class="ptb-baris"><span>f = </span><span class="ptb-arab">ف</span></div>
+            <div class="ptb-baris"><span>g = </span><span class="ptb-arab">ك</span></div>
+            <div class="ptb-baris"><span>h = </span><span class="ptb-arab">ھ</span></div>
+            <div class="ptb-baris"><span>j = </span><span class="ptb-arab">ج</span></div>
+            <div class="ptb-baris"><span>k = </span><span class="ptb-arab">ك</span></div>
+            <div class="ptb-baris"><span>l = </span><span class="ptb-arab">ل</span></div>
+            <div class="ptb-baris"><span>m = </span><span class="ptb-arab">م</span></div>
+            <div class="ptb-baris"><span>n = </span><span class="ptb-arab">ن</span></div>
+            <div class="ptb-baris"><span>p = </span><span class="ptb-arab">ڤ</span></div>
+            <div class="ptb-baris"><span>q = </span><span class="ptb-arab">ق</span></div>
+            <div class="ptb-baris"><span>r = </span><span class="ptb-arab">ر</span></div>
+            <div class="ptb-baris"><span>s = </span><span class="ptb-arab">س</span></div>
+            <div class="ptb-baris"><span>t = </span><span class="ptb-arab">ت</span></div>
+            <div class="ptb-baris"><span>v = </span><span class="ptb-arab">ف</span></div>
+            <div class="ptb-baris"><span>w = </span><span class="ptb-arab">و</span></div>
+            <div class="ptb-baris"><span>x = </span><span class="ptb-arab">كس</span></div>
+            <div class="ptb-baris"><span>y = </span><span class="ptb-arab">ي</span></div>
+            <div class="ptb-baris"><span>z = </span><span class="ptb-arab">ز</span></div>
+          </div>
+          <div class="pegon-tabel-box">
+            <div class="ptb-judul">Huruf Hidup:</div>
+            <div class="ptb-baris"><span>a = </span><span class="ptb-arab">ا</span></div>
+            <div class="ptb-baris"><span>u, o = </span><span class="ptb-arab">و</span></div>
+            <div class="ptb-baris"><span>i, e = </span><span class="ptb-arab">ي</span></div>
+          </div>
+          <div class="pegon-tabel-box">
+            <div class="ptb-judul">1 Huruf untuk 2-3 Huruf:</div>
+            <div class="ptb-baris"><span class="ptb-arab">و</span><span>= w, u, o</span></div>
+            <div class="ptb-baris"><span class="ptb-arab">ي</span><span>= y, i, e</span></div>
+            <div class="ptb-baris"><span class="ptb-arab">ع</span><span>= ng, '</span></div>
+            <div class="ptb-baris"><span class="ptb-arab">ج</span><span>= c, j</span></div>
+            <div class="ptb-baris"><span class="ptb-arab">ك</span><span>= k, g</span></div>
+            <div class="ptb-baris"><span class="ptb-arab">ف</span><span>= f, p</span></div>
+          </div>
+        </div>
+        <div class="pegon-contoh-judul">Contoh-contoh:</div>
+        <div class="pegon-contoh-grid">
+          <div class="pcg-item"><span class="pcg-arab">سايا</span><span>= saya</span></div>
+          <div class="pcg-item"><span class="pcg-arab">سايا ع</span><span>= sayang</span></div>
+          <div class="pcg-item"><span class="pcg-arab">سياع</span><span>= siyang</span></div>
+          <div class="pcg-item"><span class="pcg-arab">أكو</span><span>= aku</span></div>
+          <div class="pcg-item"><span class="pcg-arab">كونوع</span><span>= gunung</span></div>
+          <div class="pcg-item"><span class="pcg-arab">يافو</span><span>= nyapu</span></div>
+          <div class="pcg-item"><span class="pcg-arab">هاري</span><span>= hari</span></div>
+          <div class="pcg-item"><span class="pcg-arab">هاريماو</span><span>= harimau</span></div>
+          <div class="pcg-item"><span class="pcg-arab">باياعان</span><span>= bayangan</span></div>
+          <div class="pcg-item"><span class="pcg-arab">جوبا</span><span>= coba</span></div>
+          <div class="pcg-item"><span class="pcg-arab">أوماه</span><span>= omah</span></div>
+          <div class="pcg-item"><span class="pcg-arab">فاتوع</span><span>= patung</span></div>
+          <div class="pcg-item"><span class="pcg-arab">جاري</span><span>= jari</span></div>
+          <div class="pcg-item"><span class="pcg-arab">كونجو</span><span>= konco</span></div>
+          <div class="pcg-item"><span class="pcg-arab">أيار</span><span>= anyar</span></div>
+          <div class="pcg-item"><span class="pcg-arab">كاكي</span><span>= kaki</span></div>
+          <div class="pcg-item"><span class="pcg-arab">كواسا</span><span>= kuwasa</span></div>
+          <div class="pcg-item"><span class="pcg-arab">أنتري</span><span>= antri</span></div>
+          <div class="pcg-item"><span class="pcg-arab">هارو</span><span>= haru</span></div>
+          <div class="pcg-item"><span class="pcg-arab">هاروس</span><span>= harus</span></div>
+          <div class="pcg-item"><span class="pcg-arab">تمان</span><span>= teman</span></div>
+          <div class="pcg-item"><span class="pcg-arab">رومو</span><span>= romo</span></div>
+          <div class="pcg-item"><span class="pcg-arab">أكوع</span><span>= agung</span></div>
+          <div class="pcg-item"><span class="pcg-arab">ستيا</span><span>= setia</span></div>
+        </div>
+      </div>
+    </div>`;
+          return;
+        }
+        if (hal.classList.contains('halaman-daftarkode')) {
+          const teksDK = hal.querySelector('.daftarkode-input')?.value || '';
+          navList.push({ id: anchor, nama: 'Daftar Kode Gramatikal' });
+          const itemHtmlDK = teksDK.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
+            const parts = b.split('|');
+            const kode = (parts[0]||'').trim();
+            const arti = (parts[1]||'').trim();
+            const sifat = (parts[2]||'diucapkan').trim();
+            const clsLingkaran = sifat === 'tidakdiucapkan' ? 'tidakdiucapkan' : (sifat === 'murojaah' ? 'murojaah' : '');
+            return `<div class="daftarkode-item"><div class="dk-lingkaran ${clsLingkaran}">${kode}</div><div class="dk-arti">${arti}</div></div>`;
+          }).join('');
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="hasil-halaman-daftarkode">
+        <div class="daftarkode-judul">Daftar Kode Gramatikal</div>
+        <div class="daftarkode-grid">${itemHtmlDK}</div>
+      </div>
+    </div>`;
+          return;
+        }
         if (hal.classList.contains('halaman-judul')) {
           const arab = hal.querySelector('.judul-besar-arab')?.value.trim() || '';
           const indo = hal.querySelector('.judul-besar-indo')?.value.trim() || '';
@@ -4230,6 +4747,33 @@ html += `</div>`;
           });
           return;
         }
+        if (hal.classList.contains('halaman-profil')) {
+          halamanList.push({
+            tipe: 'profil',
+            penyusun: hal.querySelector('.profil-penyusun')?.value || '',
+            penerbit: hal.querySelector('.profil-penerbit')?.value || '',
+            keteranganHtml: hal.querySelector('.profil-keterangan')?.innerHTML || ''
+          });
+          return;
+        }
+        if (hal.classList.contains('halaman-daftarisi')) {
+          halamanList.push({
+            tipe: 'daftarisi',
+            teks: hal.querySelector('.daftarisi-input')?.value || ''
+          });
+          return;
+        }
+        if (hal.classList.contains('halaman-pegon')) {
+          halamanList.push({ tipe: 'pegon' });
+          return;
+        }
+        if (hal.classList.contains('halaman-daftarkode')) {
+          halamanList.push({
+            tipe: 'daftarkode',
+            teks: hal.querySelector('.daftarkode-input')?.value || ''
+          });
+          return;
+        }
         if (hal.classList.contains('halaman-judul')) {
           halamanList.push({
             tipe: 'judul',
@@ -4380,6 +4924,10 @@ html += `</div>`;
         data.halamanList.forEach(h => {
           if (h.tipe === 'judul') tambahHalamanJudul(h);
           else if (h.tipe === 'gambar') tambahHalamanGambar(h);
+          else if (h.tipe === 'profil') tambahHalamanProfil(h);
+          else if (h.tipe === 'daftarisi') tambahHalamanDaftarIsi(h);
+          else if (h.tipe === 'pegon') tambahHalamanPegon(h);
+          else if (h.tipe === 'daftarkode') tambahHalamanDaftarKode(h);
           else tambahHalaman(h.babList || [], h.nahwu || '', h.terjemahan || {}, h.overridePegon || '', h.overrideBaris || '', h.overrideNomHlm || 0, h.overrideColGap || '', h.lebarKolom || {}, h.overridePegonJawa || '');
         });
         data.halamanList.forEach(h => {
@@ -4388,6 +4936,7 @@ html += `</div>`;
       } else {
         tambahHalaman();
       }
+      updateTombolHalamanTetap();
     }
 
     function muat() {
