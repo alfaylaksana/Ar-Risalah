@@ -703,7 +703,12 @@ th.col-jawa {
       content: attr(data-placeholder);
       color: #b0a080;
     }
-    .rte-editor[dir="rtl"] { text-align: right; }
+    .rte-pemisah {
+      width: 1px;
+      align-self: stretch;
+      background: #c9a84c;
+      margin: 0 2px;
+    }
 
 
     .field-override-pegon {
@@ -3718,13 +3723,18 @@ function tambahHalamanDaftarKode(data = {}) {
     // existingHTML: konten awal (HTML). placeholder: teks placeholder.
     // rtl: true jika arah teks kanan-ke-kiri.
     function buatRTE(className, existingHTML, placeholder, rtl) {
-      const dirAttr = rtl ? ' dir="rtl"' : '';
+      const dirAttr = rtl ? ' dir="auto"' : '';
       return `
       <div class="rte-wrap">
         <div class="rte-toolbar">
           <button type="button" data-cmd="bold" onclick="rteExec(this,'bold')" title="Tebal"><b>B</b></button>
           <button type="button" data-cmd="italic" onclick="rteExec(this,'italic')" title="Miring"><i>I</i></button>
           <button type="button" data-cmd="underline" onclick="rteExec(this,'underline')" title="Garis bawah"><u>U</u></button>
+          <span class="rte-pemisah"></span>
+          <button type="button" data-cmd="justifyLeft" onclick="rteExec(this,'justifyLeft')" title="Rata Kiri">⇤</button>
+          <button type="button" data-cmd="justifyCenter" onclick="rteExec(this,'justifyCenter')" title="Rata Tengah">⇔</button>
+          <button type="button" data-cmd="justifyRight" onclick="rteExec(this,'justifyRight')" title="Rata Kanan">⇥</button>
+          <button type="button" data-cmd="justifyFull" onclick="rteExec(this,'justifyFull')" title="Rata Kiri-Kanan">☰</button>
           <select class="rte-size" onchange="rteSetSize(this)" title="Ukuran teks">
             <option value="">Ukuran</option>
             <option value="11px">Kecil</option>
@@ -3733,7 +3743,7 @@ function tambahHalamanDaftarKode(data = {}) {
             <option value="20px">Sangat Besar</option>
           </select>
         </div>
-        <div class="rte-editor ${className}" contenteditable="true" data-placeholder="${placeholder}"${dirAttr} oninput="rteBersihkanJikaKosong(this); simpan()">${existingHTML || ''}</div>
+        <div class="rte-editor ${className}" contenteditable="true" data-placeholder="${placeholder}"${dirAttr} style="text-align:left;" oninput="rteBersihkanJikaKosong(this); simpan()">${existingHTML || ''}</div>
       </div>`;
     }
 
