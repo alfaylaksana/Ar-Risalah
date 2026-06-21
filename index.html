@@ -4357,19 +4357,37 @@ function terapkanLebarKolom(halEl) {
         alert('Field nomor ini kosong atau formatnya bukan angka — tidak ada yang digabung.');
         return;
       }
+
+      // Cari nomor SEBELUMNYA (yang nilainya langsung di bawah nilaiSekarang) di antara semua field nomor
+      let inputSebelumnya = null;
+      let nilaiSebelumnya = -1;
+      document.querySelectorAll('.nom-input').forEach(inp => {
+        if (inp === inputIni) return;
+        const n = arabKeAngka(inp.value);
+        if (n !== null && n < nilaiSekarang && n > nilaiSebelumnya) {
+          nilaiSebelumnya = n;
+          inputSebelumnya = inp;
+        }
+      });
+
+      if (!inputSebelumnya) {
+        alert(`Tidak ditemukan nomor sebelum ${inputIni.value} — tidak ada yang bisa digabung.`);
+        return;
+      }
+
       const konfirmasi = confirm(
-        `Nomor ${inputIni.value} akan dihapus (kata ini menyatu ke kelompok nomor sebelumnya), ` +
+        `Nomor ${inputSebelumnya.value} akan dihapus (kata-katanya menyatu ke kelompok nomor ${inputIni.value}), ` +
         `dan SEMUA nomor setelahnya di SELURUH KITAB akan otomatis mundur 1 angka. Lanjutkan?`
       );
       if (!konfirmasi) return;
 
-      inputIni.value = '';
+      inputSebelumnya.value = '';
 
       let jumlahDiubah = 0;
       document.querySelectorAll('.nom-input').forEach(inp => {
-        if (inp === inputIni) return;
+        if (inp === inputSebelumnya) return;
         const n = arabKeAngka(inp.value);
-        if (n !== null && n > nilaiSekarang) {
+        if (n !== null && n > nilaiSebelumnya) {
           inp.value = angkaKeArab(n - 1);
           jumlahDiubah++;
         }
