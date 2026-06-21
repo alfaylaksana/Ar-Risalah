@@ -4091,7 +4091,7 @@ function tambahHalamanDaftarKode(data = {}) {
       <td><input class="arab-input" type="text" placeholder="كَلِمَة" value="${arab}" /></td>
       <td class="col-indo td-indo-${babId}"><input class="makna-indo" type="text" placeholder="artinya..." value="${maknaIndo}" /></td>
 <td class="col-jawa td-jawa-${babId}" style="display:none;"><input class="makna-jawa" type="text" placeholder="tegese..." value="${maknaJawa}" /></td>
-      <td class="col-nom"><input class="nom-input" type="text" placeholder="١" value="${nomor}" /></td>
+      <td class="col-nom"><input class="nom-input" type="text" placeholder="١" value="${nomor}" oninput="simpan()" /><button type="button" onclick="gabungNomorIni(this)" title="Hapus nomor ini & geser mundur semua nomor setelahnya di seluruh kitab" style="display:block;width:100%;font-size:9px;margin-top:2px;padding:1px;border:1px solid #d4b87a;border-radius:3px;background:#fff3d0;color:#7a5a20;">🔢 Gabung</button></td>
       <td class="col-hapus">
       <button onclick="pecahBab('kata-${id}')">✂</button>
       <button onclick="insertKata('kata-${id}')" title="Sisipkan baris baru di bawah ini">＋</button>
@@ -4328,6 +4328,55 @@ function terapkanLebarKolom(halEl) {
     function hapusKata(id) {
       if (confirm('Yakin ingin menghapus kata ini?'))
         document.getElementById(id)?.remove();
+    }
+
+    // Konversi angka Arab <-> integer, dipakai utk renumbering otomatis
+    const ANGKA_ARAB = '٠١٢٣٤٥٦٧٨٩';
+    function arabKeAngka(s) {
+      s = (s || '').trim();
+      if (!s) return null;
+      let hasil = '';
+      for (const c of s) {
+        const idx = ANGKA_ARAB.indexOf(c);
+        if (idx === -1) {
+          if (c >= '0' && c <= '9') { hasil += c; continue; }
+          return null; // ada karakter non-angka, jangan dipaksa
+        }
+        hasil += String(idx);
+      }
+      return hasil ? parseInt(hasil) : null;
+    }
+    function angkaKeArab(n) {
+      return String(n).split('').map(d => ANGKA_ARAB[parseInt(d)]).join('');
+    }
+
+    function gabungNomorIni(btn) {
+      const inputIni = btn.closest('td').querySelector('.nom-input');
+      const nilaiSekarang = arabKeAngka(inputIni.value);
+      if (nilaiSekarang === null) {
+        alert('Field nomor ini kosong atau formatnya bukan angka — tidak ada yang digabung.');
+        return;
+      }
+      const konfirmasi = confirm(
+        `Nomor ${inputIni.value} akan dihapus (kata ini menyatu ke kelompok nomor sebelumnya), ` +
+        `dan SEMUA nomor setelahnya di SELURUH KITAB akan otomatis mundur 1 angka. Lanjutkan?`
+      );
+      if (!konfirmasi) return;
+
+      inputIni.value = '';
+
+      let jumlahDiubah = 0;
+      document.querySelectorAll('.nom-input').forEach(inp => {
+        if (inp === inputIni) return;
+        const n = arabKeAngka(inp.value);
+        if (n !== null && n > nilaiSekarang) {
+          inp.value = angkaKeArab(n - 1);
+          jumlahDiubah++;
+        }
+      });
+
+      simpan();
+      alert(`Selesai. ${jumlahDiubah} nomor di seluruh kitab telah digeser mundur 1 angka.`);
     }
 
     function tampilkan(mode) {
