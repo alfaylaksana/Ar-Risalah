@@ -4756,7 +4756,7 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
             const hiddenCls = pegonTersembunyi ? ' tersembunyi' : '';
             const arabTampil = prosesHarakat(item.arab);
             const zebra = index % 2 === 0 ? 'ganjil' : 'genap';
-            const nomorHtml = item.nomor ? `<div class="nomor-ayat" onclick="togglePopupTerjemahan(this, '${item.nomor}')">${item.nomor}</div>` : '';
+            const nomorHtml = item.nomor ? `<div class="nomor-ayat" onclick="event.stopPropagation(); togglePopupTerjemahan(this, '${item.nomor}')">${item.nomor}</div>` : '';
             const showIndo = modeBahasa === 'indo';
             const geser = item.geserPegon ? parseInt(item.geserPegon) : 0;
             const geserStyle = geser ? `style="margin-right:${geser}px;"` : '';
