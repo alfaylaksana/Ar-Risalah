@@ -3913,8 +3913,32 @@ function tambahHalamanDaftarKode(data = {}) {
       }
     }
 
+    // Simpan seleksi saat editor blur (karena klik tombol toolbar menghilangkan fokus)
+    let _savedRange = null;
+    document.addEventListener('selectionchange', () => {
+      const sel = window.getSelection();
+      if (sel && sel.rangeCount && !sel.isCollapsed) {
+        const range = sel.getRangeAt(0);
+        // Hanya simpan jika seleksi ada di dalam .rte-editor
+        const editor = range.commonAncestorContainer.nodeType === 1
+          ? range.commonAncestorContainer.closest('.rte-editor')
+          : range.commonAncestorContainer.parentElement?.closest('.rte-editor');
+        if (editor) _savedRange = { range: range.cloneRange(), editor };
+      }
+    });
+
+    function _restoreSelection() {
+      if (!_savedRange) return false;
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(_savedRange.range);
+      _savedRange.editor.focus();
+      return true;
+    }
+
     function rteExec(btn, cmd) {
       const editor = btn.closest('.rte-wrap').querySelector('.rte-editor');
+      _restoreSelection();
       editor.focus();
       document.execCommand(cmd, false, null);
       simpan();
@@ -3924,7 +3948,9 @@ function tambahHalamanDaftarKode(data = {}) {
       const ukuran = sel.value;
       if (!ukuran) return;
       const editor = sel.closest('.rte-wrap').querySelector('.rte-editor');
-      editor.focus();
+      // Kembalikan seleksi sebelum eksekusi
+      const restored = _restoreSelection();
+      if (!restored) { editor.focus(); }
       // Gunakan span dengan font-size karena execCommand fontSize terbatas (hanya 1-7)
       const sel2 = window.getSelection();
       if (sel2.rangeCount && !sel2.isCollapsed) {
@@ -3941,6 +3967,7 @@ function tambahHalamanDaftarKode(data = {}) {
         }
       }
       sel.value = '';
+      _savedRange = null;
       simpan();
     }
     // ─────────────────────────────────────────────────────────────
