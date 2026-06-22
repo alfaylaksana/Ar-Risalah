@@ -2668,16 +2668,6 @@ body.mode-html-aktif .hasil-kotak {
     <button class="btn-reset-tampil" onclick="resetTampilan()">Bersihkan Hasil</button>
   </div>
 
-  <!-- Floating tombol ukuran teks -->
-  <div id="floating-skala">
-    <div class="fs-label">Ukuran</div>
-    <div class="fs-btn-group">
-      <button class="btn-skala" id="floatBtnK" onclick="setSkala(0.7,'K')" title="Kecil">K</button>
-      <button class="btn-skala" id="floatBtnS" onclick="setSkala(0.85,'S')" title="Sedang">S</button>
-      <button class="btn-skala aktif-skala" id="floatBtnB" onclick="setSkala(1,'B')" title="Besar">B</button>
-    </div>
-  </div>
-
   <div class="hasil-wrapper">
     <div class="hasil-kotak" id="hasil">
       <div style="text-align:center;color:#bba060;font-style:italic;font-size:13px;padding:30px 0;">Hasil makna gandul akan tampil di sini</div>
@@ -2718,6 +2708,13 @@ body.mode-html-aktif .hasil-kotak {
             <button class="float-drop-item" id="togKodeFloat" onclick="toggleKode();tutupFloatDropdown()">Sembunyikan Kode</button>
             <div class="float-drop-item" style="border-top:1px solid #e8dfc0;padding:2px 0;"></div>
             <button class="float-drop-item" id="togBahasaFloat" onclick="toggleBahasa();tutupFloatDropdown()">Pegon Jawa</button>
+            <div class="float-drop-item" style="border-top:1px solid #e8dfc0;padding:2px 0;"></div>
+            <div class="float-drop-label">Ukuran Teks</div>
+            <div style="display:flex;gap:6px;padding:4px 8px;">
+              <button class="btn-skala" id="floatBtnK" onclick="setSkala(0.7,'K');tutupFloatDropdown()" title="Kecil">K</button>
+              <button class="btn-skala" id="floatBtnS" onclick="setSkala(0.85,'S');tutupFloatDropdown()" title="Sedang">S</button>
+              <button class="btn-skala aktif-skala" id="floatBtnB" onclick="setSkala(1,'B');tutupFloatDropdown()" title="Besar">B</button>
+            </div>
           </div>
         </div>
         <div class="float-dropdown">
@@ -3423,11 +3420,10 @@ function gotoHalamanHasil() {
     function setSkala(val, kode) {
       document.documentElement.style.setProperty('--fs', val);
       localStorage.setItem('skala-tampilan', kode);
-      // update semua tombol
       ['K','S','B'].forEach(k => {
         const aktif = k === kode;
-        ['drop','float'].forEach(p => {
-          const el = document.getElementById(p + 'Btn' + k);
+        ['dropBtn','floatBtn'].forEach(p => {
+          const el = document.getElementById(p + k);
           if (el) el.classList.toggle('aktif-skala', aktif);
         });
       });
