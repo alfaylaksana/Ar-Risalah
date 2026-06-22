@@ -1552,10 +1552,10 @@ body.mode-html-aktif .hasil-kotak {
       justify-content: flex-start;
       align-items: flex-end;
       direction: rtl;
-      padding-bottom: 30px;
+      padding-bottom: calc(30px * var(--fs));
       flex-wrap: wrap;
       overflow: visible;
-      row-gap: 20px;
+      row-gap: calc(20px * var(--fs));
       column-gap: 4px;
       align-items: stretch;
     }
@@ -1751,11 +1751,11 @@ body.mode-html-aktif .hasil-kotak {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 16px;
-      height: 16px;
+      min-width: calc(16px * var(--fs));
+      height: calc(16px * var(--fs));
       border: 1.5px solid #7a5a20;
       border-radius: 3px;
-      font-size: 11px;
+      font-size: calc(11px * var(--fs));
       font-weight: bold;
       color: #7a5a20;
       background: #fffdf7;
@@ -1766,11 +1766,11 @@ body.mode-html-aktif .hasil-kotak {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 16px;
-      height: 16px;
+      min-width: calc(16px * var(--fs));
+      height: calc(16px * var(--fs));
       border: 1.5px solid #4a7a4a;
       border-radius: 3px;
-      font-size: 10px;
+      font-size: calc(10px * var(--fs));
       font-weight: bold;
       color: #4a7a4a;
       background: #f0f7f0;
@@ -1778,7 +1778,7 @@ body.mode-html-aktif .hasil-kotak {
     }
 
     .rujukan-kosong {
-      min-height: 16px;
+      min-height: calc(16px * var(--fs));
     }
     
     .rujukan-row.kr-kanan {
@@ -1984,7 +1984,8 @@ body.mode-html-aktif .hasil-kotak {
       min-width: 180px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       z-index: 1000;
-      overflow: hidden;
+      overflow-y: auto;
+      max-height: 80vh;
     }
 
     .float-dropdown-menu.kanan {
