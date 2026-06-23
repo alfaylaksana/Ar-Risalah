@@ -1308,10 +1308,30 @@ body.mode-html-aktif .hasil-kotak {
       font-size: 18px;
       color: #1a1208;
       text-align: center;
-      letter-spacing: 2px;
-      text-transform: uppercase;
       font-weight: bold;
       margin-bottom: 24px;
+      border-bottom: 1.5px solid #c9a84c;
+      padding-bottom: 8px;
+    }
+    .di-judul-arab {
+      font-size: 1.3em;
+      font-family: 'Scheherazade New', 'Traditional Arabic', serif;
+      direction: rtl;
+      display: inline;
+    }
+    .di-judul-sep {
+      color: #a07840;
+      font-size: 0.85em;
+      font-family: Georgia, serif;
+      display: inline;
+    }
+    .di-judul-indo {
+      font-size: 0.82em;
+      font-family: Georgia, serif;
+      color: #7a5a20;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: inline;
     }
     .daftarisi-baris {
       display: flex;
@@ -3354,15 +3374,19 @@ function gotoHalamanInput() {
     list.innerHTML = '<div class="float-drop-item" style="color:#aaa;cursor:default;">Belum ada hasil</div>';
     return;
   }
+  // Cari nomor halaman maksimum dari nomorHalamanMap
+  const nomorMap = hitungNomorHalaman();
+  const semuaNomor = [...nomorMap.values()].map(v => v.nomor);
+  const maxNomor = semuaNomor.length ? Math.max(...semuaNomor) : total;
   list.innerHTML = `
     <div style="padding:10px 14px;display:flex;align-items:center;gap:6px;">
       <span style="font-size:11px;color:#a07840;white-space:nowrap;">Hlm.</span>
-      <input id="gotoInputHasil" type="number" min="1" max="${total}" placeholder="1–${total}"
+      <input id="gotoInputHasil" type="number" min="1" max="${maxNomor}" placeholder="1–${maxNomor}"
         style="width:60px;padding:4px 6px;border:1px solid #c9a84c;border-radius:4px;font-family:Georgia,serif;font-size:13px;outline:none;" />
       <button onclick="gotoHalamanHasil()"
         style="padding:4px 10px;background:#7a5a20;color:#fffdf7;border:none;border-radius:4px;font-family:Georgia,serif;font-size:12px;cursor:pointer;">Go</button>
     </div>
-    <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${total} halaman</div>
+    <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${maxNomor} halaman</div>
   `;
   list._navList = navList;
   setTimeout(() => {
@@ -3375,11 +3399,25 @@ function gotoHalamanHasil() {
   const list = document.getElementById('listNavHasil');
   const navList = list._navList || [];
   const n = parseInt(document.getElementById('gotoInputHasil')?.value);
-  if (isNaN(n) || n < 1 || n > navList.length) {
-    alert(`Masukkan angka antara 1 sampai ${navList.length}.`);
-    return;
+  if (isNaN(n) || n < 1) { alert('Nomor tidak valid.'); return; }
+  // Cari halaman dengan nomor yang sesuai dari nomorHalamanMap
+  const nomorMap = hitungNomorHalaman();
+  let targetHalId = null;
+  nomorMap.forEach((info, halId) => {
+    if (info.nomor === n) targetHalId = halId;
+  });
+  if (targetHalId) {
+    // Cari anchor hasil dari halId
+    const idBagian = targetHalId.replace('halaman-', '');
+    const el = document.getElementById(`hasil-halaman-${idBagian}`);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); tutupFloatDropdown(); tampilkanFloat(); return; }
   }
-  document.getElementById(navList[n - 1].id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Fallback: cari dari navList
+  if (n <= navList.length) {
+    document.getElementById(navList[n - 1].id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    alert(`Halaman ${n} tidak ditemukan.`);
+  }
   tutupFloatDropdown();
   tampilkanFloat();
 }
@@ -3746,19 +3784,57 @@ function tambahHalamanDaftarIsi(data = {}) {
   updateTombolHalamanTetap();
 }
 
+function hitungNomorHalaman() {
+  // Menghitung nomor halaman untuk setiap .halaman-input sesuai skema:
+  // Cover kitab (cover-kitab) = tidak dihitung
+  // Halaman Judul & Profil Kitab = dihitung tapi nomor tidak tampil
+  // Semua lainnya = dihitung dan nomor tampil
+  // Mengembalikan Map: halId -> { nomor, tampilNomor }
+  const map = new Map();
+  let counter = 0;
+  document.querySelectorAll('.halaman-input').forEach(h => {
+    const halId = h.id;
+    if (h.classList.contains('halaman-judul') || h.classList.contains('halaman-profil')) {
+      counter++;
+      map.set(halId, { nomor: counter, tampilNomor: false });
+    } else {
+      counter++;
+      map.set(halId, { nomor: counter, tampilNomor: true });
+    }
+  });
+  return map;
+}
+
 function generateDaftarIsi(halId) {
   const hal = document.getElementById(halId);
   if (!hal) return;
   const baris = [];
+  const nomorMap = hitungNomorHalaman();
   const semuaHalaman = [...document.querySelectorAll('.halaman-input')];
-  semuaHalaman.forEach((h, idx) => {
+  let nomorNahwu = 0;
+  semuaHalaman.forEach(h => {
+    if (h === hal) return; // skip halaman daftarisi sendiri
+    const info = nomorMap.get(h.id);
+    const nomHal = info ? info.nomor : '';
+
+    // Bab biasa
     h.querySelectorAll('.bab-input').forEach(bab => {
-      const nama = bab.querySelector('.bab-nama-input')?.value.trim();
-      if (nama) baris.push(`${nama} | ${idx+1}`);
+      const arab = bab.querySelector('.bab-nama-input')?.value.trim() || '';
+      const indo = bab.querySelector('.bab-judul-indo')?.value.trim() || '';
+      const nama = arab && indo ? `${arab} - ${indo}` : (arab || indo);
+      if (nama) baris.push(`${nama} | ${nomHal}`);
     });
-    h.querySelectorAll('.syiir-input').forEach(syiir => {
-      baris.push(`Syi'ir | ${idx+1}`);
+    // Syi'ir
+    h.querySelectorAll('.syiir-input').forEach(() => {
+      baris.push(`Syi'ir | ${nomHal}`);
     });
+    // Catatan Nahwu
+    const nahwuEl = h.querySelector('.nahwu-input');
+    function htmlAdaIsiLocal(s) { return !!(s||'').replace(/<[^>]*>/g,'').replace(/&nbsp;/gi,'').trim(); }
+    if (nahwuEl && htmlAdaIsiLocal(nahwuEl.innerHTML)) {
+      nomorNahwu++;
+      baris.push(`Catatan Nahwu ke-${nomorNahwu} | ${nomHal}`);
+    }
   });
   const ta = hal.querySelector('.daftarisi-input');
   if (ta) {
@@ -4524,6 +4600,8 @@ function terapkanLebarKolom(halEl) {
       }
       let html = '', navList = [];
       let nomorHalIsi = 0;
+      let nomorCatatanNahwu = 0;
+      const nomorHalamanMap = hitungNomorHalaman();
       if (judulKitab || judulArab) {
         html += `<div class="cover-kitab">
         ${judulArab?`<div class="judul-arab">${judulArab}</div>`:''}
@@ -4548,7 +4626,9 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
     pengantarHtml = '';
   }
   const halId = hal.id.replace('halaman-', '');
-  const nomorHal = hIdx + 1;
+  const infoNomor = nomorHalamanMap.get(hal.id) || { nomor: hIdx + 1, tampilNomor: true };
+  const nomorHal = infoNomor.nomor;
+  nomorHalIsi = nomorHal;
         const anchor = `hasil-halaman-${halId}`;
 
   if (hal.classList.contains('halaman-gambar')) {
@@ -4561,9 +4641,8 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             nama: `Gambar: Halaman ${nomorHal}`
           });
           let nomorDivGambar = '';
-          if (hIdx !== 0) {
-            nomorHalIsi++;
-            nomorDivGambar = `<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+          if (infoNomor.tampilNomor) {
+            nomorDivGambar = `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
           }
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-gambar${adaTeks?' ada-teks':''}">
@@ -4604,16 +4683,19 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const nomor = (parts[1]||'').trim();
             return `<div class="daftarisi-baris"><span class="di-nama">${nama}</span><span class="di-titik"></span><span class="di-nomor">${nomor}</span></div>`;
           }).join('');
+          const nomorDivDI = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-daftarisi">
-        <div class="daftarisi-judul">Daftar Isi</div>
+        <div class="daftarisi-judul"><span class="di-judul-arab">الفهرس</span><span class="di-judul-sep"> / </span><span class="di-judul-indo">Daftar Isi</span></div>
         ${barisHtmlDI}
+        ${nomorDivDI}
       </div>
     </div>`;
           return;
         }
         if (hal.classList.contains('halaman-pegon')) {
           navList.push({ id: anchor, nama: 'Penjelasan Pegon' });
+          const nomorDivPegon = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-pegon">
         <div class="pegon-nomor-romawi">iii</div>
@@ -4688,6 +4770,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           <div class="pcg-item"><span class="pcg-arab">ستيا</span><span>= setia</span></div>
         </div>
       </div>
+      ${nomorDivPegon}
     </div>`;
           return;
         }
@@ -4702,11 +4785,13 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const clsLingkaran = sifat === 'tidakdiucapkan' ? 'tidakdiucapkan' : (sifat === 'murojaah' ? 'murojaah' : '');
             return `<div class="daftarkode-item"><div class="dk-lingkaran ${clsLingkaran}">${kode}</div><div class="dk-arti">${arti}</div></div>`;
           }).join('');
+          const nomorDivDK = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-daftarkode">
         <div class="daftarkode-judul">Daftar Kode Gramatikal</div>
         <div class="daftarkode-grid">${itemHtmlDK}</div>
       </div>
+      ${nomorDivDK}
     </div>`;
           return;
         }
@@ -4884,13 +4969,15 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
         });
         const nahwu = hal.querySelector('.nahwu-input')?.innerHTML.trim() || '';
 if (htmlAdaIsi(nahwu)) {
+  nomorCatatanNahwu++;
   html += `<div class="catatan-nahwu">
-    <div class="catatan-nahwu-label">✦ Catatan Nahwu ✦</div>
+    <div class="catatan-nahwu-label">✦ Catatan Nahwu ke-${nomorCatatanNahwu} ✦</div>
     <div class="catatan-nahwu-isi">${nahwu}</div>
   </div>`;
 }
-nomorHalIsi++;
-html+=`<div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+if (infoNomor.tampilNomor) {
+  html+=`<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>`;
+}
 html += `</div>`;
         }
       });
