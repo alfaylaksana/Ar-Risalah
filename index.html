@@ -5112,9 +5112,20 @@ html += `</div>`;
             kataList
           });
         });
+        // Kumpulkan nomor ayat di halaman ini untuk filter terjemahan
+        const nomorList = [];
+        hal.querySelectorAll('.nom-input').forEach(inp => {
+          if (inp.value) nomorList.push(inp.value);
+        });
+        const terjemahanHalaman = {};
+        nomorList.forEach(n => {
+          if (terjemahanData[n]) terjemahanHalaman[n] = terjemahanData[n];
+        });
+
         halamanList.push({
    nahwu,
    babList,
+   terjemahan: terjemahanHalaman,
    overridePegon: hal.querySelector('.input-override-pegon-indo')?.value || '',
    overridePegonJawa: hal.querySelector('.input-override-pegon-jawa')?.value || '',
    overrideBaris: hal.querySelector('.input-override-baris')?.value || '',
