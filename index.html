@@ -1355,6 +1355,11 @@ body.mode-html-aktif .hasil-kotak {
       min-width: 18px;
       text-align: right;
     }
+    .daftarisi-baris-nahwu {
+      font-size: 0.72em;
+      color: #4a3818;
+      margin-left: 1cm;
+    }
 
     /* ===== Halaman Penjelasan Pegon ===== */
     .hasil-halaman-pegon {
@@ -4713,7 +4718,8 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
             const parts = b.split('|');
             const nama = (parts[0]||'').trim();
             const nomor = (parts[1]||'').trim();
-            return `<div class="daftarisi-baris"><span class="di-nama">${nama}</span><span class="di-titik"></span><span class="di-nomor">${nomor}</span></div>`;
+            const isNahwuDI = /^Catatan Nahwu/i.test(nama);
+            return `<div class="daftarisi-baris${isNahwuDI?' daftarisi-baris-nahwu':''}"><span class="di-nama">${nama}</span><span class="di-titik"></span><span class="di-nomor">${nomor}</span></div>`;
           }).join('');
           const nomorDivDI = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
