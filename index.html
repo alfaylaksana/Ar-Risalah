@@ -2809,7 +2809,7 @@ body.mode-html-aktif .hasil-kotak {
     </div>
   </div>
   <div class="modal-overlay" id="modalPindahHalaman" onclick="tutupModalPindahHalaman()"></div>
-  <div class="modal-box" id="modalBoxPindahHalaman">
+  <div class="modal-box" id="modalBoxPindahHalaman" style="top:110px;left:20px;transform:none;">
     <h3>Pindahkan Halaman</h3>
     <p style="font-size:12px;color:#a07840;margin-bottom:12px;">Halaman aktif: <strong id="labelHalamanAktif">-</strong></p>
     <label style="font-size:12px;color:#a07840;">Sisipkan ke posisi:</label>
@@ -3334,16 +3334,13 @@ notif.textContent = '✓ PDF tersimpan!';
       }
     }
     document.getElementById('btnNaikHalaman').onclick = () => {
-      if (!halamanAktifId) return;
-      naikHalaman(halamanAktifId);
+      bukaModalPindahHalaman();
       tampilkanFloat();
     };
     document.getElementById('btnTurunHalaman').onclick = () => {
-      if (!halamanAktifId) return;
-      turunHalaman(halamanAktifId);
+      bukaModalPindahHalaman();
       tampilkanFloat();
     };
-
     window.addEventListener('scroll', tampilkanFloat);
     document.addEventListener('touchstart', tampilkanFloat);
     document.addEventListener('mousemove', tampilkanFloat);
@@ -3383,9 +3380,6 @@ notif.textContent = '✓ PDF tersimpan!';
         style="padding:4px 10px;background:#7a5a20;color:#fffdf7;border:none;border-radius:4px;font-family:Georgia,serif;font-size:12px;cursor:pointer;">Go</button>
     </div>
     <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${total} halaman</div>
-    <div style="padding:0 14px 10px;">
-      <button onclick="tutupFloatDropdown();bukaModalPindahHalaman();" style="width:100%;padding:6px;background:#fff3d0;border:1px solid #d4b87a;border-radius:4px;font-family:Georgia,serif;font-size:11px;color:#7a5a20;cursor:pointer;">🔀 Pindah ke posisi...</button>
-    </div>
   `;
   setTimeout(() => {
     const inp = document.getElementById('gotoInputHal');
