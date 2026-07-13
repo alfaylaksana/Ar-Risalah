@@ -1482,38 +1482,41 @@ body.mode-html-aktif .hasil-kotak {
       text-transform: uppercase;
       margin-bottom: 20px;
     }
-    .daftarkode-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px 20px;
-    }
-    .daftarkode-item {
+    .daftarkode-tabel-wrap {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #1a1208;
-      border-bottom: 1px dotted #e0d0a0;
-      padding: 3px 0;
+      gap: 12px;
+      align-items: flex-start;
     }
-    .daftarkode-item .dk-lingkaran {
-      width: 22px;
-      height: 22px;
-      min-width: 22px;
-      border-radius: 50%;
-      border: 1px solid #7a5a20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .daftarkode-tabel {
+      flex: 1;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .daftarkode-tabel th, .daftarkode-tabel td {
+      border: 1px solid #b09050;
+      padding: 3px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .daftarkode-tabel th {
+      background: #f3e6c8;
+      font-size: 9px;
+      font-weight: bold;
+      color: #5a4218;
+      letter-spacing: 0.3px;
+    }
+    .daftarkode-tabel td {
       font-size: 11px;
+      color: #1a1208;
+    }
+    .daftarkode-tabel td.dkt-arab {
+      direction: rtl;
+      font-size: 13px;
+    }
+    .daftarkode-tabel td.dkt-kode {
       font-weight: bold;
       color: #7a5a20;
-    }
-    .daftarkode-item .dk-lingkaran.tidakdiucapkan {
-      border-style: dashed;
-    }
-    .daftarkode-item .dk-arti {
-      flex: 1;
+      direction: rtl;
     }
 
     .bab-judul-grid {
@@ -3955,31 +3958,30 @@ function tambahHalamanDaftarKode(data = {}) {
   div.className = 'halaman-input halaman-daftarkode';
   div.id = 'halaman-' + id;
   const defaultKode = [
-    ['م','Madhi (kata kerja lampau)','diucapkan'],
-    ['خ','Khabar','diucapkan'],
-    ['مف','Maf\'ul','diucapkan'],
-    ['فا','Fa\'il','diucapkan'],
-    ['ف','Fi\'il','diucapkan'],
-    ['ما','Mubtada','diucapkan'],
-    ['مضا','Mudhaf','diucapkan'],
-    ['فأ','Fi\'il Amr','diucapkan'],
-    ['حا','Haal','diucapkan'],
-    ['ظ','Zharaf','diucapkan'],
-    ['ص','Shifat','diucapkan'],
-    ['ب','Badal','diucapkan'],
-    ['ج','Jar-Majrur','diucapkan'],
-    ['...','Murojaah','murojaah'],
-    ['مط','Mathuf','diucapkan']
+    ['م','أتا وي','','مُبْتَدَأٌ'],
+    ['خ','إيكو','','خَبَرٌ'],
+    ['ص','كع','','صِفَةٌ'],
+    ['ف','أفا','','فَاعِلٌ (غَيْرُ عَاقِلْ)'],
+    ['فا','سفا','','فَاعِلٌ (عَاقِلْ)'],
+    ['مف','إع','','مَفْعُوْلٌ بِهِ'],
+    ['حا','حالي','','حَالٌ'],
+    ['ب','روفاني','','بَدَلٌ'],
+    ['مط','كلاوان','','مَفْعُوْلٌ مُطْلَقٌ'],
+    ['ج','موعكو','','جَوَابٌ'],
+    ['ما','ماريع','','–'],
+    ['لد','كدوي','','–'],
+    ['خم','إيكو موجود','','–'],
+    ['ظ','إعدالم','','ظَرْفٌ']
   ];
-  const teksDefault = data.teks || defaultKode.map(([k,a,c]) => `${k} | ${a} | ${c}`).join('\n');
+  const teksDefault = data.teks || defaultKode.map(([r,mj,mi,kp]) => `${r} | ${mj} | ${mi} | ${kp}`).join('\n');
   div.innerHTML = `
     <div class="halaman-header">
   <span class="halaman-label">🔣 Halaman ${id+1} (Daftar Kode Gramatikal)</span>
   <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
 </div>
     <div class="halaman-body">
-      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Kode | Arti | diucapkan / tidakdiucapkan / murojaah</b></p>
-      <textarea class="daftarkode-input" style="width:100%;min-height:220px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefault}</textarea>
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Rumus/Kode | Makna Jawa | Makna Indo | Kepanjangan</b> (kosongkan Makna Indo kalau belum ada, pakai "–" untuk Kepanjangan kalau kode tidak diucapkan)</p>
+      <textarea class="daftarkode-input" style="width:100%;min-height:260px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefault}</textarea>
     </div>
   `;
   document.getElementById('containerHalaman').appendChild(div);
@@ -4864,19 +4866,35 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         if (hal.classList.contains('halaman-daftarkode')) {
           const teksDK = hal.querySelector('.daftarkode-input')?.value || '';
           navList.push({ id: anchor, nama: 'Daftar Kode Gramatikal' });
-          const itemHtmlDK = teksDK.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
+          const barisDK = teksDK.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
             const parts = b.split('|');
-            const kode = (parts[0]||'').trim();
-            const arti = (parts[1]||'').trim();
-            const sifat = (parts[2]||'diucapkan').trim();
-            const clsLingkaran = sifat === 'tidakdiucapkan' ? 'tidakdiucapkan' : (sifat === 'murojaah' ? 'murojaah' : '');
-            return `<div class="daftarkode-item"><div class="dk-lingkaran ${clsLingkaran}">${kode}</div><div class="dk-arti">${arti}</div></div>`;
-          }).join('');
+            return {
+              rumus: (parts[0]||'').trim(),
+              maknaJawa: (parts[1]||'').trim(),
+              maknaIndo: (parts[2]||'').trim(),
+              kepanjangan: (parts[3]||'').trim()
+            };
+          });
+          function buatTabelDK(list) {
+            if (!list.length) return '';
+            const baris = list.map(r => `<tr>
+              <td class="dkt-arab">${r.maknaJawa}</td>
+              <td class="dkt-arab">${r.maknaIndo}</td>
+              <td class="dkt-arab">${r.kepanjangan}</td>
+              <td class="dkt-kode">${r.rumus}</td>
+            </tr>`).join('');
+            return `<table class="daftarkode-tabel"><thead><tr>
+              <th>Makna Jawa</th><th>Makna Indo</th><th>Kepanjangan</th><th>Rumus</th>
+            </tr></thead><tbody>${baris}</tbody></table>`;
+          }
+          const tengahDK = Math.ceil(barisDK.length / 2);
+          const kolomKiriDK = buatTabelDK(barisDK.slice(0, tengahDK));
+          const kolomKananDK = buatTabelDK(barisDK.slice(tengahDK));
           const nomorDivDK = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-daftarkode">
         <div class="daftarkode-judul">Daftar Kode Gramatikal</div>
-        <div class="daftarkode-grid">${itemHtmlDK}</div>
+        <div class="daftarkode-tabel-wrap">${kolomKiriDK}${kolomKananDK}</div>
       </div>
       ${nomorDivDK}
     </div>`;
