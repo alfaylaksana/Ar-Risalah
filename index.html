@@ -3814,12 +3814,23 @@ function hitungNomorHalaman() {
 function ambilJudulNahwu(nahwuHtml, manualJudul) {
   const manual = (manualJudul || '').trim();
   if (manual) return manual;
-  const html = nahwuHtml || '';
-  const potong = html.match(/^([\s\S]*?)(<div|<br|<p[ >])/i);
-  const bagian = potong ? potong[1] : html;
+  const html = (nahwuHtml || '').trim();
+  if (!html) return '';
   const tmp = document.createElement('div');
-  tmp.innerHTML = bagian;
-  return (tmp.textContent || tmp.innerText || '').trim();
+  tmp.innerHTML = html;
+  let firstLine = '';
+  for (const node of Array.from(tmp.childNodes)) {
+    if (node.nodeType === 1 && /^(DIV|P)$/i.test(node.tagName)) {
+      // Node pertama sudah berupa blok baris (mis: <div>Judul</div><div>Isi...</div>)
+      if (!firstLine.trim()) { firstLine = node.textContent || ''; }
+      break;
+    }
+    if (node.nodeType === 1 && /^BR$/i.test(node.tagName)) {
+      break; // akhir baris pertama
+    }
+    firstLine += node.textContent || '';
+  }
+  return firstLine.replace(/\s+/g, ' ').trim();
 }
 function generateDaftarIsi(halId) {
   const hal = document.getElementById(halId);
