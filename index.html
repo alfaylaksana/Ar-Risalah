@@ -1360,6 +1360,10 @@ body.mode-html-aktif .hasil-kotak {
       color: #4a3818;
       margin-left: 1cm;
     }
+    .daftarisi-baris-nahwu .di-nomor {
+      font-size: 14px;
+      color: #1a1208;
+    }
 
     /* ===== Halaman Penjelasan Pegon ===== */
     .hasil-halaman-pegon {
@@ -2686,6 +2690,7 @@ body.mode-html-aktif .hasil-kotak {
   <div id="containerHalaman"></div>
   <button class="btn-tambah-halaman" onclick="tambahHalaman()">+ Tambah Halaman Baru</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanJudul()" style="background:#a07840;">+ Tambah Halaman Judul</button>
+  <button class="btn-tambah-halaman" onclick="tambahHalamanPengantar()" style="background:#a07840;">+ Tambah Halaman Pengantar</button>
   <button class="btn-tambah-halaman" onclick="tambahHalamanGambar()" style="background:#7a8a5a;">+ Tambah Halaman Gambar</button>
   <button id="btnTambahProfil" class="btn-tambah-halaman" onclick="tambahHalamanProfil()" style="background:#8a6a30;">+ Profil Kitab</button>
   <button id="btnTambahDaftarIsi" class="btn-tambah-halaman" onclick="tambahHalamanDaftarIsi()" style="background:#5a7a8a;">+ Daftar Isi</button>
@@ -3306,6 +3311,28 @@ notif.textContent = '✓ PDF tersimpan!';
         halamanObserver.observe(hal);
       });
     }
+    function naikHalaman(id) {
+      const container = document.getElementById('containerHalaman');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const prev = el.previousElementSibling;
+      if (prev && prev.classList.contains('halaman-input')) {
+        container.insertBefore(el, prev);
+        updateNavInput();
+        simpan();
+      }
+    }
+    function turunHalaman(id) {
+      const container = document.getElementById('containerHalaman');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const next = el.nextElementSibling;
+      if (next && next.classList.contains('halaman-input')) {
+        container.insertBefore(next, el);
+        updateNavInput();
+        simpan();
+      }
+    }
     document.getElementById('btnNaikHalaman').onclick = () => {
       if (!halamanAktifId) return;
       naikHalaman(halamanAktifId);
@@ -3356,6 +3383,9 @@ notif.textContent = '✓ PDF tersimpan!';
         style="padding:4px 10px;background:#7a5a20;color:#fffdf7;border:none;border-radius:4px;font-family:Georgia,serif;font-size:12px;cursor:pointer;">Go</button>
     </div>
     <div style="padding:2px 14px 6px;font-size:10px;color:#b0a080;font-style:italic;">Total: ${total} halaman</div>
+    <div style="padding:0 14px 10px;">
+      <button onclick="tutupFloatDropdown();bukaModalPindahHalaman();" style="width:100%;padding:6px;background:#fff3d0;border:1px solid #d4b87a;border-radius:4px;font-family:Georgia,serif;font-size:11px;color:#7a5a20;cursor:pointer;">🔀 Pindah ke posisi...</button>
+    </div>
   `;
   setTimeout(() => {
     const inp = document.getElementById('gotoInputHal');
@@ -3677,14 +3707,25 @@ function isiTerjemahanFields(halamanId, terjemahan) {
       halamanObserver.observe(div);
       updateNavInput();
     }
-    document.getElementById('btnNaikHalaman').onclick = () => {
-      bukaModalPindahHalaman();
-      tampilkanFloat();
-    };
-    document.getElementById('btnTurunHalaman').onclick = () => {
-      bukaModalPindahHalaman();
-      tampilkanFloat();
-    };
+    // (Pindah ke posisi tertentu sekarang lewat menu ≡ Input → "Pindah ke posisi...")
+    function tambahHalamanPengantar(data = {}) {
+      const id = halamanCounter++;
+      const div = document.createElement('div');
+      div.className = 'halaman-input halaman-pengantar';
+      div.id = 'halaman-' + id;
+      div.innerHTML = `
+    <div class="halaman-header">
+  <span class="halaman-label">📜 Halaman ${id+1} (Pengantar)</span>
+  <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
+</div>
+    <div class="halaman-body">
+      ${buatRTE('pengantar-input', data.isi || '', 'Tulis pengantar, muqaddimah, atau kata sambutan di sini...', false)}
+    </div>
+  `;
+      document.getElementById('containerHalaman').appendChild(div);
+      halamanObserver.observe(div);
+      updateNavInput();
+    }
     function tambahHalamanGambar(data = {}) {
   const id = halamanCounter++;
   const div = document.createElement('div');
@@ -3805,7 +3846,7 @@ function hitungNomorHalaman() {
   let counter = 0;
   document.querySelectorAll('.halaman-input').forEach(h => {
     const halId = h.id;
-    if (h.classList.contains('halaman-judul') || h.classList.contains('halaman-profil')) {
+    if (h.classList.contains('halaman-judul') || h.classList.contains('halaman-profil') || h.classList.contains('halaman-pengantar')) {
       counter++;
       map.set(halId, { nomor: counter, tampilNomor: false });
     } else {
@@ -4851,7 +4892,16 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
       </div>
     </div>`;
           return;
-        } else {
+        }
+        if (hal.classList.contains('halaman-pengantar')) {
+          const isiPengantar = hal.querySelector('.pengantar-input')?.innerHTML.trim() || '';
+          navList.push({ id: anchor, nama: 'Pengantar' });
+          html += `<div class="hasil-halaman" id="${anchor}">
+      <div class="pengantar-hasil"><h2>Pengantar</h2><p>${isiPengantar}</p></div>
+    </div>`;
+          return;
+        }
+        else {
         navList.push({id:anchor,nama:`Halaman ${nomorHal}`});
         html+=`<div class="hasil-halaman" id="${anchor}">`;
 
@@ -5231,6 +5281,13 @@ html += `</div>`;
           });
           return;
         }
+        if (hal.classList.contains('halaman-pengantar')) {
+          halamanList.push({
+            tipe: 'pengantar',
+            isi: hal.querySelector('.pengantar-input')?.innerHTML || ''
+          });
+          return;
+        }
         const nahwu = hal.querySelector('.nahwu-input').innerHTML;
         const babList = [];
         hal.querySelectorAll('.bab-input, .syiir-input').forEach(bab => {
@@ -5384,6 +5441,7 @@ html += `</div>`;
       if (data.halamanList && data.halamanList.length) {
         data.halamanList.forEach(h => {
           if (h.tipe === 'judul') tambahHalamanJudul(h);
+          else if (h.tipe === 'pengantar') tambahHalamanPengantar(h);
           else if (h.tipe === 'gambar') tambahHalamanGambar(h);
           else if (h.tipe === 'profil') tambahHalamanProfil(h);
           else if (h.tipe === 'daftarisi') tambahHalamanDaftarIsi(h);
