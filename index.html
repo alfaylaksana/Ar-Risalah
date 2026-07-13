@@ -3534,7 +3534,7 @@ function gotoHalamanHasil() {
       <button class="btn-tambah-bab" style="background:#8b6914;" onclick="tambahBabSyiir(${id})">🎵 Bab Syi'ir</button>
       <div class="nahwu-input-wrap">
         <label>Catatan Nahwu — Halaman ${id+1}</label>
-        <input class="nahwu-judul-input" type="text" placeholder="Judul Catatan Nahwu (opsional, mis: Hukum Isim Mabni)" value="${judulNahwu||''}" style="width:100%;margin-bottom:6px;" />
+        <input class="nahwu-judul-input" type="text" placeholder="Judul Catatan Nahwu (kosongkan = otomatis ambil baris pertama)" value="${judulNahwu||''}" style="width:100%;margin-bottom:6px;" />
         ${buatRTE('nahwu-input', nahwu, 'Catatan nahwu untuk halaman ini...', true)}
       </div>
       <div class="terjemahan-input-wrap" id="terjWrap-${id}">
@@ -3811,6 +3811,16 @@ function hitungNomorHalaman() {
   return map;
 }
 
+function ambilJudulNahwu(nahwuHtml, manualJudul) {
+  const manual = (manualJudul || '').trim();
+  if (manual) return manual;
+  const html = nahwuHtml || '';
+  const potong = html.match(/^([\s\S]*?)(<div|<br|<p[ >])/i);
+  const bagian = potong ? potong[1] : html;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = bagian;
+  return (tmp.textContent || tmp.innerText || '').trim();
+}
 function generateDaftarIsi(halId) {
   const hal = document.getElementById(halId);
   if (!hal) return;
@@ -3839,7 +3849,8 @@ function generateDaftarIsi(halId) {
     function htmlAdaIsiLocal(s) { return !!(s||'').replace(/<[^>]*>/g,'').replace(/&nbsp;/gi,'').trim(); }
     if (nahwuEl && htmlAdaIsiLocal(nahwuEl.innerHTML)) {
       nomorNahwu++;
-      const judulNahwuDI = h.querySelector('.nahwu-judul-input')?.value.trim() || '';
+      const manualJudulDI = h.querySelector('.nahwu-judul-input')?.value || '';
+      const judulNahwuDI = ambilJudulNahwu(nahwuEl.innerHTML, manualJudulDI);
       baris.push(`Catatan Nahwu ke-${nomorNahwu}${judulNahwuDI?`: ${judulNahwuDI}`:''} | ${nomHal}`);
     }
   });
@@ -4980,7 +4991,8 @@ if(arab&&(maknaIndo||maknaJawa))kataList.push({kode,arab,maknaIndo,maknaJawa,nom
         const nahwu = hal.querySelector('.nahwu-input')?.innerHTML.trim() || '';
 if (htmlAdaIsi(nahwu)) {
   nomorCatatanNahwu++;
-  const judulNahwuH = hal.querySelector('.nahwu-judul-input')?.value.trim() || '';
+  const manualJudulH = hal.querySelector('.nahwu-judul-input')?.value || '';
+  const judulNahwuH = ambilJudulNahwu(nahwu, manualJudulH);
   html += `<div class="catatan-nahwu">
     <div class="catatan-nahwu-label">✦ Catatan Nahwu ke-${nomorCatatanNahwu}${judulNahwuH?`: ${judulNahwuH}`:''} ✦</div>
     <div class="catatan-nahwu-isi">${nahwu}</div>
