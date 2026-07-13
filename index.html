@@ -1259,7 +1259,10 @@ body.mode-html-aktif .hasil-kotak {
       border-top: 2px solid #c9a84c;
       padding-top: 18px;
       margin-top: auto;
-      margin-bottom: 7cm;
+    }
+    .profil-kitab-box-spacer {
+      height: 7cm;
+      flex-shrink: 0;
     }
     .profil-kitab-box .pk-judul-arab {
       font-size: 22px;
@@ -1405,6 +1408,17 @@ body.mode-html-aktif .hasil-kotak {
       border: 1px solid #b09050;
       border-radius: 3px;
       padding: 6px 10px;
+    }
+    .pegon-tabel-box.ptb-2kolom {
+      flex: 1.5;
+      column-count: 2;
+      column-gap: 12px;
+    }
+    .pegon-tabel-box.ptb-2kolom .ptb-judul {
+      column-span: all;
+    }
+    .pegon-tabel-box .ptb-baris {
+      break-inside: avoid;
     }
     .pegon-tabel-box .ptb-judul {
       text-align: center;
@@ -2730,6 +2744,7 @@ body.mode-html-aktif .hasil-kotak {
       <div class="float-kelola-halaman" id="floatKelolaHalaman">
         <button class="btn-float bulat" id="btnNaikHalaman"  title="Naik"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48"><path d="M24,10 L34,22 L28,22 L28,34 L20,34 L20,22 L14,22 Z" fill="white" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/></svg></button>
         <button class="btn-float bulat" id="btnTurunHalaman"  title="Turun"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48"><path d="M24,38 L14,26 L20,26 L20,14 L28,14 L28,26 L34,26 Z" fill="white" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/></svg></button>
+        <button class="btn-float bulat" id="btnPindahPosisi" title="Pindah ke posisi..." onclick="bukaModalPindahHalaman()" style="font-size:15px;">🔀</button>
         <div class="float-dropdown">
           <button class="btn-float bulat" onclick="toggleFloatDropdown('menuFloatTampilan')" title="Tampilan">👁</button>
           <div class="float-dropdown-menu" id="menuFloatTampilan" style="bottom:auto;top:-120px;left:55px;max-height:90vh;overflow-y:auto;">
@@ -4742,7 +4757,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         ${terbitOnline?`<div class="pk-label">Terbit Online</div><div class="pk-value">${terbitOnline}</div>`:''}
         ${penerbit?`<div class="pk-label">Penerbit</div><div class="pk-value">${penerbit}</div>`:''}
         ${htmlAdaIsi(ketHtml)?`<div class="pk-keterangan">${ketHtml}</div>`:''}
-      </div></div>
+      </div><div class="profil-kitab-box-spacer"></div></div>
     </div>`;
           return;
         }
@@ -4774,7 +4789,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
         <div class="pegon-judul">APA ITU PEGON?</div>
         <div class="pegon-intro">Pegon adalah bahasa kita (baik Indonesia, Jawa, dll, non-Arab) yang ditulis dengan teks Arab. Berikut ini hal-hal yang harus diketahui:</div>
         <div class="pegon-tabel-row">
-          <div class="pegon-tabel-box">
+          <div class="pegon-tabel-box ptb-2kolom">
             <div class="ptb-judul">Huruf Mati:</div>
             <div class="ptb-baris"><span>b = </span><span class="ptb-arab">ب</span></div>
             <div class="ptb-baris"><span>c = </span><span class="ptb-arab">چ</span></div>
