@@ -934,7 +934,7 @@ th.col-jawa {
       text-align: center;
     }
 
-    .pengantar-hasil p {
+    .pengantar-hasil p, .pengantar-hasil .pengantar-teks {
       font-size: 14px;
       color: #1a1208;
       line-height: 1.8;
@@ -1487,16 +1487,29 @@ body.mode-html-aktif .hasil-kotak {
       gap: 12px;
       align-items: flex-start;
     }
-    .daftarkode-tabel {
+    .daftarkode-kolom {
       flex: 1;
+      min-width: 0;
+    }
+    .daftarkode-subjudul {
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: bold;
+      color: #5a4218;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+    .daftarkode-tabel {
       border-collapse: collapse;
       width: 100%;
+      table-layout: fixed;
     }
     .daftarkode-tabel th, .daftarkode-tabel td {
       border: 1px solid #b09050;
       padding: 3px 4px;
       text-align: center;
       vertical-align: middle;
+      overflow-wrap: break-word;
     }
     .daftarkode-tabel th {
       background: #f3e6c8;
@@ -1518,6 +1531,11 @@ body.mode-html-aktif .hasil-kotak {
       color: #7a5a20;
       direction: rtl;
     }
+    .daftarkode-tabel-diucapkan .dkt-makna { width: 20%; }
+    .daftarkode-tabel-diucapkan .dkt-kepanjangan { width: 46%; }
+    .daftarkode-tabel-diucapkan .dkt-kode { width: 14%; }
+    .daftarkode-tabel-tidak .dkt-kepanjangan { width: 68%; }
+    .daftarkode-tabel-tidak .dkt-kode { width: 32%; }
 
     .bab-judul-grid {
       display: grid;
@@ -3957,7 +3975,7 @@ function tambahHalamanDaftarKode(data = {}) {
   const div = document.createElement('div');
   div.className = 'halaman-input halaman-daftarkode';
   div.id = 'halaman-' + id;
-  const defaultKode = [
+  const defaultDiucapkan = [
     ['م','أتا وي','','مُبْتَدَأٌ'],
     ['خ','إيكو','','خَبَرٌ'],
     ['ص','كع','','صِفَةٌ'],
@@ -3973,15 +3991,27 @@ function tambahHalamanDaftarKode(data = {}) {
     ['خم','إيكو موجود','','–'],
     ['ظ','إعدالم','','ظَرْفٌ']
   ];
-  const teksDefault = data.teks || defaultKode.map(([r,mj,mi,kp]) => `${r} | ${mj} | ${mi} | ${kp}`).join('\n');
+  const defaultTidak = [
+    ['جم','جَرْ مَجْرُوْر'],
+    ['إضا','إِضَافَة'],
+    ['فما','فِعْل مَاضِي'],
+    ['مضا','فِعْل مُضَارِع'],
+    ['فأ','فِعْل أَمْر']
+  ];
+  const teksDefaultDiucapkan = data.teksDiucapkan || data.teks || defaultDiucapkan.map(([r,mj,mi,kp]) => `${r} | ${mj} | ${mi} | ${kp}`).join('\n');
+  const teksDefaultTidak = data.teksTidak || defaultTidak.map(([r,kp]) => `${r} | ${kp}`).join('\n');
   div.innerHTML = `
     <div class="halaman-header">
   <span class="halaman-label">🔣 Halaman ${id+1} (Daftar Kode Gramatikal)</span>
   <button class="btn-hapus-halaman" onclick="hapusHalaman('halaman-${id}')">Hapus Halaman</button>
 </div>
     <div class="halaman-body">
-      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Rumus/Kode | Makna Jawa | Makna Indo | Kepanjangan</b> (kosongkan Makna Indo kalau belum ada, pakai "–" untuk Kepanjangan kalau kode tidak diucapkan)</p>
-      <textarea class="daftarkode-input" style="width:100%;min-height:260px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefault}</textarea>
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 4px;font-weight:bold;">Kode-Kode yang Diucapkan</p>
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Rumus/Kode | Makna Jawa | Makna Indo | Kepanjangan</b> (kosongkan Makna Indo kalau belum ada, pakai "–" untuk Kepanjangan kalau tidak ada bentuk panjangnya)</p>
+      <textarea class="daftarkode-input-diucapkan" style="width:100%;min-height:220px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefaultDiucapkan}</textarea>
+      <p style="font-size:10.5px;color:#a07840;margin:12px 0 4px;font-weight:bold;">Kode-Kode yang Tidak Diucapkan</p>
+      <p style="font-size:10.5px;color:#a07840;margin:0 0 6px;">Satu baris = satu kode, format: <b>Rumus/Kode | Kepanjangan</b></p>
+      <textarea class="daftarkode-input-tidak" style="width:100%;min-height:100px;font-family:Georgia,serif;font-size:13px;padding:6px;border:1px solid #d8c090;border-radius:4px;direction:ltr;" oninput="simpan()">${teksDefaultTidak}</textarea>
     </div>
   `;
   document.getElementById('containerHalaman').appendChild(div);
@@ -4102,8 +4132,36 @@ function tambahHalamanDaftarKode(data = {}) {
       const editor = btn.closest('.rte-wrap').querySelector('.rte-editor');
       _restoreSelection();
       editor.focus();
-      document.execCommand(cmd, false, null);
+      const petaRata = { justifyLeft: 'left', justifyCenter: 'center', justifyRight: 'right', justifyFull: 'justify' };
+      if (cmd in petaRata) {
+        // execCommand untuk perataan tidak konsisten di semua browser (terutama Kiwi/Android),
+        // jadi bungkus isi editor dalam satu wrapper ber-style agar tersimpan di dalam konten.
+        rteSetRata(editor, petaRata[cmd]);
+        const toolbar = btn.closest('.rte-toolbar');
+        if (toolbar) {
+          toolbar.querySelectorAll('button[data-cmd^="justify"]').forEach(b => b.classList.remove('rte-aktif'));
+          btn.classList.add('rte-aktif');
+        }
+      } else {
+        document.execCommand(cmd, false, null);
+      }
       simpan();
+    }
+
+    function rteSetRata(editor, rata) {
+      let wrapper = editor.firstElementChild;
+      const sudahWrapper = wrapper && wrapper.classList.contains('rte-rata-wrap') && editor.children.length === 1;
+      if (sudahWrapper) {
+        wrapper.style.textAlign = rata;
+      } else {
+        const frag = document.createDocumentFragment();
+        while (editor.firstChild) frag.appendChild(editor.firstChild);
+        wrapper = document.createElement('div');
+        wrapper.className = 'rte-rata-wrap';
+        wrapper.style.textAlign = rata;
+        wrapper.appendChild(frag);
+        editor.appendChild(wrapper);
+      }
     }
 
     function rteSetSize(sel) {
@@ -4702,7 +4760,7 @@ let pengantarNav = null;
 if (htmlAdaIsi(pengantar)) {
   nomorHalIsi++;
   pengantarNav = {id: 'hasil-pengantar', nama: 'Pengantar'};
-  pengantarHtml = `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><p>${pengantar}</p><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
+  pengantarHtml = `<div class="pengantar-hasil" id="hasil-pengantar"><h2>Pengantar</h2><div class="pengantar-teks">${pengantar}</div><div class="nomor-halaman-hasil">${String(nomorHalIsi).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div></div>`;
 }
       
 document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
@@ -4864,9 +4922,10 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           return;
         }
         if (hal.classList.contains('halaman-daftarkode')) {
-          const teksDK = hal.querySelector('.daftarkode-input')?.value || '';
+          const teksDiucapkan = hal.querySelector('.daftarkode-input-diucapkan')?.value || '';
+          const teksTidak = hal.querySelector('.daftarkode-input-tidak')?.value || '';
           navList.push({ id: anchor, nama: 'Daftar Kode Gramatikal' });
-          const barisDK = teksDK.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
+          const barisDiucapkan = teksDiucapkan.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
             const parts = b.split('|');
             return {
               rumus: (parts[0]||'').trim(),
@@ -4875,26 +4934,50 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
               kepanjangan: (parts[3]||'').trim()
             };
           });
-          function buatTabelDK(list) {
+          const barisTidak = teksTidak.split('\n').map(b => b.trim()).filter(Boolean).map(b => {
+            const parts = b.split('|');
+            return {
+              rumus: (parts[0]||'').trim(),
+              kepanjangan: (parts[1]||'').trim()
+            };
+          });
+          function buatTabelDK(list, mode) {
             if (!list.length) return '';
+            if (mode === 'tidak') {
+              const baris = list.map(r => `<tr>
+                <td class="dkt-arab dkt-kepanjangan">${r.kepanjangan}</td>
+                <td class="dkt-kode">${r.rumus}</td>
+              </tr>`).join('');
+              return `<table class="daftarkode-tabel daftarkode-tabel-tidak"><thead><tr>
+                <th class="dkt-kepanjangan">Kepanjangan</th><th class="dkt-kode">Rumus</th>
+              </tr></thead><tbody>${baris}</tbody></table>`;
+            }
             const baris = list.map(r => `<tr>
-              <td class="dkt-arab">${r.maknaJawa}</td>
-              <td class="dkt-arab">${r.maknaIndo}</td>
-              <td class="dkt-arab">${r.kepanjangan}</td>
+              <td class="dkt-arab dkt-makna">${r.maknaJawa}</td>
+              <td class="dkt-arab dkt-makna">${r.maknaIndo}</td>
+              <td class="dkt-arab dkt-kepanjangan">${r.kepanjangan}</td>
               <td class="dkt-kode">${r.rumus}</td>
             </tr>`).join('');
-            return `<table class="daftarkode-tabel"><thead><tr>
-              <th>Makna Jawa</th><th>Makna Indo</th><th>Kepanjangan</th><th>Rumus</th>
+            return `<table class="daftarkode-tabel daftarkode-tabel-diucapkan"><thead><tr>
+              <th class="dkt-makna">Makna Jawa</th><th class="dkt-makna">Makna Indo</th><th class="dkt-kepanjangan">Kepanjangan</th><th class="dkt-kode">Rumus</th>
             </tr></thead><tbody>${baris}</tbody></table>`;
           }
-          const tengahDK = Math.ceil(barisDK.length / 2);
-          const kolomKiriDK = buatTabelDK(barisDK.slice(0, tengahDK));
-          const kolomKananDK = buatTabelDK(barisDK.slice(tengahDK));
+          const tabelDiucapkan = buatTabelDK(barisDiucapkan, 'diucapkan');
+          const tabelTidak = buatTabelDK(barisTidak, 'tidak');
           const nomorDivDK = infoNomor.tampilNomor ? `<div class="nomor-halaman-hasil">${String(nomorHal).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d])}</div>` : '';
           html += `<div class="hasil-halaman" id="${anchor}">
       <div class="hasil-halaman-daftarkode">
         <div class="daftarkode-judul">Daftar Kode Gramatikal</div>
-        <div class="daftarkode-tabel-wrap">${kolomKiriDK}${kolomKananDK}</div>
+        <div class="daftarkode-tabel-wrap">
+          <div class="daftarkode-kolom">
+            <div class="daftarkode-subjudul">Kode-Kode yang Diucapkan</div>
+            ${tabelDiucapkan}
+          </div>
+          <div class="daftarkode-kolom">
+            <div class="daftarkode-subjudul">Kode-Kode yang Tidak Diucapkan</div>
+            ${tabelTidak}
+          </div>
+        </div>
       </div>
       ${nomorDivDK}
     </div>`;
@@ -4923,7 +5006,7 @@ document.querySelectorAll('.halaman-input').forEach((hal, hIdx) => {
           const isiPengantar = hal.querySelector('.pengantar-input')?.innerHTML.trim() || '';
           navList.push({ id: anchor, nama: 'Pengantar' });
           html += `<div class="hasil-halaman" id="${anchor}">
-      <div class="pengantar-hasil"><h2>Pengantar</h2><p>${isiPengantar}</p></div>
+      <div class="pengantar-hasil"><h2>Pengantar</h2><div class="pengantar-teks">${isiPengantar}</div></div>
     </div>`;
           return;
         }
@@ -5292,7 +5375,8 @@ html += `</div>`;
         if (hal.classList.contains('halaman-daftarkode')) {
           halamanList.push({
             tipe: 'daftarkode',
-            teks: hal.querySelector('.daftarkode-input')?.value || ''
+            teksDiucapkan: hal.querySelector('.daftarkode-input-diucapkan')?.value || '',
+            teksTidak: hal.querySelector('.daftarkode-input-tidak')?.value || ''
           });
           return;
         }
